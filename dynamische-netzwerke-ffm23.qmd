@@ -1,24 +1,306 @@
 ---
-title: "dynamische-netzwerke-ffm23"
+title: "Dynamische Netzwerkanalysen"
+subtitle: "Eine Einführung"
 author: "Björn Siepe"
-format: revealjs
+institute: "AE Psychologische Methodenlehre, Philipps-Universität Marburg"
+date: "01.03.2023"
+format: 
+  revealjs:
+    incremental: true
+    theme: simple
+    # footer: "Dynamische Netzwerke"
+    slide-number: true
+    auto-stretch: false
+
 ---
 
-## Dynamische Netzwerkanalysen
+## Ziele 
 
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+1. Hintergrund von Netzwerkanalysen erarbeiten
+2. Den Sinn und die Struktur von Zeitreihendaten verstehen
+3. Dynamische Netzwerke interpretieren können
+4. Zentrale Annahmen und Einschränkungen erkennen
+5. Junge Entwicklungen kennenlernen
 
-## Bullets
 
-When you click the **Render** button a document will be generated that includes:
+::: aside
+Zusatz: Literaturliste am Ende
+:::
 
--   Content authored with markdown
--   Output from executable code
+## Was wir auslassen
 
-## Code
+1. Querschnittliche Netzwerke im Detail
+2. Planung von Längsschnittstudien
+3. Eigene Schätzung von Netzwerken in R (-> Followup?)
+4. N>1 dynamische Netzwerke im Detail
 
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Netzwerkperspektive
+<!-- ![](lake.jpg){width = 20%} -->
 
-```{r}
-1 + 1
+```{r, out.width = '1000px', out.height= "450px"}
+knitr::include_graphics('lake.jpg')
 ```
+
+::: aside
+Foto von Garrett Sears ([unsplash](https://unsplash.com/de/fotos/rXVFCA3fQ4I?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText))
+  
+:::
+
+::: {.notes}
+Eine kausale Ursache (wie bei manchen Krankheiten) versus Zusammenspiel vieler Elemente
+in einem komplexen System. 
+:::
+
+## Netzwerke
+- Netzwerke bestehen aus **Knoten** (nodes) und **Kanten** (edges)
+- Knoten: 
+  - Personen, Städte, Maschinenteile, Symptome
+- Kanten: gewichtet/ungewichtet und direktional/undirektional sein
+  - gewichtet/ungewichtet
+  - direktional/undirektional
+- In der Psychologie: erste Arbeiten ~2010
+
+## Beispielnetzwerk
+- Bridge Network aus Literatur
+
+
+
+
+
+## Komorbidität
+-small-world-Netzwerk?
+
+
+## Zentralität  
+- Wichtigkeit eines Knotens
+- Degree, Strength, Betweenness, ...
+- Beispiel: Flughafen
+- Idee: Ansatz für Interventionen?
+- Interpretation teils fraglich
+
+
+
+## Zentralität
+TODO: Add Bringmann 2019 what do centrality measures measure
+TODO: Add Fried or Robinaugh overview paper
+
+## Warum Längsschnitt?
+
+```{r, out.width = '700px', out.height= "520px"}
+knitr::include_graphics('typingspeed.svg')
+```
+
+::: aside
+Angelehnt an Hamaker (2005)
+:::
+
+## Dynamische Netzwerke
+- dynamische Zusammenhänge innerhalb von Personen
+- über Zeitpunkte hinweg
+- Idiographie vs. Multilevel
+
+```{r, out.width = '550px', out.height= "300px"}
+knitr::include_graphics('example-net.png')
+```
+
+
+## Zeitreihendaten
+- Autoregressiv und Cross-Lagged erklären
+
+
+## Autoregressiv
+![](ar_model_burger.png)
+
+::: aside
+Nächste Folien von Julian Burger ([Link](https://osf.io/djm26))
+:::
+
+## Autoregressiv
+![](ar_model_burger2.png)
+
+
+
+## Cross-Lagged
+![](var_model_burger.png)
+
+
+
+
+
+## Schätzung idiographischer Netzwerke
+- graphicalVAR Formel
+$$Anhedonie_{t} = a*Anhedonie_{t-1} + b*Hoffnungslosigkeit_{t-1} + \epsilon $$
+$$
+Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
+$$
+
+- Regularisierung für Struktur
+
+## Auszeit {.smaller}
+![](maths-gif.gif)
+
+https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif
+
+
+## Zwischenfazit
+- Netzwerke sind überall
+- attraktive Alternative zur Konzeptualisierung von Psychopathologie
+- Mittlerweile sehr viele Querschnittsstudien, wichtig Hype von tatsächlicher Aussage zu trennen
+- Längsschnitt ermöglicht neue Einblicke
+- verschiedene Schätzmethoden
+
+
+## Temporal Network
+
+- TODO: ein Bild von Temporal Network einfügen
+
+## Contemporaneous Network
+
+- TODO ein Bild von Contemporaneous Network einfügen
+
+
+## Beispiel: Fried et al. (2020)
+```{r, out.width = '700px', out.height= "520px"}
+knitr::include_graphics('fried-covid-net.pdf')
+```
+
+
+::: {.notes}
+Das ist hier schon Multilevel
+:::
+
+
+## Multilevelnetzwerke
+
+- aber Annahme: gleiche Verteilung, nicht ganz idiographisch
+- GIMME
+- DSEM
+
+## Stabilität der Schätzung
+- Hoekstra Paper
+- Wir klonen das "wahre" Netzwerk einer Person und rechnen Netzwerkanalysen     
+
+## Interpretation
+- Zeitabstände zwischen Messungen (continuous time etc.)
+- Kausalität?
+- Stationarität
+- Stabilität idiographischer Netzwerkschätzungen
+
+- simplifizierendes Abbild eines komplexen Systems
+
+## Evidenz bei Einsatz in klinischer Praxis
+- Frumkin et al. (2021): Fallstudien, Patient\*innen überzeugter als Therapeut\*innen
+- Levinson et al. (2023):
+- Hall et al. (2023): Fallstudie
+- Keine eindeutige Evidenz (RCT?)
+- viele unterschiedliche Möglichkeiten des Einsatzes
+
+
+## Neuere Entwicklungen
+- Zusammenarbeit von Therapeut\*in/Patient\*in und Daten
+- Veränderungen über die Zeit
+- Vorhersage von Therapieergebnissen
+
+## PREMISE
+![](premise.png)
+
+::: aside
+Burger et al. (2021)
+:::
+
+## PECAN
+
+![](pecan.jpeg)
+https://doi.org/10.1177/10731911211039281
+
+::: aside
+Klintwall et al. (2021)
+:::
+
+
+## Zeitlich variierende Netzwerke
+
+```{r, out.width = '700px', out.height= "520px"}
+knitr::include_graphics('tvvar.gif')
+```
+
+::: aside
+Siepe et al. (2022)
+:::
+
+## Vorhersage
+```{r, out.width = '700px', out.height= "500px"}
+knitr::include_graphics('lutz-et-al.png')
+```
+
+::: aside
+Lutz et al. (2018)
+:::
+
+
+## Welche Analysen?
+
+```{r, out.width = '900px', out.height= "600px"}
+knitr::include_graphics('bastiaansen.png')
+```
+
+::: aside
+Bastiaansen et al. (2019)
+:::
+
+## Ausblick
+- Was ist die Zukunft von Netzwerken im klinischen Setting?
+- "More than a pretty picture?"
+- Stabilität über die Zeit
+
+
+
+
+
+
+## Zusammenfassung
+1. Netzwerke sind konzeptuell attraktiv
+2. Längsschnitt gibt uns neue Informationen
+3. Fragen?
+
+
+## Kontakt
+
+{{< fa house >}} [Feel](https://bjoernsiepe.netlify.app/)
+
+{{< fa brands twitter >}} [free](https://twitter.com/b_siepe)
+
+{{< fa brands mastodon >}} [to](https://fediscience.org/@bsiepe)
+
+{{< fa at >}} [contact](bjoern.siepe@uni-marburg.de)
+
+{{< fa brands github >}} [me](https://github.com/bsiepe)
+
+TODO: QR Code für Materialien
+
+
+::: {.notes}
+https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/posts/18-font-awesome/
+:::
+
+## Ressourcen
+https://osf.io/m9yz4/
+
+
+## Literatur {.smaller}
+
+Querschnitt: 
+Borsboom, D., & Cramer, A. O. J. (2013). Network analysis: An integrative approach to the structure of psychopathology. Annual Review of Clinical Psychology, 9(1), 91–121. https://doi.org/10.1146/annurev-clinpsy-050212-185608
+Borsboom, D., Deserno, M. K., Rhemtulla, M., Epskamp, S., Fried, E. I., McNally, R. J., Robinaugh, D. J., Perugini, M., Dalege, J., Costantini, G., Isvoranu, A.-M., Wysocki, A. C., van Borkulo, C. D., van Bork, R., & Waldorp, L. J. (2021). Network analysis of multivariate data in psychological science. Nature Reviews Methods Primers, 1(1), 1–18. https://doi.org/10.1038/s43586-021-00055-w
+
+
+Burger, J., Epskamp, S., Veen, D. C. van der, Dablander, F., Schoevers, R. A., Fried, E. I., & Riese, H. (2021). A clinical PREMISE for personalized models: Towards a formal integration of case formulations and statistical networks. PsyArXiv. https://doi.org/10.31234/osf.io/bdrs7
+Burger, J., Andikkhash, V., Jäger, N., Anderbro, T., Blanken, T., & Klintwall, L. (2022). A Novel Approach for Constructing Personalized Networks from Longitudinal Perceived Causal Relations. PsyArXiv. https://doi.org/10.31234/osf.io/e93xd
+
+Bringmann, L. F. (2021). Person-specific networks in psychopathology: Past, present and future. Current Opinion in Psychology, 41, 59–64. https://doi.org/10.1016/j.copsyc.2021.03.004
+von Klipstein, L., Riese, H., van der Veen, D. C., Servaas, M. N., & Schoevers, R. A. (2020). Using person-specific networks in psychotherapy: Challenges, limitations, and how we could use them anyway. BMC Medicine, 18(1), 345. https://doi.org/10.1186/s12916-020-01818-0
+
+
+Jordan, D. G., Winer, E. S., & Salem, T. (2020). The current status of temporal network analysis for clinical science: Considerations as the paradigm shifts? Journal of Clinical Psychology, 76(9), 1591–1612. https://doi.org/10.1002/jclp.22957
+Epskamp, S., Waldorp, L. J., Mõttus, R., & Borsboom, D. (2018). The Gaussian graphical model in cross-sectional and time-series data. Multivariate behavioral research, 53(4), 453–480.
+
