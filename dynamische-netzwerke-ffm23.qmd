@@ -36,10 +36,12 @@ Zusatz: Literaturliste am Ende
 5. Details klinischer Theorie (Process-Based Therapy, Case Formulizations etc.)
 
 ## Netzwerkperspektive
-<!-- ![](lake.jpg){width = 20%} -->
+```{r, include=FALSE}
+here::i_am("dynamical-networks-workshop.Rproj")
+```
 
 ```{r, out.width = '1000px', out.height= "450px"}
-knitr::include_graphics('lake.jpg')
+knitr::include_graphics(here::here('figures/lake.jpg'))
 ```
 
 ::: aside
@@ -63,7 +65,7 @@ in einem komplexen System.
 
 ## Beispielnetzwerk
 ```{r, out.width = '700px', out.height= "500px"}
-knitr::include_graphics('example-ggm.png')
+knitr::include_graphics(here::here('figures/example-ggm.png'))
 ```
 
 
@@ -90,7 +92,7 @@ Schätzmethoden: oft ähnlich zu Partialkorrelationen, Regressionen
 
 ## Komorbidität
 ```{r, out.width = '900px', out.height= "500px"}
-knitr::include_graphics('network-concept-borsboom.png')
+knitr::include_graphics(here::here('figures/network-concept-borsboom.png'))
 ```
 
 :::aside
@@ -102,7 +104,7 @@ Borsboom (2017)
 ```{r, out.width = '1000px', out.height= "500px"}
 library(tiff)
 library(grid)
-grid.raster(readTIFF("small-world-psych.tiff"))
+grid.raster(readTIFF(here::here("figures/small-world-psych.tiff")))
 ```
 
 :::aside
@@ -142,7 +144,7 @@ Bringmann et al. (2019), Dablander et al. (2019)
 
 
 ```{r, out.width = '950px', out.height= "500px"}
-knitr::include_graphics('network-centrality2.jpg')
+knitr::include_graphics(here::here('figures/network-centrality2.jpg'))
 ```
 
 
@@ -154,7 +156,7 @@ Fried et al. (2016)
 
 ## Hype Cycle
 ```{r, out.width = '700px', out.height= "520px"}
-knitr::include_graphics('hype_cycle.svg')
+knitr::include_graphics(here::here('figures/hype_cycle.svg'))
 ```
 
 
@@ -172,7 +174,7 @@ anschlussfähig für weitere Wissenschaften
 ## Warum Längsschnitt?
 
 ```{r, out.width = '900px', out.height= "520px"}
-knitr::include_graphics('typingspeed.svg')
+knitr::include_graphics(here::here('figures/typingspeed.svg'))
 ```
 
 ::: aside
@@ -189,13 +191,13 @@ Simpson's Paradox
 - über Zeitpunkte hinweg
 - Idiographie vs. Multilevel
 ```{r, out.width = '600px', out.height= "400px"}
-knitr::include_graphics('example_temporal.svg')
+knitr::include_graphics(here::here('figures/example_temporal.svg'))
 ```
 
 
 ## Zeitreihendaten
 ```{r, out.width = '900px', out.height= "500px"}
-knitr::include_graphics('data-cube.jpg')
+knitr::include_graphics(here::here('figures/data-cube.jpg'))
 ```
 
 ::: aside
@@ -207,14 +209,14 @@ Beltz et al. (2016)
 :::: {.columns}
 
 ::: {.column}
-```{r, out.width = '500px', out.height= "400px"}
-knitr::include_graphics('smartwatch-unsplash.jpg')
+```{r, out.width = '400px', out.height= "400px"}
+knitr::include_graphics(here::here('figures/smartwatch-unsplash.jpg'))
 ```
 ::: 
 
 ::: {.column}
-```{r, out.width = '500px', out.height= "400px"}
-knitr::include_graphics('smartphone-unsplash.jpg')
+```{r, out.width = '400px', out.height= "400px"}
+knitr::include_graphics(here::here('figures/smartphone-unsplash.jpg'))
 ```
 :::
 
@@ -232,7 +234,7 @@ Sabina Ciesielska (Unsplash), Jonas Leupe (Unsplash)
 
 
 ## Autoregressiv
-![](ar_model_burger.png)
+![](figures/ar_model_burger.png)
 
 ::: aside
 Nächste Folien von Julian Burger ([Link](https://osf.io/djm26))
@@ -244,12 +246,12 @@ Nächste Folien von Julian Burger ([Link](https://osf.io/djm26))
 :::
 
 ## Autoregressiv
-![](ar_model_burger2.png)
+![](figures/ar_model_burger2.png)
 
 
 
 ## Cross-Lagged
-![](var_model_burger.png)
+![](figures/var_model_burger.png)
 
 ::: {.notes}
 - gleicher Zeitpunkt: positiver Zusammenhang
@@ -272,7 +274,7 @@ $$
 - Regularisierung für Struktur
 
 ## Auszeit {.smaller}
-![](maths-gif.gif)
+![](figures/maths-gif.gif)
 
 :::aside
 https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif
@@ -288,8 +290,6 @@ https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif
 
 
 ## Temporal Network
-
-- TODO: ein Bild von Temporal Network einfügen
 - Effekt von Variablen auf sich selbst und auf andere über die Zeit
 - meist: Lag 1 - aber: Theorie?
 - Granger Kausalität
@@ -297,11 +297,10 @@ https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif
 ## Contemporaneous Network
 - enthält Effekte, die temporales Netzwerk nicht einfängt
 - etwa: Effekte, die schneller sind als Erhebungsfrequenz
+- Beispiel:
 $$ 
 Stress \rightarrow  Erwartung Panik \rightarrow Angst 
 $$
-- TODO ein Bild von Contemporaneous Network einfügen
-  - oder: Epskamp Bild zur Geschwindigkeit von Effekten
 
 ::: aside
 Beispiel aus Epskamp et al. (2018)
@@ -313,11 +312,11 @@ Beispiel aus Epskamp et al. (2018)
 :::
 
 ## Beispiel: Fried et al. (2020)
-```{r, out.width = '700px', out.height= "520px"}
-knitr::include_graphics('fried-covid-net.pdf')
+
+```{r, out.width = '1000px', out.height= "500px"}
+knitr::include_graphics(here::here('figures/fried-covid-net.svg'))
 ```
-TODO ADD
-![A](fried_covidnet.pdf){width=500px}
+
 
 
 ::: {.notes}
@@ -348,7 +347,7 @@ Simple Übersicht in Jordan et al. (2020)
 ## Ein Beispiel Multilevel
 
 ```{r, out.width = '1000px', out.height= "520px"}
-knitr::include_graphics('mlVAR-example.jpeg')
+knitr::include_graphics(here::here('figures/mlVAR-example.jpeg'))
 ```
 
 ::: aside
@@ -410,6 +409,10 @@ Hoekstra et al. (2022), Mansueto et al. (2022)
 - Keine eindeutige Evidenz (RCTs)
 - viele unterschiedliche Möglichkeiten des Einsatzes        
 
+::: {.notes}
+Noch mehr zu EMA-Feedback
+:::
+
 
 ## Neuere Entwicklungen
 - Zusammenarbeit von Therapeut\*in/Patient\*in und Daten
@@ -417,7 +420,7 @@ Hoekstra et al. (2022), Mansueto et al. (2022)
 - Vorhersage von Therapieergebnissen
 
 ## PREMISE
-![](premise.png)
+![](figures/premise.png)
 
 ::: aside
 Burger et al. (2021), Burger et al. (2022)
@@ -425,7 +428,7 @@ Burger et al. (2021), Burger et al. (2022)
 
 ## PECAN
 
-![](pecan.jpeg)
+![](figures/pecan.jpeg)
 
 
 ::: aside
@@ -435,7 +438,7 @@ Klintwall et al. (2021)
 
 ## Zeitlich variierende Netzwerke
 ```{r, out.width = '700px', out.height= "520px"}
-knitr::include_graphics('tvvar.gif')
+knitr::include_graphics(here::here('figures/tvvar.gif'))
 ```
 
 ::: aside
@@ -444,7 +447,7 @@ Siepe et al. (2022)
 
 ## Vorhersage
 ```{r, out.width = '700px', out.height= "500px"}
-knitr::include_graphics('lutz-et-al.png')
+knitr::include_graphics(here::here('figures/lutz-et-al.png'))
 ```
 
 ::: aside
@@ -453,8 +456,8 @@ Lutz et al. (2018)
 
 
 ## Welche Analysen?
-```{r, out.width = '700px', out.height= "450px"}
-knitr::include_graphics('bastiaansen.png')
+```{r, out.width = '900px', out.height= "450px"}
+knitr::include_graphics(here::here('figures/bastiaansen.png'))
 ```
 
 ::: aside
@@ -497,11 +500,13 @@ Bastiaansen et al. (2019)
 
 {{< fa brands github >}} [me](https://github.com/bsiepe)
 
+bjoern.siepe@uni-marburg.de
+
 :::
 
 ::: {.column width="60%"}
 ```{r, out.width = '550px', out.height= "550px"}
-knitr::include_graphics('qr_code_workshop.svg')
+knitr::include_graphics(here::here('figures/qr_code_workshop.svg'))
 ```
 
 :::

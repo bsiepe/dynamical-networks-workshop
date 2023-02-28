@@ -362,14 +362,14 @@ Björn Siepe
 <li class="fragment">Planung von Längsschnittstudien</li>
 <li class="fragment">Eigene Schätzung von Netzwerken in R (-&gt; Followup?)</li>
 <li class="fragment">N&gt;1 dynamische Netzwerke im Detail</li>
+<li class="fragment">Details klinischer Theorie (Process-Based Therapy, Case Formulizations etc.)</li>
 </ol>
 </section>
 <section id="netzwerkperspektive" class="slide level2">
 <h2>Netzwerkperspektive</h2>
-<!-- ![](lake.jpg){width = 20%} -->
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="lake.jpg" width="1000" height="450"></p>
+<p><img data-src="figures/lake.jpg" width="1000" height="450"></p>
 </div>
 </div>
 
@@ -393,46 +393,178 @@ Björn Siepe
 <h2>Netzwerke</h2>
 <ul>
 <li class="fragment">Netzwerke bestehen aus <strong>Knoten</strong> (nodes) und <strong>Kanten</strong> (edges)</li>
-<li class="fragment">Knoten: Personen, Städte, Maschinenteile, Symptome</li>
-<li class="fragment">Kanten: gewichtet/ungewichtet und direktional/undirektional sein
+<li class="fragment">Knoten:
 <ul>
-<li class="fragment">Test</li>
+<li class="fragment">Personen, Städte, Maschinenteile, Symptome</li>
+</ul></li>
+<li class="fragment">Kanten:
+<ul>
+<li class="fragment">gewichtet/ungewichtet</li>
+<li class="fragment">direktional/undirektional</li>
 </ul></li>
 <li class="fragment">In der Psychologie: erste Arbeiten ~2010</li>
 </ul>
 </section>
 <section id="beispielnetzwerk" class="slide level2">
 <h2>Beispielnetzwerk</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/example-ggm.png" width="700" height="500"></p>
+</div>
+</div>
+
+<aside class="notes">
+<p>Schätzmethoden: oft ähnlich zu Partialkorrelationen, Regressionen</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Fried et al.&nbsp;(2016)</p>
+</div></aside></section>
+<section id="netzwerke-vs.-traditionalle-vorstellungen" class="slide level2">
+<h2>Netzwerke vs.&nbsp;traditionalle Vorstellungen</h2>
 <ul>
-<li class="fragment">TODO Depressionsnetzwerk Fried hinzufügen</li>
+<li class="fragment">Netzwerkmodell vs.&nbsp;Netzwerktheorie</li>
+<li class="fragment">Netzwerktheorie:
+<ul>
+<li class="fragment">kausale Interaktion von Symptomen anstatt Syndrome</li>
+<li class="fragment">verschiedene Zustände des Systems</li>
+<li class="fragment">stark verbundenes Netzwerk verstärken sich gegenseitig</li>
+</ul></li>
 </ul>
+<aside class="notes">
+<ul>
+<li>Latent Disease Model</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="komorbidität" class="slide level2">
 <h2>Komorbidität</h2>
-<p>-small-world-Netzwerk?</p>
-</section>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/network-concept-borsboom.png" width="900" height="500"></p>
+</div>
+</div>
+
+<aside><div>
+<p>Borsboom (2017)</p>
+</div></aside></section>
+<section id="small-world" class="slide level2">
+<h2>Small World</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="dynamische-netzwerke-ffm23_files/figure-revealjs/unnamed-chunk-5-1.png" width="1000" height="500"></p>
+</div>
+</div>
+
+<aside><div>
+<p>Borsboom et al.&nbsp;(2011)</p>
+</div></aside></section>
 <section id="zentralität" class="slide level2">
 <h2>Zentralität</h2>
+<div class="columns">
+<div class="column">
 <ul>
 <li class="fragment">Wichtigkeit eines Knotens</li>
-<li class="fragment">Degree, Strength, Betweenness, …</li>
+<li class="fragment">Degree
+<ul>
+<li class="fragment">Anzahl der Verbindungen</li>
+</ul></li>
+<li class="fragment">Strength
+<ul>
+<li class="fragment">Stärke der Verbindungen</li>
+</ul></li>
+<li class="fragment">Betweenness
+<ul>
+<li class="fragment">Anzahl der Pfade</li>
+</ul></li>
+</ul>
+</div><div class="column">
+<ul>
 <li class="fragment">Beispiel: Flughafen</li>
 <li class="fragment">Idee: Ansatz für Interventionen?</li>
 <li class="fragment">Interpretation teils fraglich</li>
 </ul>
-</section>
+</div>
+</div>
+
+<aside><div>
+<p>Bringmann et al.&nbsp;(2019), Dablander et al.&nbsp;(2019)</p>
+</div></aside></section>
 <section id="zentralität-1" class="slide level2">
 <h2>Zentralität</h2>
-<p>TODO: Add Bringmann 2019 what do centrality measures measure TODO: Add Fried or Robinaugh overview paper</p>
-</section>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/network-centrality2.jpg" width="950" height="500"></p>
+</div>
+</div>
+
+<aside><div>
+<p>Fried et al.&nbsp;(2016)</p>
+</div></aside></section>
+<section id="hype-cycle" class="slide level2">
+<h2>Hype Cycle</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/hype_cycle.svg" width="700" height="520"></p>
+</div>
+</div>
+
+<aside class="notes">
+<p>Netzwerke sind keine Magie, sehr ähnlich zu Regression thinking tools für andere Konzepte anschlussfähig für weitere Wissenschaften</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p><a href="https://commons.wikimedia.org/wiki/File:Gartner_Hype_Cycle.svg">Jeremykemp, Wikimedia</a></p>
+</div></aside></section>
 <section id="warum-längsschnitt" class="slide level2">
 <h2>Warum Längsschnitt?</h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="typingspeed.svg" width="700" height="520"></p>
+<p><img data-src="figures/typingspeed.svg" width="900" height="520"></p>
 </div>
 </div>
 
+<aside class="notes">
+<p>Simpson’s Paradox</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <aside><div>
 <p>Angelehnt an Hamaker (2005)</p>
 </div></aside></section>
@@ -445,45 +577,125 @@ Björn Siepe
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="example-net.png" width="550" height="300"></p>
+<p><img data-src="figures/example_temporal.svg" width="600" height="400"></p>
 </div>
 </div>
 </section>
 <section id="zeitreihendaten" class="slide level2">
 <h2>Zeitreihendaten</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/data-cube.jpg" width="900" height="500"></p>
+</div>
+</div>
+
+<aside><div>
+<p>Beltz et al.&nbsp;(2016)</p>
+</div></aside></section>
+<section id="experience-sampling" class="slide level2">
+<h2>Experience Sampling</h2>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/smartwatch-unsplash.jpg" width="400" height="400"></p>
+</div>
+</div>
+</div><div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/smartphone-unsplash.jpg" width="400" height="400"></p>
+</div>
+</div>
+</div>
+</div>
+
+<aside class="notes">
 <ul>
-<li class="fragment">Autoregressiv und Cross-Lagged erklären</li>
+<li>Ecological Momentary Assessment</li>
+<li>Intensive Longitudinal Data</li>
 </ul>
-</section>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Sabina Ciesielska (Unsplash), Jonas Leupe (Unsplash)</p>
+</div></aside></section>
 <section id="autoregressiv" class="slide level2">
 <h2>Autoregressiv</h2>
-<p><img data-src="ar_model_burger.png"></p>
+<p><img data-src="figures/ar_model_burger.png"></p>
 
+<aside class="notes">
+<ul>
+<li>AR auch Inertia</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <aside><div>
 <p>Nächste Folien von Julian Burger (<a href="https://osf.io/djm26">Link</a>)</p>
 </div></aside></section>
 <section id="autoregressiv-1" class="slide level2">
 <h2>Autoregressiv</h2>
-<p><img data-src="ar_model_burger2.png"></p>
+<p><img data-src="figures/ar_model_burger2.png"></p>
 </section>
 <section id="cross-lagged" class="slide level2">
 <h2>Cross-Lagged</h2>
-<p><img data-src="var_model_burger.png"></p>
+<p><img data-src="figures/var_model_burger.png"></p>
+<aside class="notes">
+<ul>
+<li>gleicher Zeitpunkt: positiver Zusammenhang</li>
+<li>über Zeitpunkte: negativ</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="schätzung-idiographischer-netzwerke" class="slide level2">
 <h2>Schätzung idiographischer Netzwerke</h2>
 <ul>
-<li class="fragment"><p>graphicalVAR Formel <span class="math display">\[Anhedonie_{t} = a*Anhedonie_{t-1} + b*Hoffnungslosigkeit_{t-1} + \epsilon \]</span> <span class="math display">\[
+<li class="fragment">graphicalVAR Formel <span class="math display">\[
+Tired_{t} = a*Tired_{t-1} + b*Activity_{t-1} + \epsilon_{t}
+\]</span></li>
+</ul>
+<p><span class="math display">\[
 Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
-\]</span></p></li>
-<li class="fragment"><p>Regularisierung für Struktur</p></li>
+\]</span></p>
+<ul>
+<li class="fragment">Regularisierung für Struktur</li>
 </ul>
 </section>
 <section id="auszeit" class="slide level2 smaller">
 <h2>Auszeit</h2>
-<p><img data-src="maths-gif.gif"></p>
+<p><img data-src="figures/maths-gif.gif"></p>
+
+<aside><div>
 <p>https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif</p>
-</section>
+</div></aside></section>
 <section id="zwischenfazit" class="slide level2">
 <h2>Zwischenfazit</h2>
 <ul>
@@ -497,20 +709,45 @@ Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 <section id="temporal-network" class="slide level2">
 <h2>Temporal Network</h2>
 <ul>
-<li class="fragment">TODO: ein Bild von Temporal Network einfügen</li>
+<li class="fragment">Effekt von Variablen auf sich selbst und auf andere über die Zeit</li>
+<li class="fragment">meist: Lag 1 - aber: Theorie?</li>
+<li class="fragment">Granger Kausalität</li>
 </ul>
 </section>
 <section id="contemporaneous-network" class="slide level2">
 <h2>Contemporaneous Network</h2>
 <ul>
-<li class="fragment">TODO ein Bild von Contemporaneous Network einfügen</li>
+<li class="fragment">enthält Effekte, die temporales Netzwerk nicht einfängt</li>
+<li class="fragment">etwa: Effekte, die schneller sind als Erhebungsfrequenz</li>
+<li class="fragment">Beispiel: <span class="math display">\[
+Stress \rightarrow  Erwartung Panik \rightarrow Angst
+\]</span></li>
 </ul>
-</section>
+
+<aside class="notes">
+<ul>
+<li>beziehen zeitliche Info mit ein</li>
+<li>nicht gleich zu normaler Korrelation</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Beispiel aus Epskamp et al.&nbsp;(2018)</p>
+</div></aside></section>
 <section id="beispiel-fried-et-al.-2020" class="slide level2">
 <h2>Beispiel: Fried et al.&nbsp;(2020)</h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><embed data-src="fried-covid-net.pdf" width="700" height="520"></p>
+<p><img data-src="figures/fried-covid-net.svg" width="1000" height="500"></p>
 </div>
 </div>
 <aside class="notes">
@@ -530,35 +767,145 @@ Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 <section id="multilevelnetzwerke" class="slide level2">
 <h2>Multilevelnetzwerke</h2>
 <ul>
-<li class="fragment">aber Annahme: gleiche Verteilung, nicht ganz idiographisch</li>
-<li class="fragment">GIMME</li>
-<li class="fragment">DSEM</li>
+<li class="fragment">Vorteile:
+<ul>
+<li class="fragment">mehr Power</li>
+<li class="fragment">Betrachtung von Heterogenität</li>
+<li class="fragment">weniger Zeitpunkte notwendig</li>
+</ul></li>
+<li class="fragment">nicht ganz idiographisch</li>
+<li class="fragment">mlVAR (Epskamp et al., 2018)</li>
+<li class="fragment">GIMME (Beltz et al., 2016)</li>
+<li class="fragment">DSEM (Asparouhov et al., 2018)</li>
 </ul>
+
+<aside class="notes">
+<ul>
+<li>GIMME: Gruppe, Subgruppe, Individuum</li>
+<li>DSEM: Sehr flexibel</li>
+<li>mlVAR: Heterogenität visualisierbar</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Simple Übersicht in Jordan et al.&nbsp;(2020)</p>
+</div></aside></section>
+<section id="ein-beispiel-multilevel" class="slide level2">
+<h2>Ein Beispiel Multilevel</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/mlVAR-example.jpeg" width="1000" height="520"></p>
+</div>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Between-Subject: Mittelwertszusammenhänge</li>
+<li>Konkreter: Person-Means als Lvl-2 Prädiktoren</li>
+<li>GGM auf Mittelwerte</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Epskamp et al.&nbsp;(2018)</p>
+</div></aside></section>
+<section id="interpretation" class="slide level2 smaller">
+<h2>Interpretation</h2>
+<ul>
+<li class="fragment">gleiche Zeitabstände zwischen Messungen
+<ul>
+<li class="fragment">Alternative: Continuous Time</li>
+</ul></li>
+<li class="fragment">Korrekte Zeitabstände für zu messende Konstrukte</li>
+<li class="fragment">Kausalität?</li>
+<li class="fragment">Stationaritätsannahme</li>
+<li class="fragment">Stabilität idiographischer Netzwerkschätzungen</li>
+<li class="fragment">Missing Data</li>
+<li class="fragment">Verteilungsannahmen</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Was ist mit Nacht?</li>
+<li>Normalverteilung vs.&nbsp;Skew</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="stabilität-der-schätzung" class="slide level2">
 <h2>Stabilität der Schätzung</h2>
 <ul>
 <li class="fragment">Hoekstra Paper</li>
 <li class="fragment">Wir klonen das “wahre” Netzwerk einer Person und rechnen Netzwerkanalysen</li>
+<li class="fragment">Ergebnis: Heterogenität</li>
+<li class="fragment">Interpretation?</li>
+<li class="fragment">Anzahl Zeitpunkte?</li>
 </ul>
-</section>
-<section id="interpretation" class="slide level2">
-<h2>Interpretation</h2>
+
+<aside class="notes">
 <ul>
-<li class="fragment"><p>Zeitabstände zwischen Messungen (continuous time etc.)</p></li>
-<li class="fragment"><p>Kausalität?</p></li>
-<li class="fragment"><p>Stationarität</p></li>
-<li class="fragment"><p>Stabilität idiographischer Netzwerkschätzungen</p></li>
-<li class="fragment"><p>simplifizierendes Abbild eines komplexen Systems</p></li>
+<li>Auf Stichprobengröße eingehen</li>
+<li>Mindestens 20 Personen für Multilevel</li>
 </ul>
-</section>
-<section id="evidenz-bei-einsatz-in-klinischer-praxis" class="slide level2">
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Hoekstra et al.&nbsp;(2022), Mansueto et al.&nbsp;(2022)</p>
+</div></aside></section>
+<section id="evidenz-bei-einsatz-in-klinischer-praxis" class="slide level2 smaller">
 <h2>Evidenz bei Einsatz in klinischer Praxis</h2>
 <ul>
-<li class="fragment">Frumkin et al.&nbsp;(2021): Fallstudien, Patient*innen überzeugter als Therapeut*innen</li>
-<li class="fragment">Levinson et al.&nbsp;(2023):</li>
-<li class="fragment">Hall et al.&nbsp;(2023): Fallstudie</li>
-<li class="fragment">Keine eindeutige Evidenz (RCT?)</li>
+<li class="fragment">Frumkin et al.&nbsp;(2021):
+<ul>
+<li class="fragment">wenige Fallstudien</li>
+<li class="fragment">Patient*innen überzeugter als Therapeut*innen</li>
+</ul></li>
+<li class="fragment">Levinson et al.&nbsp;(2023):
+<ul>
+<li class="fragment">n = 79, Essstörungen</li>
+<li class="fragment">Modulwahl anhand von Netzwerken</li>
+</ul></li>
+<li class="fragment">Hall et al.&nbsp;(2022):
+<ul>
+<li class="fragment">Einzelfallstudie zu TheraNET</li>
+<li class="fragment">Gutes Beispiel für detailliertes, netzwerkbasiertes Feedback</li>
+</ul></li>
+<li class="fragment">Keine eindeutige Evidenz (RCTs)</li>
 <li class="fragment">viele unterschiedliche Möglichkeiten des Einsatzes</li>
 </ul>
 </section>
@@ -572,14 +919,14 @@ Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 </section>
 <section id="premise" class="slide level2">
 <h2>PREMISE</h2>
-<p><img data-src="premise.png"></p>
+<p><img data-src="figures/premise.png"></p>
 
 <aside><div>
-<p>Burger et al.&nbsp;(2021)</p>
+<p>Burger et al.&nbsp;(2021), Burger et al.&nbsp;(2022)</p>
 </div></aside></section>
 <section id="pecan" class="slide level2">
 <h2>PECAN</h2>
-<p><img data-src="pecan.jpeg"> https://doi.org/10.1177/10731911211039281</p>
+<p><img data-src="figures/pecan.jpeg"></p>
 
 <aside><div>
 <p>Klintwall et al.&nbsp;(2021)</p>
@@ -588,7 +935,7 @@ Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 <h2>Zeitlich variierende Netzwerke</h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="tvvar.gif" width="700" height="520"></p>
+<p><img data-src="figures/tvvar.gif" width="700" height="520"></p>
 </div>
 </div>
 
@@ -599,7 +946,7 @@ Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 <h2>Vorhersage</h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="lutz-et-al.png" width="700" height="500"></p>
+<p><img data-src="figures/lutz-et-al.png" width="700" height="500"></p>
 </div>
 </div>
 
@@ -610,7 +957,7 @@ Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 <h2>Welche Analysen?</h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="bastiaansen.png" width="900" height="600"></p>
+<p><img data-src="figures/bastiaansen.png" width="900" height="450"></p>
 </div>
 </div>
 
@@ -623,48 +970,78 @@ Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 <li class="fragment">Was ist die Zukunft von Netzwerken im klinischen Setting?</li>
 <li class="fragment">“More than a pretty picture?”</li>
 <li class="fragment">Stabilität über die Zeit</li>
+<li class="fragment">Verknüpfung von datengetriebenen Modellen und Theorien</li>
 </ul>
 </section>
 <section id="zusammenfassung" class="slide level2">
 <h2>Zusammenfassung</h2>
 <ol type="1">
 <li class="fragment">Netzwerke sind konzeptuell attraktiv</li>
-<li class="fragment">Längsschnitt gibt uns neue Informationen</li>
+<li class="fragment">Längsschnitt gibt uns neue Informationen … aber auch neue Probleme</li>
+<li class="fragment">Hohe Diversität in Netzwerkansätzen</li>
 <li class="fragment">Fragen?</li>
 </ol>
 </section>
 <section id="kontakt" class="slide level2">
 <h2>Kontakt</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
 <p><i class="fa-solid fa-house" aria-label="house"></i> <a href="https://bjoernsiepe.netlify.app/">Feel</a></p>
 <p><i class="fa-brands fa-twitter" aria-label="twitter"></i> <a href="https://twitter.com/b_siepe">free</a></p>
 <p><i class="fa-brands fa-mastodon" aria-label="mastodon"></i> <a href="https://fediscience.org/@bsiepe">to</a></p>
 <p><i class="fa-solid fa-at" aria-label="at"></i> <a href="bjoern.siepe@uni-marburg.de">contact</a></p>
 <p><i class="fa-brands fa-github" aria-label="github"></i> <a href="https://github.com/bsiepe">me</a></p>
-<p>TODO: QR Code für Materialien</p>
-<aside class="notes">
-<p>https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/posts/18-font-awesome/</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<p>bjoern.siepe@uni-marburg.de</p>
+</div><div class="column" style="width:60%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="figures/qr_code_workshop.svg" width="550" height="550"></p>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="ressourcen" class="slide level2">
 <h2>Ressourcen</h2>
-<p>https://osf.io/m9yz4/</p>
+<p><a href="https://osf.io/hcd8u/">PNAWS 2020</a> - frei zugänglich. Diente teils als Inspiration für diesen Workshop, besonders die Folien von Julian Burger.</p>
+<p><a href="https://psych-networks.com/">Psych Networks Blog</a> - nicht mehr aktiv</p>
+</section>
+<section id="literatur-querschnitt" class="slide level2 smaller">
+<h2>Literatur Querschnitt</h2>
+<p>Borsboom, D., &amp; Cramer, A. O. J. (2013). Network analysis: An integrative approach to the structure of psychopathology. Annual Review of Clinical Psychology, 9(1), 91–121. https://doi.org/10.1146/annurev-clinpsy-050212-185608</p>
+<p>Borsboom D. (2017). A network theory of mental disorders. World psychiatry : official journal of the World Psychiatric Association (WPA), 16(1), 5–13. https://doi.org/10.1002/wps.20375</p>
+<p>Borsboom, D., Deserno, M. K., Rhemtulla, M., Epskamp, S., Fried, E. I., McNally, R. J., Robinaugh, D. J., Perugini, M., Dalege, J., Costantini, G., Isvoranu, A.-M., Wysocki, A. C., van Borkulo, C. D., van Bork, R., &amp; Waldorp, L. J. (2021). Network analysis of multivariate data in psychological science. Nature Reviews Methods Primers, 1(1), 1–18. https://doi.org/10.1038/s43586-021-00055-w</p>
+<p>Dablander, F., Hinne, M. Node centrality measures are a poor substitute for causal inference. Sci Rep 9, 6846 (2019). https://doi.org/10.1038/s41598-019-43033-9</p>
+</section>
+<section id="literatur-querschnitt-1" class="slide level2 smaller">
+<h2>Literatur Querschnitt</h2>
+<p>Fried, E.I., van Borkulo, C.D., Cramer, A.O.J. et al.&nbsp;Mental disorders as networks of problems: a review of recent insights. Soc Psychiatry Psychiatr Epidemiol 52, 1–10 (2017). https://doi.org/10.1007/s00127-016-1319-z</p>
+<p>Fried, E. I., Epskamp, S., Nesse, R. M., Tuerlinckx, F., &amp; Borsboom, D. (2016). What are ‘good’ depression symptoms? Comparing the centrality of DSM and non-DSM symptoms of depression in a network analysis. Journal of affective disorders, 189, 314–320. https://doi.org/10.1016/j.jad.2015.09.005</p>
 </section>
 <section id="literatur" class="slide level2 smaller">
 <h2>Literatur</h2>
-<p>Querschnitt: Borsboom, D., &amp; Cramer, A. O. J. (2013). Network analysis: An integrative approach to the structure of psychopathology. Annual Review of Clinical Psychology, 9(1), 91–121. https://doi.org/10.1146/annurev-clinpsy-050212-185608 Borsboom, D., Deserno, M. K., Rhemtulla, M., Epskamp, S., Fried, E. I., McNally, R. J., Robinaugh, D. J., Perugini, M., Dalege, J., Costantini, G., Isvoranu, A.-M., Wysocki, A. C., van Borkulo, C. D., van Bork, R., &amp; Waldorp, L. J. (2021). Network analysis of multivariate data in psychological science. Nature Reviews Methods Primers, 1(1), 1–18. https://doi.org/10.1038/s43586-021-00055-w</p>
-<p>Burger, J., Epskamp, S., Veen, D. C. van der, Dablander, F., Schoevers, R. A., Fried, E. I., &amp; Riese, H. (2021). A clinical PREMISE for personalized models: Towards a formal integration of case formulations and statistical networks. PsyArXiv. https://doi.org/10.31234/osf.io/bdrs7 Burger, J., Andikkhash, V., Jäger, N., Anderbro, T., Blanken, T., &amp; Klintwall, L. (2022). A Novel Approach for Constructing Personalized Networks from Longitudinal Perceived Causal Relations. PsyArXiv. https://doi.org/10.31234/osf.io/e93xd</p>
-<p>Bringmann, L. F. (2021). Person-specific networks in psychopathology: Past, present and future. Current Opinion in Psychology, 41, 59–64. https://doi.org/10.1016/j.copsyc.2021.03.004 von Klipstein, L., Riese, H., van der Veen, D. C., Servaas, M. N., &amp; Schoevers, R. A. (2020). Using person-specific networks in psychotherapy: Challenges, limitations, and how we could use them anyway. BMC Medicine, 18(1), 345. https://doi.org/10.1186/s12916-020-01818-0</p>
-<p>Jordan, D. G., Winer, E. S., &amp; Salem, T. (2020). The current status of temporal network analysis for clinical science: Considerations as the paradigm shifts? Journal of Clinical Psychology, 76(9), 1591–1612. https://doi.org/10.1002/jclp.22957 Epskamp, S., Waldorp, L. J., Mõttus, R., &amp; Borsboom, D. (2018). The Gaussian graphical model in cross-sectional and time-series data. Multivariate behavioral research, 53(4), 453–480.</p>
+<p>Asparouhov, T., Hamaker, E. L., &amp; Muthén, B. (2018). Dynamic structural equation models. Structural Equation Modeling, 25(3), 359–388. https://doi.org/10.1080/10705511.2017.1406803</p>
+<p>Beltz, A. M., Wright, A. G., Sprague, B. N., &amp; Molenaar, P. C. (2016). Bridging the Nomothetic and Idiographic Approaches to the Analysis of Clinical Data. Assessment, 23(4), 447–458. https://doi.org/10.1177/1073191116648209</p>
+<p>Burger, J., Epskamp, S., Veen, D. C. van der, Dablander, F., Schoevers, R. A., Fried, E. I., &amp; Riese, H. (2021). A clinical PREMISE for personalized models: Towards a formal integration of case formulations and statistical networks. PsyArXiv. https://doi.org/10.31234/osf.io/bdrs7</p>
+<p>Burger, J., Andikkhash, V., Jäger, N., Anderbro, T., Blanken, T., &amp; Klintwall, L. (2022). A Novel Approach for Constructing Personalized Networks from Longitudinal Perceived Causal Relations. PsyArXiv. https://doi.org/10.31234/osf.io/e93xd</p>
+</section>
+<section id="literatur-1" class="slide level2 smaller">
+<h2>Literatur</h2>
+<p>Burger, J., Ralph-Nearman, C., &amp; Levinson, C. A. (2022). Integrating clinician and patient case conceptualization with momentary assessment data to construct idiographic networks: Moving toward personalized treatment for eating disorders. Behaviour Research and Therapy, 159, 104221. https://doi.org/10.1016/j.brat.2022.104221</p>
+<p>Bringmann, L. F. (2021). Person-specific networks in psychopathology: Past, present and future. Current Opinion in Psychology, 41, 59–64. https://doi.org/10.1016/j.copsyc.2021.03.004</p>
+<p>Epskamp, S., Waldorp, L. J., Mõttus, R., &amp; Borsboom, D. (2018). The Gaussian graphical model in cross-sectional and time-series data. Multivariate behavioral research, 53(4), 453–480.</p>
+<p>Jordan, D. G., Winer, E. S., &amp; Salem, T. (2020). The current status of temporal network analysis for clinical science: Considerations as the paradigm shifts? Journal of Clinical Psychology, 76(9), 1591–1612. https://doi.org/10.1002/jclp.22957</p>
+</section>
+<section id="literatur-2" class="slide level2 smaller">
+<h2>Literatur</h2>
+<p>Klintwall, L., Bellander, M., &amp; Cervin, M. (2023). Perceived Causal Problem Networks: Reliability, Central Problems, and Clinical Utility for Depression. Assessment, 30(1), 73–83. https://doi.org/10.1177/10731911211039281</p>
+<p>von Klipstein, L., Riese, H., van der Veen, D. C., Servaas, M. N., &amp; Schoevers, R. A. (2020). Using person-specific networks in psychotherapy: Challenges, limitations, and how we could use them anyway. BMC Medicine, 18(1), 345. https://doi.org/10.1186/s12916-020-01818-0</p>
+</section>
+<section id="abbildungen" class="slide level2 smaller">
+<h2>Abbildungen</h2>
+<p>Jeremykemp at English Wikipedia (https://commons.wikimedia.org/wiki/File:Gartner_Hype_Cycle.svg), „Gartner Hype Cycle“, https://creativecommons.org/licenses/by-sa/3.0/legalcode</p>
+<p>Foto von <a href="https://unsplash.com/@sabina_ciesielska?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Sabina</a> auf <a href="https://unsplash.com/de/fotos/0zAHoJ1gnGg?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
+<p>Foto von <a href="https://unsplash.com/@jonasleupe?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jonas Leupe</a> auf <a href="https://unsplash.com/de/fotos/wK-elt11pF0?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
 <div class="footer footer-default">
 
 </div>
