@@ -68,20 +68,28 @@ knitr::include_graphics('example-ggm.png')
 
 
 :::aside
-Fried et al what are good
+Fried et al. (2016)
 :::
 
+::: {.notes}
+Schätzmethoden: oft ähnlich zu Partialkorrelationen, Regressionen
+:::
 
 ## Netzwerke vs. traditionalle Vorstellungen
 - Netzwerkmodell vs. Netzwerktheorie
 - Netzwerktheorie: 
-  - kausale Interaktion von Symptomen
+  - kausale Interaktion von Symptomen anstatt Syndrome
   - verschiedene Zustände des Systems
   - stark verbundenes Netzwerk verstärken sich gegenseitig
+  
+  
+::: {.notes}  
+- Latent Disease Model
+:::  
 
 
 ## Komorbidität
-```{r, out.width = '700px', out.height= "500px"}
+```{r, out.width = '900px', out.height= "500px"}
 knitr::include_graphics('network-concept-borsboom.png')
 ```
 
@@ -91,8 +99,7 @@ Borsboom (2017)
 
 
 ## Small World
-TODO try this out
-```{r, out.width = '700px', out.height= "500px"}
+```{r, out.width = '1000px', out.height= "500px"}
 library(tiff)
 library(grid)
 grid.raster(readTIFF("small-world-psych.tiff"))
@@ -103,29 +110,57 @@ Borsboom et al. (2011)
 :::
 
 ## Zentralität  
+:::: {.columns}
+
+::: {.column}
 - Wichtigkeit eines Knotens
 - Degree
-  -
+  - Anzahl der Verbindungen
 - Strength
-- Betweenness, ...
+  - Stärke der Verbindungen
+- Betweenness
+  - Anzahl der Pfade
+
+
+:::
+
+::: {.column}
 - Beispiel: Flughafen
-
-
-
-## Zentralität
 - Idee: Ansatz für Interventionen?
 - Interpretation teils fraglich 
-TODO: Add Bringmann 2019 what do centrality measures measure
-TODO: Add Fried or Robinaugh overview paper
+:::
+
+
+::::
+
 
 ::: aside
 Bringmann et al. (2019), Dablander et al. (2019)
 :::
 
+## Zentralität
+
+
+```{r, out.width = '950px', out.height= "500px"}
+knitr::include_graphics('network-centrality2.jpg')
+```
+
+
+
+::: aside
+Fried et al. (2016)
+:::
+
 
 ## Hype Cycle
--BILD EINFÜGEN-
+```{r, out.width = '700px', out.height= "520px"}
+knitr::include_graphics('hype_cycle.svg')
+```
 
+
+::: aside
+[Jeremykemp, Wikimedia](https://commons.wikimedia.org/wiki/File:Gartner_Hype_Cycle.svg) 
+:::
 
 :::{.notes}
 Netzwerke sind keine Magie, sehr ähnlich zu Regression
@@ -136,7 +171,7 @@ anschlussfähig für weitere Wissenschaften
 
 ## Warum Längsschnitt?
 
-```{r, out.width = '700px', out.height= "520px"}
+```{r, out.width = '900px', out.height= "520px"}
 knitr::include_graphics('typingspeed.svg')
 ```
 
@@ -159,12 +194,41 @@ knitr::include_graphics('example_temporal.svg')
 
 
 ## Zeitreihendaten
-- Autoregressiv und Cross-Lagged erklären
+```{r, out.width = '900px', out.height= "500px"}
+knitr::include_graphics('data-cube.jpg')
+```
 
+::: aside
+Beltz et al. (2016)
+:::
 
 ## Experience Sampling
 
-- Bilder: EMA App, Smartwatch, ...
+:::: {.columns}
+
+::: {.column}
+```{r, out.width = '500px', out.height= "400px"}
+knitr::include_graphics('smartwatch-unsplash.jpg')
+```
+::: 
+
+::: {.column}
+```{r, out.width = '500px', out.height= "400px"}
+knitr::include_graphics('smartphone-unsplash.jpg')
+```
+:::
+
+
+::::
+
+:::aside
+Sabina Ciesielska (Unsplash), Jonas Leupe (Unsplash)
+:::
+
+:::{.notes}
+- Ecological Momentary Assessment
+- Intensive Longitudinal Data
+:::
 
 
 ## Autoregressiv
@@ -172,6 +236,11 @@ knitr::include_graphics('example_temporal.svg')
 
 ::: aside
 Nächste Folien von Julian Burger ([Link](https://osf.io/djm26))
+:::
+
+
+::: {.notes}
+- AR auch Inertia
 :::
 
 ## Autoregressiv
@@ -192,7 +261,7 @@ Nächste Folien von Julian Burger ([Link](https://osf.io/djm26))
 ## Schätzung idiographischer Netzwerke
 - graphicalVAR Formel
 $$ 
-Müdigkeit_{t} = a*Müdigkeit_{t-1} + b*Aktivität_{t-1} + \epsilon_{t} 
+Tired_{t} = a*Tired_{t-1} + b*Activity_{t-1} + \epsilon_{t} 
 $$
 
 
@@ -238,10 +307,16 @@ $$
 Beispiel aus Epskamp et al. (2018)
 :::
 
+:::  {.notes}
+- beziehen zeitliche Info mit ein
+- nicht gleich zu normaler Korrelation
+:::
+
 ## Beispiel: Fried et al. (2020)
 ```{r, out.width = '700px', out.height= "520px"}
 knitr::include_graphics('fried-covid-net.pdf')
 ```
+TODO ADD
 ![A](fried_covidnet.pdf){width=500px}
 
 
@@ -251,23 +326,58 @@ Das ist hier schon Multilevel
 
 
 ## Multilevelnetzwerke
-- mlVAR (Epskamp ADD CITATION)
 - Vorteile: 
   - mehr Power
   - Betrachtung von Heterogenität
   - weniger Zeitpunkte notwendig
-- Annahme: gleiche Verteilung, nicht ganz idiographisch
-- GIMME (ADD CITATION)
-- DSEM (ADD CITATION)
+- nicht ganz idiographisch
+- mlVAR (Epskamp et al., 2018)
+- GIMME (Beltz et al., 2016)
+- DSEM (Asparouhov et al., 2018)
 
+::: aside
+Simple Übersicht in Jordan et al. (2020)
+:::
+
+::: {.notes}
+- GIMME: Gruppe, Subgruppe, Individuum
+- DSEM: Sehr flexibel
+- mlVAR: Heterogenität visualisierbar
+:::
 
 ## Ein Beispiel Multilevel
+
+```{r, out.width = '1000px', out.height= "520px"}
+knitr::include_graphics('mlVAR-example.jpeg')
+```
+
+::: aside
+Epskamp et al. (2018)
+:::
 
 
 
 ::: {.notes}
 - Between-Subject: Mittelwertszusammenhänge
+- Konkreter: Person-Means als Lvl-2 Prädiktoren
+- GGM auf Mittelwerte
 :::
+
+## Interpretation {.smaller}
+- gleiche Zeitabstände zwischen Messungen
+  - Alternative: Continuous Time
+- Korrekte Zeitabstände für zu messende Konstrukte
+- Kausalität?
+- Stationaritätsannahme
+- Stabilität idiographischer Netzwerkschätzungen
+- Missing Data
+- Verteilungsannahmen
+
+::: {.notes}
+- Was ist mit Nacht?
+- Normalverteilung vs. Skew
+:::
+
 
 ## Stabilität der Schätzung
 - Hoekstra Paper
@@ -280,13 +390,12 @@ Das ist hier schon Multilevel
 Hoekstra et al. (2022), Mansueto et al. (2022)
 :::
 
-## Interpretation
-- gleiche Zeitabstände zwischen Messungen
-  - Alternative: Continuous Time
-- Korrekte Zeitabstände für zu messende Konstrukte
-- Kausalität?
-- Stationarität
-- Stabilität idiographischer Netzwerkschätzungen
+::: {.notes}
+- Auf Stichprobengröße eingehen
+- Mindestens 20 Personen für Multilevel
+:::
+
+
 
 ## Evidenz bei Einsatz in klinischer Praxis {.smaller}
 - Frumkin et al. (2021): 
@@ -400,36 +509,76 @@ knitr::include_graphics('qr_code_workshop.svg')
 ::::
 
 ## Ressourcen
-https://osf.io/m9yz4/
+[PNAWS 2020](https://osf.io/hcd8u/) - frei zugänglich. Diente teils als Inspiration für diesen Workshop, besonders die Folien von Julian Burger.
 
 
-## Literatur {.smaller}
+[Psych Networks Blog](https://psych-networks.com/) - nicht mehr aktiv
 
-Querschnitt: 
+## Literatur Querschnitt {.smaller}
+
+
 Borsboom, D., & Cramer, A. O. J. (2013). Network analysis: An integrative approach to the structure of psychopathology. Annual Review of Clinical Psychology, 9(1), 91–121. https://doi.org/10.1146/annurev-clinpsy-050212-185608
+
+Borsboom D. (2017). A network theory of mental disorders. World psychiatry : official journal of the World Psychiatric Association (WPA), 16(1), 5–13. https://doi.org/10.1002/wps.20375
 
 Borsboom, D., Deserno, M. K., Rhemtulla, M., Epskamp, S., Fried, E. I., McNally, R. J., Robinaugh, D. J., Perugini, M., Dalege, J., Costantini, G., Isvoranu, A.-M., Wysocki, A. C., van Borkulo, C. D., van Bork, R., & Waldorp, L. J. (2021). Network analysis of multivariate data in psychological science. Nature Reviews Methods Primers, 1(1), 1–18. https://doi.org/10.1038/s43586-021-00055-w
 
 Dablander, F., Hinne, M. Node centrality measures are a poor substitute for causal inference. Sci Rep 9, 6846 (2019). https://doi.org/10.1038/s41598-019-43033-9
 
+
+
+## Literatur Querschnitt {.smaller}
+
 Fried, E.I., van Borkulo, C.D., Cramer, A.O.J. et al. Mental disorders as networks of problems: a review of recent insights. Soc Psychiatry Psychiatr Epidemiol 52, 1–10 (2017). https://doi.org/10.1007/s00127-016-1319-z
+
+Fried, E. I., Epskamp, S., Nesse, R. M., Tuerlinckx, F., & Borsboom, D. (2016). What are 'good' depression symptoms? Comparing the centrality of DSM and non-DSM symptoms of depression in a network analysis. Journal of affective disorders, 189, 314–320. https://doi.org/10.1016/j.jad.2015.09.005
 
 
 ## Literatur {.smaller}
+
+Asparouhov, T., Hamaker, E. L., & Muthén, B. (2018). Dynamic structural equation models. Structural Equation Modeling, 25(3), 359–388. https://doi.org/10.1080/10705511.2017.1406803
+
+Beltz, A. M., Wright, A. G., Sprague, B. N., & Molenaar, P. C. (2016). Bridging the Nomothetic and Idiographic Approaches to the Analysis of Clinical Data. Assessment, 23(4), 447–458. https://doi.org/10.1177/1073191116648209
+
 Burger, J., Epskamp, S., Veen, D. C. van der, Dablander, F., Schoevers, R. A., Fried, E. I., & Riese, H. (2021). A clinical PREMISE for personalized models: Towards a formal integration of case formulations and statistical networks. PsyArXiv. https://doi.org/10.31234/osf.io/bdrs7
+
 Burger, J., Andikkhash, V., Jäger, N., Anderbro, T., Blanken, T., & Klintwall, L. (2022). A Novel Approach for Constructing Personalized Networks from Longitudinal Perceived Causal Relations. PsyArXiv. https://doi.org/10.31234/osf.io/e93xd
+
+
+
+
+
+
+
+
+## Literatur {.smaller}
 
 Burger, J., Ralph-Nearman, C., & Levinson, C. A. (2022). Integrating clinician and patient case conceptualization with momentary assessment data to construct idiographic networks: Moving toward personalized treatment for eating disorders. Behaviour Research and Therapy, 159, 104221. https://doi.org/10.1016/j.brat.2022.104221
 
-
 Bringmann, L. F. (2021). Person-specific networks in psychopathology: Past, present and future. Current Opinion in Psychology, 41, 59–64. https://doi.org/10.1016/j.copsyc.2021.03.004
-von Klipstein, L., Riese, H., van der Veen, D. C., Servaas, M. N., & Schoevers, R. A. (2020). Using person-specific networks in psychotherapy: Challenges, limitations, and how we could use them anyway. BMC Medicine, 18(1), 345. https://doi.org/10.1186/s12916-020-01818-0
-
 
 Epskamp, S., Waldorp, L. J., Mõttus, R., & Borsboom, D. (2018). The Gaussian graphical model in cross-sectional and time-series data. Multivariate behavioral research, 53(4), 453–480.
 
 Jordan, D. G., Winer, E. S., & Salem, T. (2020). The current status of temporal network analysis for clinical science: Considerations as the paradigm shifts? Journal of Clinical Psychology, 76(9), 1591–1612. https://doi.org/10.1002/jclp.22957
 
 
+
+
+
+## Literatur {.smaller}
+
 Klintwall, L., Bellander, M., & Cervin, M. (2023). Perceived Causal Problem Networks: Reliability, Central Problems, and Clinical Utility for Depression. Assessment, 30(1), 73–83. https://doi.org/10.1177/10731911211039281
 
+von Klipstein, L., Riese, H., van der Veen, D. C., Servaas, M. N., & Schoevers, R. A. (2020). Using person-specific networks in psychotherapy: Challenges, limitations, and how we could use them anyway. BMC Medicine, 18(1), 345. https://doi.org/10.1186/s12916-020-01818-0
+
+
+
+
+## Abbildungen {.smaller}
+Jeremykemp at English Wikipedia (https://commons.wikimedia.org/wiki/File:Gartner_Hype_Cycle.svg), „Gartner Hype Cycle“, https://creativecommons.org/licenses/by-sa/3.0/legalcode 
+
+
+Foto von <a href="https://unsplash.com/@sabina_ciesielska?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Sabina</a> auf <a href="https://unsplash.com/de/fotos/0zAHoJ1gnGg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
+Foto von <a href="https://unsplash.com/@jonasleupe?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jonas Leupe</a> auf <a href="https://unsplash.com/de/fotos/wK-elt11pF0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
