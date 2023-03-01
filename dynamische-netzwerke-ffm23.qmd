@@ -2,6 +2,7 @@
 title: "Dynamische Netzwerkanalysen"
 subtitle: "Eine Einführung"
 author: "Björn Siepe"
+email: bjoern.siepe@uni-marburg.de
 institute: "AE Psychologische Methodenlehre, Philipps-Universität Marburg"
 date: "01.03.2023"
 format: 
@@ -20,7 +21,7 @@ format:
 2. Den Sinn und die Struktur von Zeitreihendaten verstehen
 3. Dynamische Netzwerke interpretieren können
 4. Zentrale Annahmen und Einschränkungen erkennen
-5. Junge Entwicklungen kennenlernen
+5. Neuere Entwicklungen kennenlernen
 
 
 ::: aside
@@ -63,6 +64,22 @@ in einem komplexen System.
   - direktional/undirektional
 - In der Psychologie: erste Arbeiten ~2010
 
+
+
+## Netzwerke vs. traditionelle Vorstellungen
+- Netzwerkmodell vs. Netzwerktheorie
+- Netzwerktheorie: 
+  - kausale Interaktion von Symptomen anstatt Syndrome
+  - keine monokausale Erklärung
+  - verschiedene Zustände des komplexen Systems (gesund vs. krank)
+  - stark verbundenes Symptome verstärken sich gegenseitig
+  
+  
+::: {.notes}  
+- Latent Disease Model
+- stark verbunden: "Aktivierung" eines Symptoms führt zu mehr Aktivität in anderen
+:::  
+
 ## Beispielnetzwerk
 ```{r, out.width = '700px', out.height= "500px"}
 knitr::include_graphics(here::here('figures/example-ggm.png'))
@@ -74,21 +91,19 @@ Fried et al. (2016)
 :::
 
 ::: {.notes}
-Schätzmethoden: oft ähnlich zu Partialkorrelationen, Regressionen
+- Schätzmethoden: oft ähnlich zu Partialkorrelationen, Regressionen
+- Dicke und Farbe erklären
+- conditional independence
 :::
 
-## Netzwerke vs. traditionalle Vorstellungen
-- Netzwerkmodell vs. Netzwerktheorie
-- Netzwerktheorie: 
-  - kausale Interaktion von Symptomen anstatt Syndrome
-  - verschiedene Zustände des Systems
-  - stark verbundenes Netzwerk verstärken sich gegenseitig
-  
-  
-::: {.notes}  
-- Latent Disease Model
-:::  
+## Symptomaktivierung
+```{r, out.width = '900px', out.height= "500px"}
+knitr::include_graphics(here::here('figures/symptom-activation.png'))
+```
 
+:::aside
+Borsboom (2017)
+:::
 
 ## Komorbidität
 ```{r, out.width = '900px', out.height= "500px"}
@@ -97,6 +112,11 @@ knitr::include_graphics(here::here('figures/network-concept-borsboom.png'))
 
 :::aside
 Borsboom (2017)
+:::
+
+::: {.notes}
+- Komorbidität ist Regel statt Ausnahme
+- Brückensymptom aktiviert anderes Netzwerk    
 :::
 
 
@@ -111,6 +131,11 @@ grid.raster(readTIFF(here::here("figures/small-world-psych.tiff")))
 Borsboom et al. (2011)
 :::
 
+:::{.notes}
+- Verbindung von Diagnosen über Brückensymptome
+:::
+
+
 ## Zentralität  
 :::: {.columns}
 
@@ -122,7 +147,6 @@ Borsboom et al. (2011)
   - Stärke der Verbindungen
 - Betweenness
   - Anzahl der Pfade
-
 
 :::
 
@@ -138,6 +162,10 @@ Borsboom et al. (2011)
 
 ::: aside
 Bringmann et al. (2019), Dablander et al. (2019)
+:::
+
+::: {.notes}
+- gibt auch noch weitere, expected influence, closeness
 :::
 
 ## Zentralität
@@ -254,23 +282,23 @@ Nächste Folien von Julian Burger ([Link](https://osf.io/djm26))
 ![](figures/var_model_burger.png)
 
 ::: {.notes}
-- gleicher Zeitpunkt: positiver Zusammenhang
-- über Zeitpunkte: negativ
+- gleicher Zeitpunkt: negativer Zusammenhang (während Sport bin ich weniger müde)
+- über Zeitpunkte: positiv in eine Richtung
 :::
 
 
 
 ## Schätzung idiographischer Netzwerke
-- graphicalVAR Formel
-$$ 
-Tired_{t} = a*Tired_{t-1} + b*Activity_{t-1} + \epsilon_{t} 
-$$
 
+$$ 
+Tired_{t} = \beta_{11}*Tired_{t-1} + \beta_{12}*Activity_{t-1} + \epsilon_{t} 
+$$
 
 $$
 Y_{t} = \boldsymbol{B} Y_{t-1} + \Sigma
 $$
 
+- Residuen sind hier von zentraler Bedeutung!
 - Regularisierung für Struktur
 
 ## Auszeit {.smaller}
@@ -285,17 +313,22 @@ https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif
 - attraktive Alternative zur Konzeptualisierung von Psychopathologie
 - Mittlerweile sehr viele Querschnittsstudien, wichtig Hype von tatsächlicher Aussage zu trennen
 - Längsschnitt ermöglicht neue Einblicke
+- Personalisierte Psychotherapie?
 - verschiedene Schätzmethoden
 
 
 
 ## Temporal Network
 - Effekt von Variablen auf sich selbst und auf andere über die Zeit
-- meist: Lag 1 - aber: Theorie?
+- gerichtete Effekte
+- meist: Lag 1 aus Sparsamkeit
 - Granger Kausalität
+  - indikativ für mögliche Kausalität
+- self-loops
 
 ## Contemporaneous Network
-- enthält Effekte, die temporales Netzwerk nicht einfängt
+- Partialkorrelation der Residuen
+- ungerichtete Effekte, die temporales Netzwerk nicht einfängt 
 - etwa: Effekte, die schneller sind als Erhebungsfrequenz
 - Beispiel:
 $$ 
@@ -309,18 +342,19 @@ Beispiel aus Epskamp et al. (2018)
 :::  {.notes}
 - beziehen zeitliche Info mit ein
 - nicht gleich zu normaler Korrelation
+- oft sehr "voll" im Vergleich zu temporalem
 :::
 
-## Beispiel: Fried et al. (2020)
+## Beispiel: Epskamp et al. (2018)
 
 ```{r, out.width = '1000px', out.height= "500px"}
-knitr::include_graphics(here::here('figures/fried-covid-net.svg'))
+knitr::include_graphics(here::here('figures/example-gvar.png'))
 ```
 
 
 
 ::: {.notes}
-Das ist hier schon Multilevel
+
 :::
 
 
@@ -346,8 +380,8 @@ Simple Übersicht in Jordan et al. (2020)
 
 ## Ein Beispiel Multilevel
 
-```{r, out.width = '1000px', out.height= "520px"}
-knitr::include_graphics(here::here('figures/mlVAR-example.jpeg'))
+```{r, out.width = '1100px', out.height= "520px"}
+knitr::include_graphics(here::here('figures/mlVAR-example.png'))
 ```
 
 ::: aside
@@ -360,33 +394,46 @@ Epskamp et al. (2018)
 - Between-Subject: Mittelwertszusammenhänge
 - Konkreter: Person-Means als Lvl-2 Prädiktoren
 - GGM auf Mittelwerte
+- kann auch indikativ für Kausalität sein (s. Tippbeispiel)
+- möglich: Plotting von Heterogenität
 :::
 
-## Interpretation {.smaller}
+## Interpretation 
 - gleiche Zeitabstände zwischen Messungen
   - Alternative: Continuous Time
 - Korrekte Zeitabstände für zu messende Konstrukte
+  - Stress vs. Depressivität
 - Kausalität?
-- Stationaritätsannahme
-- Stabilität idiographischer Netzwerkschätzungen
-- Missing Data
-- Verteilungsannahmen
+- Variablenauswahl?
+
 
 ::: {.notes}
 - Was ist mit Nacht?
 - Normalverteilung vs. Skew
 :::
 
+## Interpretation 
+- Stationaritätsannahme
+  - realistisch in klinischer Praxis?
+- Stabilität idiographischer Netzwerkschätzungen
+- Missing Data
+- Verteilungsannahmen
+- Power 
+  - Absenz von Evidenz $\neq$ Evidenz für Absenz    
+
+::: {.notes}
+- Trend entfernen bedeutet Information entfernen
+:::
 
 ## Stabilität der Schätzung
 - Hoekstra Paper
 - Wir klonen das "wahre" Netzwerk einer Person und rechnen Netzwerkanalysen 
 - Ergebnis: Heterogenität
 - Interpretation?
-- Anzahl Zeitpunkte?
+- Schätzungsunsicherheit schwer zu verstehen
 
 :::aside
-Hoekstra et al. (2022), Mansueto et al. (2022)
+ Mansueto et al. (2022)
 :::
 
 ::: {.notes}
@@ -394,7 +441,18 @@ Hoekstra et al. (2022), Mansueto et al. (2022)
 - Mindestens 20 Personen für Multilevel
 :::
 
+## Machbarkeitsstudie Idiographie
+- Anzahl Zeitpunkte?
+  - bei 75 und 100: schlechte Sensitivität
+- Anzahl Variablen?
+  - bei wenigen Zeitpunkten: $\leq$ 6
+- Zeitliche Netzwerke besonders schwierig
 
+
+
+:::aside
+Mansueto et al. (2022)
+:::
 
 ## Evidenz bei Einsatz in klinischer Praxis {.smaller}
 - Frumkin et al. (2021): 
@@ -406,7 +464,8 @@ Hoekstra et al. (2022), Mansueto et al. (2022)
 - Hall et al. (2022): 
   - Einzelfallstudie zu TheraNET
   - Gutes Beispiel für detailliertes, netzwerkbasiertes Feedback
-- Keine eindeutige Evidenz (RCTs)
+  - scheinbar RCT geplant
+- Keine eindeutige Evidenz
 - viele unterschiedliche Möglichkeiten des Einsatzes        
 
 ::: {.notes}
@@ -442,7 +501,7 @@ knitr::include_graphics(here::here('figures/tvvar.gif'))
 ```
 
 ::: aside
-Siepe et al. (2022)
+Siepe et al. (2022), Haslbeck et al. (2021)
 :::
 
 ## Vorhersage
@@ -452,6 +511,10 @@ knitr::include_graphics(here::here('figures/lutz-et-al.png'))
 
 ::: aside
 Lutz et al. (2018)
+:::
+
+::: {.notes}
+- kleine Studie
 :::
 
 
@@ -464,13 +527,16 @@ knitr::include_graphics(here::here('figures/bastiaansen.png'))
 Bastiaansen et al. (2019)
 :::
 
+::: {.notes}
+- meistens VAR
+:::
+
 ## Ausblick
 - Was ist die Zukunft von Netzwerken im klinischen Setting?
 - "More than a pretty picture?"
 - Stabilität über die Zeit
 - Verknüpfung von datengetriebenen Modellen und Theorien
-
-
+- Verschiedene Arten von Feedback für Zeitreihendaten, auch unabhängig von Netzwerken
 
 
 
@@ -519,7 +585,7 @@ knitr::include_graphics(here::here('figures/qr_code_workshop.svg'))
 
 [Psych Networks Blog](https://psych-networks.com/) - nicht mehr aktiv
 
-## Literatur Querschnitt {.smaller}
+## Literatur {.smaller}
 
 
 Borsboom, D., & Cramer, A. O. J. (2013). Network analysis: An integrative approach to the structure of psychopathology. Annual Review of Clinical Psychology, 9(1), 91–121. https://doi.org/10.1146/annurev-clinpsy-050212-185608
@@ -528,18 +594,22 @@ Borsboom D. (2017). A network theory of mental disorders. World psychiatry : off
 
 Borsboom, D., Deserno, M. K., Rhemtulla, M., Epskamp, S., Fried, E. I., McNally, R. J., Robinaugh, D. J., Perugini, M., Dalege, J., Costantini, G., Isvoranu, A.-M., Wysocki, A. C., van Borkulo, C. D., van Bork, R., & Waldorp, L. J. (2021). Network analysis of multivariate data in psychological science. Nature Reviews Methods Primers, 1(1), 1–18. https://doi.org/10.1038/s43586-021-00055-w
 
+Bringmann, L. F., Albers, C., Bockting, C., Borsboom, D., Ceulemans, E., Cramer, A., ... & Wichers, M. (2022). Psychopathological networks: Theory, methods and practice. Behaviour Research and Therapy, 149, 104011.
+
+
+
+
+
+## Literatur {.smaller}
+
 Dablander, F., Hinne, M. Node centrality measures are a poor substitute for causal inference. Sci Rep 9, 6846 (2019). https://doi.org/10.1038/s41598-019-43033-9
-
-
-
-## Literatur Querschnitt {.smaller}
 
 Fried, E.I., van Borkulo, C.D., Cramer, A.O.J. et al. Mental disorders as networks of problems: a review of recent insights. Soc Psychiatry Psychiatr Epidemiol 52, 1–10 (2017). https://doi.org/10.1007/s00127-016-1319-z
 
 Fried, E. I., Epskamp, S., Nesse, R. M., Tuerlinckx, F., & Borsboom, D. (2016). What are 'good' depression symptoms? Comparing the centrality of DSM and non-DSM symptoms of depression in a network analysis. Journal of affective disorders, 189, 314–320. https://doi.org/10.1016/j.jad.2015.09.005
 
 
-## Literatur {.smaller}
+## Literatur Längsschnitt {.smaller}
 
 Asparouhov, T., Hamaker, E. L., & Muthén, B. (2018). Dynamic structural equation models. Structural Equation Modeling, 25(3), 359–388. https://doi.org/10.1080/10705511.2017.1406803
 
@@ -552,11 +622,7 @@ Burger, J., Andikkhash, V., Jäger, N., Anderbro, T., Blanken, T., & Klintwall, 
 
 
 
-
-
-
-
-## Literatur {.smaller}
+## Literatur Längsschnitt {.smaller}
 
 Burger, J., Ralph-Nearman, C., & Levinson, C. A. (2022). Integrating clinician and patient case conceptualization with momentary assessment data to construct idiographic networks: Moving toward personalized treatment for eating disorders. Behaviour Research and Therapy, 159, 104221. https://doi.org/10.1016/j.brat.2022.104221
 
@@ -564,18 +630,37 @@ Bringmann, L. F. (2021). Person-specific networks in psychopathology: Past, pres
 
 Epskamp, S., Waldorp, L. J., Mõttus, R., & Borsboom, D. (2018). The Gaussian graphical model in cross-sectional and time-series data. Multivariate behavioral research, 53(4), 453–480.
 
+Frumkin, M. R., Piccirillo, M. L., Beck, E. D., Grossman, J. T., & Rodebaugh, T. L. (2021). Feasibility and utility of idiographic models in the clinic: a pilot study. Psychotherapy Research, 31(4), 520-534.
+
+
+
+
+
+
+## Literatur Längsschnitt {.smaller}
+
+Haslbeck, J. M. B., Bringmann, L. F., & Waldorp, L. J. (2021). A tutorial on estimating time-varying vector autoregressive models. Multivariate Behavioral Research, 56(1), 120–149. https://doi.org/10.1080/00273171.2020.1743630
+
+Hoekstra, R. H. A., Epskamp, S., & Borsboom, D. (2022). Heterogeneity in Individual Network Analysis: Reality or Illusion?. Multivariate behavioral research, 1–25. Advance online publication. https://doi.org/10.1080/00273171.2022.2128020
+
 Jordan, D. G., Winer, E. S., & Salem, T. (2020). The current status of temporal network analysis for clinical science: Considerations as the paradigm shifts? Journal of Clinical Psychology, 76(9), 1591–1612. https://doi.org/10.1002/jclp.22957
-
-
-
-
-
-## Literatur {.smaller}
 
 Klintwall, L., Bellander, M., & Cervin, M. (2023). Perceived Causal Problem Networks: Reliability, Central Problems, and Clinical Utility for Depression. Assessment, 30(1), 73–83. https://doi.org/10.1177/10731911211039281
 
-von Klipstein, L., Riese, H., van der Veen, D. C., Servaas, M. N., & Schoevers, R. A. (2020). Using person-specific networks in psychotherapy: Challenges, limitations, and how we could use them anyway. BMC Medicine, 18(1), 345. https://doi.org/10.1186/s12916-020-01818-0
 
+
+
+
+
+
+## Literatur Längsschnitt {.smaller}
+
+Levinson, C. A., Williams, B. M., Christian, C., Hunt, R. A., Keshishian, A. C., Brosof, L. C., Vanzhula, I. A., Davis, G. G., Brown, M. L., Bridges-Curry, Z., Sandoval-Araujo, L. E., & Ralph-Nearman, C. (2023). Personalizing eating disorder treatment using idiographic models: An open series trial. Journal of Consulting and Clinical Psychology, 91(1), 14–28. https://doi.org/10.1037/ccp0000785
+
+
+Mansueto, A. C., Wiers, R. W., van Weert, J. C. M., Schouten, B. C., & Epskamp, S. (2022). Investigating the feasibility of idiographic network models. Psychological methods, 10.1037/met0000466. Advance online publication. https://doi.org/10.1037/met0000466
+
+von Klipstein, L., Riese, H., van der Veen, D. C., Servaas, M. N., & Schoevers, R. A. (2020). Using person-specific networks in psychotherapy: Challenges, limitations, and how we could use them anyway. BMC Medicine, 18(1), 345. https://doi.org/10.1186/s12916-020-01818-0
 
 
 
