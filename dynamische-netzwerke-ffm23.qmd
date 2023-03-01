@@ -181,6 +181,10 @@ knitr::include_graphics(here::here('figures/network-centrality2.jpg'))
 Fried et al. (2016)
 :::
 
+::: {.notes}
+- rein visuelle Interpretation gefährlich
+:::
+
 
 ## Hype Cycle
 ```{r, out.width = '700px', out.height= "520px"}
@@ -193,9 +197,10 @@ knitr::include_graphics(here::here('figures/hype_cycle.svg'))
 :::
 
 :::{.notes}
-Netzwerke sind keine Magie, sehr ähnlich zu Regression
-thinking tools für andere Konzepte
-anschlussfähig für weitere Wissenschaften
+-  keine Magie, sehr ähnlich zu Regression
+- thinking tools für andere Konzepte
+- anschlussfähig für weitere Wissenschaften
+- andere Innovationen, wie EGA
 :::
 
 
@@ -426,14 +431,13 @@ Epskamp et al. (2018)
 :::
 
 ## Stabilität der Schätzung
-- Hoekstra Paper
 - Wir klonen das "wahre" Netzwerk einer Person und rechnen Netzwerkanalysen 
 - Ergebnis: Heterogenität
 - Interpretation?
 - Schätzungsunsicherheit schwer zu verstehen
 
 :::aside
- Mansueto et al. (2022)
+Hoekstra et al. (2022)
 :::
 
 ::: {.notes}
@@ -581,7 +585,6 @@ knitr::include_graphics(here::here('figures/qr_code_workshop.svg'))
 
 ## Ressourcen
 [PNAWS 2020](https://osf.io/hcd8u/) - frei zugänglich. Diente teils als Inspiration für diesen Workshop, besonders die Folien von Julian Burger.
-
 
 [Psych Networks Blog](https://psych-networks.com/) - nicht mehr aktiv
 
