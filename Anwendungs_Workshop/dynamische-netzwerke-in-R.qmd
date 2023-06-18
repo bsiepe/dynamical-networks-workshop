@@ -1,0 +1,47 @@
+---
+title: "Dynamische Netzwerke in R"
+subtitle: "Eine Einführung"
+author: "Björn Siepe"
+email: bjoern.siepe@uni-marburg.de
+institute: "AE Psychologische Methodenlehre, Philipps-Universität Marburg"
+date: "28.06.2023"
+format: 
+  revealjs:
+    incremental: true
+    embed-resources: true
+    theme: simple
+    # footer: "Dynamische Netzwerke"
+    slide-number: true
+    auto-stretch: false
+---
+
+## Ziele
+1. Überblick über relevante Packages
+2. Datenvorverarbeitung
+3. Einführung in graphicalVAR
+4. FAQ zu graphicalVAR
+5. Einführung in GIMME
+6. FAQ zu GIMME
+7. GIMME Beispiel
+
+
+## Was wir auslassen
+1. graphicalVAR im Detail 
+2. Coden mit anderen Packages
+3. Viele statistische Details
+
+::: aside
+Literaturliste am Ende
+:::
+
+
+## Datensatz für heute
+
+```{r}
+
+```
+
+
+
+
+
