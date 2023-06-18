@@ -4,7 +4,8 @@ subtitle: "Eine Einführung"
 author: "Björn Siepe"
 email: bjoern.siepe@uni-marburg.de
 institute: "AE Psychologische Methodenlehre, Philipps-Universität Marburg"
-date: "28.06.2023"
+date: "2023-06-23"
+from: markdown+emoji
 format: 
   revealjs:
     incremental: true
@@ -13,35 +14,254 @@ format:
     # footer: "Dynamische Netzwerke"
     slide-number: true
     auto-stretch: false
+    echo: true
 ---
 
 ## Ziele
-1. Überblick über relevante Packages
-2. Datenvorverarbeitung
-3. Einführung in graphicalVAR
-4. FAQ zu graphicalVAR
-5. Einführung in GIMME
-6. FAQ zu GIMME
-7. GIMME Beispiel
 
+1.  Überblick über relevante Packages
+2.  Datenvorverarbeitung
+3.  Einführung in graphicalVAR
+4.  FAQ zu graphicalVAR
+5.  Einführung in GIMME
+6.  FAQ zu GIMME
+7.  GIMME Beispiel
 
 ## Was wir auslassen
-1. graphicalVAR im Detail 
-2. Coden mit anderen Packages
-3. Viele statistische Details
+
+1.  graphicalVAR im Detail
+2.  Coden mit anderen Packages
+3.  Viele statistische Details
+4.  Einführung in R
 
 ::: aside
 Literaturliste am Ende
 :::
 
+## Vorbereitung
+```{r, include = FALSE}
+# Prepwork
+library(tidyverse)       # For life and beyond
+library(graphicalVAR)    # fitting gVAR networks
+library(gimme)           # fitting gimme
 
-## Datensatz für heute
+```
 
+
+## Materialien für heute
+- Datensatz: Aus [Wright et al. (2019)](https://osf.io/95hyr/)
+- Code: 
+- Präsentation: 
+
+
+## Code Test
+
+```{r}
+#| output-location: column
+x <- rnorm(200)
+hist(x)
+```
+
+
+## Vorverarbeitung von Daten
+- DANGER ZONE
+- add funny GIF
+
+## Datenformat
+Abhängig vom Package
+
+- `graphicalVAR`:
+- `GIMME`:
+  
+
+## Fehlende Daten
+Abhängig vom Package:
+
+- `graphicalVAR`: Akzeptiert keine fehlenden Daten. Imputation vorab, etwa univariat über Kalman-Filter aus (`na_kalman` aus `tsImpute`)
+
+```{r, eval = FALSE}
+data$var1_imp <- imputeTS::na_kalman(data$var1)
+```
+
+- GIMME: Geht selbst mit fehlenden Daten um (**F**ull **I**nformation **M**aximum **L**ikelihood)
+
+## Detrending
+- Verletzung der Stationaritätsannahme (s. Workshop 1) führt zu verzerrten Ergebnissen
+- Detrending bereinigt Zeittrends
+- Oftmals: entfernen eines linearen Zeittrends
+- Funktion dafür im Code-Appendix
+
+```{r, include = FALSE}
+fn_detrend <- function(x){
+  for (v in 1:length(rel_vars)){
+    # Regress on time
+    lm_form <- as.formula(paste0(rel_vars[v], "~ time"))
+    lm_res <- summary(lm(lm_form, data = x))
+    # detrend with residuals
+    # [,4] accesses p-values
+    # [2] p-value of beta of tp
+    # new addition: detrend
+    # if(lm_res$coefficients[,4][2] < 0.05){
+    # print(paste0("Detrending variable: ", rel_vars[v]))
+    x[!is.na(x[rel_vars[v]]),rel_vars[v]] <- residuals(lm_res)
+    # }
+    
+  }
+  return(x)
+}
+```
+
+```{r, eval = FALSE}
+data$var1_detrend <- fn_detrend(data$var1)
+```
+
+
+- heißt nicht, dass damit alle Probleme gelöst sind!
+
+## Zeitintervalle
+Hoch relevant für die Interpretation!
+
+Mehrere Möglichkeiten: 
+1. Explizite Modellierung über continuous-time Modellierung (`ctsem`)
+2. Auslassen von Effekten über die Nacht in `graphicalVAR`
+3. Cubic Spline Interpolation (s. Code) TODO
+4. Ignorieren :sweat:
+
+
+## 
+
+
+
+## Einführung in graphicalVAR
+
+- `graphicalVAR` (Espkamp, 2021, TODOADD) ermöglicht idiographische Netzwerkanalysen
+- Theorie: Erklärt im 1. Workshop ([Slides](https://github.com/bsiepe/dynamical-networks-workshop/blob/main/Theorie_Workshop/dynamische-netzwerke-ffm23.html))
+- Schätzt temporales und contemporaneous Netzwerk
+- 
+
+
+## graphicalVAR-FAQ
+Vorab gestellte Fragen: 
+1. Wichtigkeit von `nLambda`?
+2. Umgang mit EBIC Hyperparameter $gamma$
+3. Einfluss von Detrending
+4. Lags bei graphicalVAR
+
+## graphicalVAR-FAQ
+1. Wichtigkeit von `nLambda`?
+A: 
+
+
+
+## Einführung in GIMME
+- **G**roup **I**terative **M**ultiple **M**odel **E**stimation
+- ermöglicht blabla
+- 
+
+## Vergleich mit graphicalVAR
+
+
+
+## GIMME: Modellschätzung
+```{r, eval=FALSE}
+#| code-line-numbers: "|1|2|3|4"
+fit <- gimmeSEM(
+  data = NULL,         # Datenfile
+  out = NULL,          # Outputordner
+  ar = TRUE,           # Autoregressive Effekt schätzen (empfohlen)
+  plot = TRUE,         # Plotten?
+  subgroup = TRUE      # Subgruppen schätzen?
+  
+)
+
+
+```
+
+
+## GIMME: Simulationsergebnisse
+- 
+
+## GIMME: FAQ
+
+- Stationarität bei GIMME
+- Wie werden gerichtete Effekte im contemporaneous Netzwerk geschätzt? Wie reliabel sind diese?
+
+
+## GIMME: Gruppenergebnis
+
+## GIMME: Subgruppenergebnis
+
+## GIMME: Individuelles Ergebnis
+
+
+
+
+## GIMME: Unsicherheit
+
+
+
+
+## GIMME: Limitationen
+- schwer zu treffende/arbiträre Entscheidungen beim Modellieren
+
+
+
+
+## Tabsets
+::: {.panel-tabset}
+
+## Code
 ```{r}
 
 ```
 
 
+## Output
+...content...
+:::
+
+
+## Interessante Anwendungen
+- Vorhersage mit Netzwerken: Hehlmann et al. 
+
+## Literatur GIMME {.smaller}
+- Wright, A. G. C., Gates, K. M., Arizmendi, C., Lane, S. T., Woods, W. C., & Edershile, E. A. (2019). Focusing personality assessment on the person: Modeling general, shared, and person specific processes in personality and psychopathology. Psychological Assessment, 31(4), 502–515. https://doi.org/10.1037/pas0000617
+
+
+## Weitere Ressourcen
+- Open Handbook of ESM (KU Leuven, 2022)
+- Intensive Longitudinal Analysis of Human Processes (Gates & Molenaar, 2023)
+- TODO add links here
+
+
+## Kontakt
+::: columns
+::: {.column width="40%"}
+{{< fa house >}} [Feel](https://bjoernsiepe.netlify.app/)
+
+{{< fa brands twitter >}} [free](https://twitter.com/b_siepe)
+
+{{< fa brands mastodon >}} [to](https://fediscience.org/@bsiepe)
+
+{{< fa at >}} [contact](bjoern.siepe@uni-marburg.de)
+
+{{< fa brands github >}} [me](https://github.com/bsiepe)
+
+bjoern.siepe\@uni-marburg.de
+:::
+
+::: {.column width="60%"}
+
+TODO HINZUFÜGEN
+```{r, out.width = '550px', out.height= "550px"}
+# knitr::include_graphics(here::here('figures/qr_code_workshop.svg'))
+```
+:::
+:::
 
 
 
+## Quarto Infos
+https://meghan.rbind.io/blog/quarto-slides/ 
+https://www.emilhvitfeldt.com/post/slidecraft-colors-fonts/
+ 
