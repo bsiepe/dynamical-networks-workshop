@@ -15,6 +15,8 @@ format:
     slide-number: true
     auto-stretch: false
     echo: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
 ---
 
 ## Ziele
@@ -33,10 +35,16 @@ format:
 2.  Coden mit anderen Packages
 3.  Viele statistische Details
 4.  Einführung in R
+5.  Latente Variablen (LV-GIMME, DSEM)
+6.  Confirmatory GIMME
 
 ::: aside
 Literaturliste am Ende
 :::
+
+## Mini-Refresher: Längsschnittliche Netzwerke
+- TODO was ist das Ziel
+- TODO contemporaneous und temporal kurz erklären
 
 ## Vorbereitung
 ```{r, include = FALSE}
@@ -52,15 +60,6 @@ library(gimme)           # fitting gimme
 - Datensatz: Aus [Wright et al. (2019)](https://osf.io/95hyr/)
 - Code: 
 - Präsentation: 
-
-
-## Code Test
-
-```{r}
-#| output-location: column
-x <- rnorm(200)
-hist(x)
-```
 
 
 ## Vorverarbeitung von Daten
@@ -84,6 +83,7 @@ data$var1_imp <- imputeTS::na_kalman(data$var1)
 ```
 
 - GIMME: Geht selbst mit fehlenden Daten um (**F**ull **I**nformation **M**aximum **L**ikelihood)
+- Nicht nur absoluten Wert an fehlenden Daten betrachten, sondern auch Länge des Intervalls, in dem Daten fehlen (fehlt etwa eine ganze Woche vs. fehlt immer mal wieder ein einzelner Wert)
 
 ## Detrending
 - Verletzung der Stationaritätsannahme (s. Workshop 1) führt zu verzerrten Ergebnissen
@@ -128,8 +128,11 @@ Mehrere Möglichkeiten:
 4. Ignorieren :sweat:
 
 
-## 
-
+## Verteilungsannahmen
+- `graphicalVAR`und `GIMME`: Normalverteilte Variablen
+- sehr oft(!) verletzt 
+- Was passiert? Wir wissen es nicht genau
+- Vermutlich: Effekte werden verschätzt (TODO add citations)
 
 
 ## Einführung in graphicalVAR
@@ -138,6 +141,23 @@ Mehrere Möglichkeiten:
 - Theorie: Erklärt im 1. Workshop ([Slides](https://github.com/bsiepe/dynamical-networks-workshop/blob/main/Theorie_Workshop/dynamische-netzwerke-ffm23.html))
 - Schätzt temporales und contemporaneous Netzwerk
 - 
+
+
+## graphicalVAR in Code
+```{r, eval  = FALSE}
+fit <- graphicalVAR(
+  data = NULL,
+  nLambda = 50,
+  gamma = 0.5, 
+  scale = TRUE, 
+  vars = NULL,
+  beepvar = "beep", 
+  dayvar = "day", 
+  idvar = "id"
+  
+)
+```
+
 
 
 ## graphicalVAR-FAQ
@@ -156,22 +176,81 @@ A:
 ## Einführung in GIMME
 - **G**roup **I**terative **M**ultiple **M**odel **E**stimation
 - ermöglicht blabla
-- 
+- lag-1 (Beltz et al., 2016)
 
 ## Vergleich mit graphicalVAR
+- `graphicalVAR`: Schätzt erst temporal, dann contemporaneous
+- Contemporaneous Effekte: (TODO, unterscheiden sich)
+- aber: können mathematisch ineinander transformiert werden (Luo et al., 2023)
+- `hybrid-GIMME` (Luo et al., 2023): Verbindet beides! Braucht aber auch mehr Daten
 
 
 
-## GIMME: Modellschätzung
+
+## GIMME: Modellschätzung theoretisch {.smaller}
+
+1. Ein "leeres" Modell für temporal und contemporaneous Zusammenhänge wird auf die Daten angepasst
+2. Gruppe: Iterative Suche nach Verbindungen (anhand von Modifikationsindizes), die Modellfit für bestimmten Teil (etwa 75%) des Samples signifikant (nach Korrektur $\alpha = 0.05/n$) verbessern
+3. Pruning von nicht länger signifikanten Pfaden
+4. Subgruppe: Ähnlichkeiten zwischen Individuen werden gesucht anhand Größe der geschätzten Effekte, daraus wird eine sog. Adjacency Matrix kreiert
+5. Walktrap-Algorithmus, um "communities" zu identifizieren
+6. In den entstandenen Subgruppen: Suche nach verbessernden Pfaden für bestimmten Teil (etwa 51%) der Subgruppe (nach Korrektur $\alpha = 0.05/n$)
+7. Pruning von nicht länger signifikanten Pfaden
+8. Individuell: Suche nach verbessernden Pfaden ($\alpha = 0.01$), bis "exzellenter Fit" erreicht ist (RMSEA < .05, SRMR < .05, CFI > .95, NNFI > .95).
+
+
+
+::: {.notes}
+- sehr datengetrieben
+:::
+
+## GIMME: Modellschätzung formell
+
+$$
+\eta_{i,t} = (\color{Red}{A_i} + \color{Blue}{A^S_{i,k}} + \color{orange}{A^g_i})\eta_{i,t} + (\color{Red}{\phi_i} + \color{Blue}{\phi^s_{i,k}} + \color{orange}{\phi^g_i})\eta_{i,t-1} + \zeta_{i,t}
+$$
+$\eta_{i,t}$: Daten von Individuum $i$ zum Zeitpunkt $t$
+
+$A$: Contemporaneous Effekte
+
+$\phi$: Temporale Effekte (VAR-1 Modell)
+
+<span style="color:red;">Rot:</span> Individuelle Effekte
+
+<span style="color:blue;">Blau:</span> Subgruppeneffekte
+
+<span style="color:orange;">Orange:</span> Gruppeneffekte
+
+$\zeta_{i,t}$: Residuum von Individuum $i$ zum Zeitpunkt $t$
+
+Wichtig: Ausprägung der Pfade *alle* individuell    
+
+::: {.notes}
+- am i-Subskript sieht man, dass auch Gruppen- und Subgruppeneffekte individuell unterschiedlich stark sein können
+- Mittelwert wird nicht modelliert
+:::
+
+## Verschnaufpause 
+![](figures/maths-confused.gif)
+
+::: aside
+https://media2.giphy.com/media/5M5N7Rc0y2NkJWEarU/giphy.gif
+:::
+
+
+
+## GIMME: Modellschätzung in R
 ```{r, eval=FALSE}
-#| code-line-numbers: "|1|2|3|4"
+#| code-line-numbers: "|1|2|3|4|5|6|7|8"
 fit <- gimmeSEM(
   data = NULL,         # Datenfile
   out = NULL,          # Outputordner
   ar = TRUE,           # Autoregressive Effekt schätzen (empfohlen)
   plot = TRUE,         # Plotten?
-  subgroup = TRUE      # Subgruppen schätzen?
-  
+  subgroup = TRUE,     # Subgruppen schätzen?
+  hybrid = FALSE,      # directed & undirected contemporaneous
+  groupcutoff = .75,   # Gruppencutoff
+  subcutoff = .75 # Subgruppencutoff
 )
 
 
@@ -179,25 +258,142 @@ fit <- gimmeSEM(
 
 
 ## GIMME: Simulationsergebnisse
-- 
+- insgesamt eher konservativ, gerade auf individueller Ebene (Lane et al., 2019)
+  - Absenz von Pfaden sehr vorsichtig interpretieren
+- Anzahl Zeitpunkte & Variablen: Schwer zu sagen 
+- stärkere temporale Effekte machen Modellschätzung & Subgruppenfindung leichter
+- Empfehlung in den meisten Fällen: AR-Effekt frei schätzen lassen
+TODO Mansueto
+- gerichtete contemporaneous Effekte: sehr schwer bei $t < 100$ 
+
+::: aside
+Lane et al. (2019), Nestler & Humberg (2021)
+:::
+
+::: {.notes}
+- Simulationsstudien betrachten meist die Präesnz/Absenz von Edges,
+nicht aber so sehr die Stärke
+:::
+
 
 ## GIMME: FAQ
 
 - Stationarität bei GIMME
 - Wie werden gerichtete Effekte im contemporaneous Netzwerk geschätzt? Wie reliabel sind diese?
 
+## GIMME: Gerichtete contemporaneous Effekte
+Zwei Hauptgründe (Lane et al., 2019): 
+1. Effekt passiert schneller als Erhebungsrate
+2. Gemeinsame Ursache in Drittvariable
+
+- Hängt sehr von Stärke des Effekts ab
+
+## GIMME: Anwendung 1
+Wir treffen die notwendigen Vorbereitungen und laden die relevanten Daten. 
+Diese wurden bereits vorab in das notwendige Listenformat umgewandelt, 
+Code dafür ist vorhanden. 
+```{r}
+#| code-fold: true
+#| code-summary: "Code für Listenstruktur"
+file_list <- list.files(here::here("Anwendungs_Workshop/data/individual_files"), 
+                        full.names = TRUE)
+l_files <- lapply(file_list, read.csv)
+
+saveRDS(l_files, here::here("Anwendungs_Workshop/data/file_list.RDS"))
+```
+
+Jedes Individuum hat einen eigenen Eintrag in einer Liste. 
+```{r}
+library(gimme)    # Modellierung
+library(here)     # replizierbare Datenstruktur
+
+# Einladen der Datenliste
+data_list <- readRDS(here::here("Anwendungs_Workshop/data/file_list.RDS"))
+
+# Erstellen der relevanten Ordner
+dir.create(here::here("Anwendungs_Workshop/output"))
+
+```
+
+## Datenvorverarbeitung
+Das benötigte Listenformat der Daten macht die Vorverarbeitung etwas komplizierter.
+```{r}
+# lapply stuff
+
+
+# oder vorher als Datensatz verwenden, dann splitten
+
+
+
+```
+
+
+
+## GIMME: Modellschätzung
+```{r, eval = FALSE}
+fit <- gimmeSEM(
+  data = data_list, 
+  out = "Anwendungs_Workshop/output",
+  ar = TRUE,           # Autoregressive Effekt schätzen (empfohlen)
+  plot = TRUE,         # Plotten?
+  subgroup = TRUE,     # Subgruppen schätzen?
+  hybrid = FALSE,      # directed & undirected contemporaneous
+  groupcutoff = .75,   # Gruppencutoff
+  subcutoff = .75 # Subgruppencutoff
+)
+```
+
 
 ## GIMME: Gruppenergebnis
 
 ## GIMME: Subgruppenergebnis
+- eventuell besser bei mehr Variablen (Lane et al., 2019)
 
 ## GIMME: Individuelles Ergebnis
+- Residuen auf zeitliche Korreliertheit überprüfen (Beltz et al., 2016)
+  - wenn notwendig: ggf. Lag-2 etc. hinzufügen
+- viele relevante Effekte werden nicht mit aufgenommen (Lane et al., 2019)
+- eher konservativ
 
 
 
+## GIMME: Erweiterungen
+- Latente Variablen ()
+- GIMME mit exogenen Variablen (Beltz & Gates, 2017)
+- GIMME Multiple Solutions
 
-## GIMME: Unsicherheit
 
+## GIMME: Multiple Solutions
+- mehrere äquivalente Lösungen
+- Lösung: `ms-GIMME`, Auswahl mit AIC
+- Kann gerade bei schwachen autoregressiven Effekten sinnvoller sein,
+  als AR-Effekte per Default zu schätzen
+  
+```{r, eval = FALSE}
+fit <- gimme(...,
+      ms_allow = TRUE,     # multiple Lösungen zulassen
+      ar = FALSE,          # AR-Effekte nicht sofort schätzen
+      ms_tol = 1e-5)       # Default
+```
+
+::: aside
+Beltz & Molenaar (2016)
+:::
+
+
+## GIMME: perturbR
+- untersucht Stabilität von Subgruppenlösungen
+- Benötigt *similarity matrix* aus `GIMME` als Input
+```{r}
+library(perturbR)
+
+perturb_gimme <- perturbR(
+  sym.matrix = fit$sim_matrix, 
+  plot = TRUE, 
+  reps = 300,
+  errbars = TRUE
+)
+```
 
 
 
@@ -222,16 +418,24 @@ fit <- gimmeSEM(
 
 
 ## Interessante Anwendungen
-- Vorhersage mit Netzwerken: Hehlmann et al. 
+- Vorhersage mit Netzwerken: Hehlmann et al. (in prep., siehe Kursmaterialien)
+- Centrality etc.
+
+
 
 ## Literatur GIMME {.smaller}
+- Adriene M. Beltz & Peter C. M. Molenaar (2016) Dealing with Multiple Solutions in Structural Vector Autoregressive Models, Multivariate Behavioral Research, 51:2-3, 357-373, DOI: 10.1080/00273171.2016.1151333
+- Beltz, A. M., Wright, A. G., Sprague, B. N., & Molenaar, P. C. (2016). Bridging the nomothetic and idiographic approaches to the analysis of clinical data. Assessment, 23(4), 447-458.
+- Lane, S. T., Gates, K. M., Pike, H. K., Beltz, A. M., & Wright, A. G. (2019). Uncovering general, shared, and unique temporal patterns in ambulatory assessment data. Psychological methods, 24(1), 54.
+- Nestler, S., & Humberg, S. (2021). GIMME’s ability to recover group-level path coefficients and individual-level path coefficients. Methodology, 17(1), 58-91.
 - Wright, A. G. C., Gates, K. M., Arizmendi, C., Lane, S. T., Woods, W. C., & Edershile, E. A. (2019). Focusing personality assessment on the person: Modeling general, shared, and person specific processes in personality and psychopathology. Psychological Assessment, 31(4), 502–515. https://doi.org/10.1037/pas0000617
 
 
 ## Weitere Ressourcen
 - Open Handbook of ESM (KU Leuven, 2022)
 - Intensive Longitudinal Analysis of Human Processes (Gates & Molenaar, 2023)
-- TODO add links here
+- [GIMME Homepage](https://tarheels.live/gimme/), die teilweise dieses Tutorial 
+inspiriert hat
 
 
 ## Kontakt
