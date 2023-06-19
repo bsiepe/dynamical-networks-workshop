@@ -17,7 +17,7 @@
 # Packages installieren ---------------------------------------------------
 # Der folgende Code installiert alle relevanten Packages
 pkg_list <- c(
-  "tidyverse", "gimme", "graphicalVAR", "here", "imputeTS"
+  "tidyverse", "gimme", "graphicalVAR", "here", "imputeTS", "perturbR"
 )
 new.packages <- pkg_list[!(pkg_list %in% installed.packages()[,"Package"])]
 if(length(new.packages) > 0) {
