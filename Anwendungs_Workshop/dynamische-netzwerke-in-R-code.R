@@ -17,7 +17,8 @@
 # Packages installieren ---------------------------------------------------
 # Der folgende Code installiert alle relevanten Packages
 pkg_list <- c(
-  "tidyverse", "gimme", "graphicalVAR", "here", "imputeTS", "perturbR"
+  "tidyverse", "gimme", "graphicalVAR", "here", "imputeTS", "perturbR",
+  "corrplot", "DiagrammeR"
 )
 new.packages <- pkg_list[!(pkg_list %in% installed.packages()[,"Package"])]
 if(length(new.packages) > 0) {
