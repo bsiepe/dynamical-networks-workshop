@@ -18,7 +18,7 @@
 # Der folgende Code installiert alle relevanten Packages
 pkg_list <- c(
   "tidyverse", "gimme", "graphicalVAR", "here", "imputeTS", "perturbR",
-  "corrplot", "DiagrammeR"
+  "corrplot", "DiagrammeR", "Hmisc", "naniar", "visdat"
 )
 new.packages <- pkg_list[!(pkg_list %in% installed.packages()[,"Package"])]
 if(length(new.packages) > 0) {
@@ -66,5 +66,22 @@ fn_detrend <- function(x){
 
 
 # GIMME -------------------------------------------------------------------
+
+
+
+
+
+# Aufgaben ----------------------------------------------------------------
+
+
+
+
+
+
+
+
+# Lösungen ----------------------------------------------------------------
+
+
 
 
