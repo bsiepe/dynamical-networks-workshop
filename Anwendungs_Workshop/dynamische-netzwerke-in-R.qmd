@@ -134,11 +134,25 @@ Beltz et al. (2016)
 -   `dynr`: Dynamische Systeme
 -   ...
 
-## Vorbereitung
+## Vorbereitung {.smaller}
 
 -   generell: gerade bei der Datenvorbereitung gibt es teilweise etwas komplexeren Code
 -   kein Problem, wenn dieser nicht verstanden wird! Bei Nachfragen: E-Mail an mich
 -   gibt zusätzliches R-File, in dem alles enthalten ist
+-   R Notation:
+::: fragment
+```{r, eval = FALSE}
+data |> 
+  t.test()   
+# äquivalent zu
+t.test(data)
+```
+
+```{r, eval = FALSE}
+dplyr::select()
+packagename::funktionsname()
+```
+:::
 
 ## Materialien für heute
 
