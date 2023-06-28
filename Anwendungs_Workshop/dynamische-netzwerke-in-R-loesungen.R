@@ -18,16 +18,16 @@ for(p in c(2, 7, 21)){
 data_list_imp[[2]]
 
 
-### 2.  RMSSD berechnen für alle Variablen von Person 2 (TIPP: `psych::rmssd`). 
+### 2.  RMSSD berechnen für alle Variablen von Person 8 (TIPP: `psych::rmssd`). 
 
 # Im Tidy-Style
-data_list[[2]] |> 
+data_list[[8]] |> 
   dplyr::summarize(across(all_of(rel_vars),
                           ~ psych::rmssd(.)))
 
 # Mit Base R
 # RMSSD auf die relevanten Spalten anwenden
-result <- apply(data_list[[2]][, rel_vars], 2, function(x) psych::rmssd(x))
+result <- apply(data_list[[8]][, rel_vars], 2, function(x) psych::rmssd(x))
 
 
 

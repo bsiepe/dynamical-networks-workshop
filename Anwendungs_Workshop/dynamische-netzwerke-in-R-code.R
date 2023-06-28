@@ -345,8 +345,8 @@ solution.tree(ms_fit, level =  "group", plot.tree = TRUE)
 
 # Aufgaben ----------------------------------------------------------------
 ### 1.  Fehlende Daten von Personen 2, 7 und 21 imputieren. 
-### 2.  RMSSD berechnen für alle Variablen von Person 2(TIPP: `psych::rmssd`). 
-### 3.  Für Person 2 ein Netzwerk in `graphicalVAR` schätzen und mit dem GIMME-Ergebnis vergleichen.
+### 2.  RMSSD berechnen für alle Variablen von Person 8 (TIPP: `psych::rmssd`). 
+### 3.  Für Person 8 ein Netzwerk in `graphicalVAR` schätzen und mit dem GIMME-Ergebnis vergleichen.
 ### 4.  Gruppencutoff für GIMME ändern und Ergebnisse neu inspizieren.
 
 

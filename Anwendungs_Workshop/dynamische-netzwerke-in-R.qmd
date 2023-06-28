@@ -38,7 +38,7 @@ https://bit.ly/netz-work-material
 6.  Einführung in GIMME
 7.  FAQ zu GIMME
 8.  GIMME Beispiel
-9.  Ausblick 
+9.  Ausblick
 
 ::: aside
 Literaturliste am Ende
@@ -70,7 +70,6 @@ library(gt)              # tables
 # here::i_am("Anwendungs_Workshop/dynamische-netzwerke-in-R.qmd")
 
 ```
-
 
 ```{r, eval = FALSE, include = FALSE}
 # knitr::purl("Anwendungs_Workshop/dynamische-netzwerke-in-R.qmd")
@@ -140,6 +139,7 @@ Beltz et al. (2016)
 -   kein Problem, wenn dieser nicht verstanden wird! Bei Nachfragen: E-Mail an mich
 -   gibt zusätzliches R-File, in dem alles enthalten ist
 -   R Notation:
+
 ::: fragment
 ```{r, eval = FALSE}
 data |> 
@@ -147,7 +147,9 @@ data |>
 # äquivalent zu
 t.test(data)
 ```
+:::
 
+::: fragment
 ```{r, eval = FALSE}
 dplyr::select()
 packagename::funktionsname()
@@ -178,7 +180,7 @@ für Modellfitting: erste 30 IDs
 
 Einfluss von Datenvorverarbeitung auf Ergebnisse wird oftmals unterschätzt!
 :::
-::: 
+:::
 
 1.  Datenformat
 2.  Fehlende Daten
@@ -264,7 +266,6 @@ Hoch relevant für die Interpretation!
 
 Mehrere Möglichkeiten:
 :::
-
 
 1.  Explizite Modellierung über continuous-time Modellierung (`ctsem`)
 
@@ -440,8 +441,8 @@ A: Bei Spezifikation von Beep-Variable wird der Effekt vom letzten Beep eines Ta
 -   `graphicalVAR`: rein idiographisch (kann aber auf Multilevel erweitert werden)
 -   `graphicalVAR`: Schätzt erst temporal, dann contemporaneous
 -   Contemporaneous Effekte:
-    - `GIMME`: gerichtet zwischen beobachteten Variablen
-    - `graphicalVAR`: ungerichtet zwischen Residuen
+    -   `GIMME`: gerichtet zwischen beobachteten Variablen
+    -   `graphicalVAR`: ungerichtet zwischen Residuen
 -   `hybrid-GIMME` (Luo et al., 2023): Verbindet beides! Braucht aber auch mehr Daten
 :::
 
@@ -643,22 +644,35 @@ for(p in 1:length(data_list)){
 <!-- ## Datenvisualisierung -->
 
 <!-- ::: fragment -->
+
 <!-- Für Personen `1`, `5` und `10` ein Histogramm von *Dominance* erstellen: -->
 
 <!-- ```{r} -->
+
 <!-- #| code-fold: true -->
+
 <!-- for(p in c(1,5,10)){ -->
+
 <!--   print(data_list[[p]] %>%  -->
+
 <!--     as.data.frame() %>%  -->
+
 <!--     ggplot() +  -->
+
 <!--     aes(x = Dominance)+ -->
+
 <!--     geom_histogram(bins = 50)+ -->
+
 <!--     theme_light()+ -->
+
 <!--     xlim(-15, 15)+ -->
+
 <!--     labs(title = paste0("ID: ", p))) -->
+
 <!-- } -->
 
 <!-- ``` -->
+
 <!-- ::: -->
 
 ## Datenvisualisierung
@@ -689,7 +703,6 @@ dev.off()
 ```
 :::
 
-
 ## Datendeskription
 
 Für bessere Übersicht: Deskriptive Statistiken aller Variablen:
@@ -706,13 +719,11 @@ skim_df <- skimr::skim(data_list[[2]])
 ## Datendeskription
 
 Beispiel für Individuum 2:
+
 ```{r, echo = FALSE}
 skim_df |> 
   gt()
 ```
-
-
-
 
 ## Datenvorverarbeitung: Variabilität
 
@@ -750,10 +761,11 @@ df_desc |>
   
 
 ```
-::: 
+:::
 
 ::: fragment
 Für einzelne Individuen:
+
 ```{r}
 #| code-fold: true
 # Diesmal vorher nach Individuum gruppieren
@@ -767,7 +779,6 @@ df_desc |>
 
 ```
 :::
-
 
 ## Datenvorverarbeitung {.smaller}
 
@@ -833,9 +844,9 @@ data_list_new <- split(df_data, df_data$ID)
 
 ## GIMME: Modellschätzung
 
-![](figures/fun.gif) 
+![](figures/fun.gif)
 
-::: aside 
+::: aside
 https://giphy.com/gifs/fun-begins-NsIwMll0rhfgpdQlzn
 :::
 
@@ -871,11 +882,11 @@ fit <- readRDS(here::here("Anwendungs_Workshop/output/fit.RDS"))
 ## GIMME: Outputstruktur
 
 -   Hauptordner:
--   Zusammenfassung aller einzelnen Pfade, Fit-Indizes aller Modelle, Counmatrizen, Gruppenplots
+    -   Zusammenfassung aller einzelnen Pfade, Fit-Indizes aller Modelle, Counmatrizen, Gruppenplots
 -   Subgruppenordner:
--   Countmatrizen, Subgruppenplots
+    -   Countmatrizen, Subgruppenplots
 -   Individuelle Ordner:
--   individuelle Pfade, Standardfehler, Individualplots
+    -   individuelle Pfade, Standardfehler, Individualplots
 
 ::: aside
 Detaillierte Infos auf [GIMME Homepage](https://tarheels.live/gimme/output/)
@@ -885,6 +896,7 @@ Detaillierte Infos auf [GIMME Homepage](https://tarheels.live/gimme/output/)
 
 ::: callout-warning
 ## Datenstruktur anders
+
 Achtung: Datenstruktur ist anders als z.B. in qgraph (Reihe: Outcome, Spalte: Prädiktor)
 :::
 
@@ -918,7 +930,6 @@ plot(fit, verbose = FALSE)
 -   numerische Zusammenfassung
 
 ::: fragment
-
 ```{r}
 summary_matrix <- read.csv(here("Anwendungs_Workshop/output/summaryPathCountsMatrix.csv"))
 summary_matrix 
@@ -928,12 +939,11 @@ summary_matrix
 
 ## GIMME: Subgruppenergebnis
 
-
 ![](figures/subgroups_plot.png)
 
 ## GIMME: Subgruppenergebnis
-::: columns
 
+::: columns
 ::: {.column width="33%"}
 ![](figures/subgroup_1.png)
 :::
@@ -945,10 +955,7 @@ summary_matrix
 ::: {.column width="33%"}
 ![](figures/subgroup_3.png)
 :::
-
 :::
-
-
 
 ## GIMME: Subgruppenergebnis {.smaller}
 
@@ -972,7 +979,6 @@ Es kann Subgruppen ohne gemeinsames Edge geben! Ähnlichkeit der Pfade allgemein
 -   Benötigt *similarity matrix* aus `GIMME` als Input
 
 ::: fragment
-
 ```{r, eval = FALSE}
 library(perturbR)
 
@@ -987,9 +993,9 @@ saveRDS(perturb_gimme, "Anwendungs_Workshop/output/perturb_gimme.RDS")
 ```
 :::
 
-::: fragment 
-- **ARI**: Adjusted Rand Index. Soll langsam fallen 
-- **VI**: Variation of Information. Soll langsam steigen.
+::: fragment
+-   **ARI**: Adjusted Rand Index. Soll langsam fallen
+-   **VI**: Variation of Information. Soll langsam steigen.
 :::
 
 ::: notes
@@ -1021,8 +1027,8 @@ ind_ests <- read.csv(here("Anwendungs_Workshop/output/indivPathEstimates.csv"))
 # kalkulieren Mittelwerte und Standardabweichungen pro Gruppe
 ind_ests |> 
   dplyr::group_by(sub_membership, lhs, rhs) |> 
-  dplyr::summarize(b_mean = mean(beta, na.rm = TRUE),
-            b_sd = sd(beta, na.rm = TRUE)) |> 
+  dplyr::summarize(b_mean = round(mean(beta, na.rm = TRUE),3),
+            b_sd = round(sd(beta, na.rm = TRUE),3)) |> 
   dplyr::ungroup() |> 
   tidyr::pivot_wider(names_from = sub_membership,
                      values_from = c(b_mean, b_sd),
@@ -1035,13 +1041,12 @@ ind_ests |>
 ```
 
 ## GIMME: Individuelles Ergebnis
+
 Beispiel Person 2:
 
 ```{r}
 plot(fit, file = 2)
 ```
-
-
 
 ## GIMME: Individuelles Ergebnis analysieren
 
@@ -1055,15 +1060,18 @@ plot(fit, file = 2)
 indiv_path_estimates <- read.csv(here::here("Anwendungs_Workshop/output/indivPathEstimates.csv"))
 
 indiv_path_estimates |> 
+  mutate(across(c(beta, se, z, pval),
+                ~round(., digits = 3))) |> 
   head(n = 6L) |> 
-  gt()
+  gt() 
+
 
 ```
 :::
 
 ## GIMME: Individuelles Ergebnis
 
--   Check: Residuen auf zeitliche Korreliertheit überprüfen (Beltz et al., 2016)
+-   Check: Residuen auf zeitliche Korreliertheit überprüfen (Beltz & Gates, 2016)
     -   wenn notwendig: ggf. Lag-2 etc. hinzufügen
 -   viele existierende Effekte werden potentiell nicht mit aufgenommen (Lane et al., 2019)
 -   eher konservativ
@@ -1076,15 +1084,15 @@ indiv_path_estimates |>
 
 -   GIMME mit exogenen Variablen (Beltz & Gates, 2017)
 
--   etwa: Zeit, Intervention
+    -   etwa: Zeit, Intervention
 
 -   CS-GIMME: Confirmatory Subgroups
 
--   etwa: wie unterscheiden sich Diagnosegruppen in ihren Dynamiken
+    -   etwa: wie unterscheiden sich Diagnosegruppen in ihren Dynamiken
 
 ## GIMME: Multiple Solutions
 
--   mehrere äquivalente Lösungen
+-   Algorithmus resultiert oftmals in mehreren äquivalente Lösungen
 -   Lösung: `ms-GIMME`, Auswahl mit AIC
 -   Kann gerade bei schwachen autoregressiven Effekten sinnvoller sein, als AR-Effekte per Default zu schätzen
 
@@ -1096,7 +1104,6 @@ fit <- gimme(...,          # rest identisch
       ms_tol = 1e-5)       # Default Toleranz für multiple Lösungen
 ```
 :::
-
 
 ::: aside
 Beltz & Molenaar (2016)
@@ -1125,20 +1132,10 @@ solution.tree(ms_fit, level =  "group", plot.tree = TRUE)
 -   primär evaluiert für Präsenz von Edges, weniger für deren Stärke
 
 ## Zentralitätsmaße
-- noch nicht stark untersucht für Längsschnittnetzwerke
-- eventuell zu trennen für temporal vs. contemporaneous
-- Beispiel etwa Beck & Jackson (2020)
 
-
-
-## Interessante Anwendungen
-
--   Zusammenhang von Netzwerkparametern mit transdiagnostischen Fragebögen (Woods et al., 2020)
--   Vorhersage von Therapieverläufen mit Netzwerkparametern:
-    -   Hehlmann et al. (in prep., siehe Kursmaterialien)
-    -   Lutz et al. (2018)
--   Centrality etc.
--   Klinische Fallstudien TODO ADD ONG Paper
+-   noch nicht stark untersucht für Längsschnittnetzwerke
+-   eventuell zu trennen für temporal vs. contemporaneous
+-   Beispiel etwa Beck & Jackson (2020)
 
 ## PREMISE: Klinisches Wissen integrieren {.smaller}
 
@@ -1150,13 +1147,23 @@ Implementiert in praktischer [Online-App](https://julianburger.shinyapps.io/PREM
 Burger et al. (2022)
 :::
 
+## Interessante Anwendungen {.smaller}
+
+-   Zusammenhang von Netzwerkparametern mit transdiagnostischen Fragebögen (Woods et al., 2020)
+-   Vorhersage von Therapieverläufen mit Netzwerkparametern:
+    -   Hehlmann et al. (in prep., siehe Kursmaterialien)
+    -   Lutz et al. (2018)
+-   Zentralität (Beck & Johnson, 2022)
+-   Klinische Fallstudien (z.B. Ong et al., 2022)
+-   Feedback mit EMA (z.B. v. Klipstein et al. (2023), Rimpler et al. (in prep., s. Kursmaterialien))
+
 # Übung & Literatur
 
 ## Praktische Aufgaben
 
 1.  Fehlende Daten von Personen 2, 7 und 21 imputieren.
-2.  RMSSD berechnen für alle Variablen von Person 2 (TIPP: `psych::rmssd`).
-3.  Für Person 2 ein Netzwerk in `graphicalVAR` schätzen und mit dem GIMME-Ergebnis vergleichen.
+2.  RMSSD berechnen für alle Variablen von Person 8 (TIPP: `psych::rmssd`).
+3.  Für Person 8 ein Netzwerk in `graphicalVAR` schätzen und mit dem GIMME-Ergebnis vergleichen.
 4.  Gruppencutoff für GIMME ändern und Ergebnisse neu inspizieren.
 
 ## Literatur allgemein {.smaller}
@@ -1186,13 +1193,16 @@ Burger et al. (2022)
 -   Gates, K. M., Fisher, Z. F., Arizmendi, C., Henry, T. R., Duffy, K. A., & Mucha, P. J. (2019). Assessing the robustness of cluster solutions obtained from sparse count matrices. Psychological methods, 24(6), 675--689. https://doi.org/10.1037/met0000204
 
 ## Literatur GIMME {.smaller}
+
 -   Lane, S. T., Gates, K. M., Pike, H. K., Beltz, A. M., & Wright, A. G. (2019). Uncovering general, shared, and unique temporal patterns in ambulatory assessment data. Psychological methods, 24(1), 54.
 -   Nestler, S., & Humberg, S. (2021). GIMME's ability to recover group-level path coefficients and individual-level path coefficients. Methodology, 17(1), 58-91.
 -   Wright, A. G. C., Gates, K. M., Arizmendi, C., Lane, S. T., Woods, W. C., & Edershile, E. A. (2019). Focusing personality assessment on the person: Modeling general, shared, and person specific processes in personality and psychopathology. Psychological Assessment, 31(4), 502--515. https://doi.org/10.1037/pas0000617
 
 ## Anwendungen {.smaller}
 
--   Beck, E. D., & Jackson, J. J. (2020). Consistency and change in idiographic personality: A longitudinal ESM network study. Journal of personality and social psychology, 118(5), 1080–1100. https://doi.org/10.1037/pspp0000249
+-   Beck, E. D., & Jackson, J. J. (2020). Consistency and change in idiographic personality: A longitudinal ESM network study. Journal of personality and social psychology, 118(5), 1080--1100. https://doi.org/10.1037/pspp0000249
+-   Ong, C. W., Hayes, S. C., & Hofmann, S. G. (2022). A process-based approach to cognitive behavioral therapy: A theory-based case illustration. Frontiers in Psychology, 13, 6840.
+-   von Klipstein, L., Servaas, M. N., Schoevers, R. A., van der Veen, D. C., & Riese, H. (2023). Integrating personalized experience sampling in psychotherapy: A case illustration of the Therap-i module. Heliyon, 9(3), \[E14507\]. https://doi.org/10.1016/j.heliyon.2023.e14507
 -   Woods, W. C., Arizmendi, C., Gates, K. M., Stepp, S. D., Pilkonis, P. A., & Wright, A. G. C. (2020). Personalized models of psychopathology as contextualized dynamic processes: An example from individuals with borderline personality disorder. Journal of consulting and clinical psychology, 88(3), 240--254. https://doi.org/10.1037/ccp0000472
 
 ## Weitere Ressourcen
