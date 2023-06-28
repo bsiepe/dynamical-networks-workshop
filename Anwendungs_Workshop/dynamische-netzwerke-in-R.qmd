@@ -609,9 +609,6 @@ saveRDS(data_list, here::here("Anwendungs_Workshop/data/data_list.RDS"))
 Jedes Individuum hat einen eigenen Eintrag in einer Liste.
 
 ```{r}
-library(gimme)    # Modellierung
-library(here)     # replizierbare Datenstruktur
-
 # Einladen der Datenliste
 data_list <- readRDS(here::here("Anwendungs_Workshop/data/data_list.RDS"))
 
@@ -730,6 +727,7 @@ skim_df |>
 -   betrachten der Standardabweichung
 -   Variabilität sollte nicht zu unterschiedlich sein!
 -   ggf. standardisieren/durch Konstante teilen
+    - geht auch innerhalb von GIMME (`standardize = TRUE`)
 -   in der Praxis: Auch noch floor effects betrachten, um ggf. einzelne Personen auszuschließen
 
 ## Datenvorverarbeitung: Variabilität {.smaller}
@@ -865,7 +863,7 @@ fit <- gimmeSEM(
   hybrid = FALSE,      # directed & undirected contemporaneous
   groupcutoff = .75,   # Gruppencutoff
   subcutoff = .51,     # Subgruppencutoff,
-  paths = NULL         # vorgegebene Gruppenpfade
+  paths = NULL        # vorgegebene Gruppenpfade
 )
 
 saveRDS(fit, "Anwendungs_Workshop/output/fit.RDS")
@@ -897,7 +895,7 @@ Detaillierte Infos auf [GIMME Homepage](https://tarheels.live/gimme/output/)
 ::: callout-warning
 ## Datenstruktur anders
 
-Achtung: Datenstruktur ist anders als z.B. in qgraph (Reihe: Outcome, Spalte: Prädiktor)
+Achtung: Datenstruktur kann anders sein als z.B. in qgraph (Reihe: Outcome, Spalte: Prädiktor)
 :::
 
 Hauptoutput: `summaryFit.csv`
@@ -932,7 +930,8 @@ plot(fit, verbose = FALSE)
 ::: fragment
 ```{r}
 summary_matrix <- read.csv(here("Anwendungs_Workshop/output/summaryPathCountsMatrix.csv"))
-summary_matrix 
+summary_matrix |> 
+  gt()
 
 ```
 :::
@@ -1001,7 +1000,7 @@ saveRDS(perturb_gimme, "Anwendungs_Workshop/output/perturb_gimme.RDS")
 ::: notes
 -   rot: random Matrix als "Nullvergleich"
 -   cluster solutions to be robust if the matrix had 20% or more of its edges perturbed (i.e,. α ≥ 0.20) before intersecting with the line representing 20% of the nodes being in different clusters.
--   
+- horizontal: nodes! not clusters  
 :::
 
 ## GIMME: perturbR
@@ -1019,6 +1018,7 @@ knitr::include_graphics(here::here('Anwendungs_Workshop/figures/perturbr_vi.png'
 ## GIMME: Subgruppen weiter untersuchen
 
 Mittelwerte und Standardabweichungen von Pfadkoeffizienten betrachten (vgl. Wright et al., 2022):
+- aber: verzerrt dadurch, dass viele Edges auf 0 gesetzt werden! 
 
 ```{r}
 #| code-fold: true
@@ -1095,6 +1095,7 @@ indiv_path_estimates |>
 -   Algorithmus resultiert oftmals in mehreren äquivalente Lösungen
 -   Lösung: `ms-GIMME`, Auswahl mit AIC
 -   Kann gerade bei schwachen autoregressiven Effekten sinnvoller sein, als AR-Effekte per Default zu schätzen
+-   kann keine Subgruppen schätzen!
 
 ::: fragment
 ```{r, eval = FALSE}
@@ -1151,7 +1152,7 @@ Burger et al. (2022)
 
 -   Zusammenhang von Netzwerkparametern mit transdiagnostischen Fragebögen (Woods et al., 2020)
 -   Vorhersage von Therapieverläufen mit Netzwerkparametern:
-    -   Hehlmann et al. (in prep., siehe Kursmaterialien)
+    -   Hehlmann et al. (submitted, s. Kursmaterialien)
     -   Lutz et al. (2018)
 -   Zentralität (Beck & Johnson, 2022)
 -   Klinische Fallstudien (z.B. Ong et al., 2022)
