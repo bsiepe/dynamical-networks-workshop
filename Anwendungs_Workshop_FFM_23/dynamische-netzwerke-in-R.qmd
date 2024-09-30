@@ -1,0 +1,1241 @@
+---
+title: "Dynamische Netzwerke in R"
+subtitle: "Eine Einführung"
+author: "Björn Siepe"
+email: bjoern.siepe@uni-marburg.de
+institute: "AE Psychologische Methodenlehre, Philipps-Universität Marburg"
+date: "2023-06-23"
+from: markdown+emoji
+format: 
+  revealjs:
+    incremental: true
+    embed-resources: true
+    theme: simple
+    # footer: "Dynamische Netzwerke"
+    slide-number: true
+    auto-stretch: false
+    echo: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    show-notes: false
+    progress: true
+    pdf-page-height-offset: 5
+---
+
+# Allgemeine Informationen
+
+## Materialien
+
+https://bit.ly/netz-work-material
+
+## Ziele {.smaller}
+
+1.  Refresher zu Netzwerken
+2.  Überblick über relevante Packages
+3.  Datenvorverarbeitung
+4.  Einführung in graphicalVAR
+5.  FAQ zu graphicalVAR
+6.  Einführung in GIMME
+7.  FAQ zu GIMME
+8.  GIMME Beispiel
+9.  Ausblick
+
+::: aside
+Literaturliste am Ende
+:::
+
+## Was wir auslassen
+
+1.  graphicalVAR im Detail
+2.  Coden mit anderen Packages
+3.  Viele statistische Details
+4.  Einführung in R
+5.  Latente Variablen (LV-GIMME, DSEM)
+6.  Confirmatory GIMME
+
+```{r, include = FALSE}
+# Prepwork
+library(tidyverse)       # For life and beyond
+library(graphicalVAR)    # fitting gVAR networks
+library(gimme)           # fitting gimme
+library(corrplot)        # correlation plot
+library(here)            # reproducible file structure
+library(Hmisc)           # data description
+library(skimr)           # data description
+library(naniar)          # missing data 
+library(visdat)          # missing data
+library(gt)              # tables
+
+# set relative directory
+# here::i_am("Anwendungs_Workshop/dynamische-netzwerke-in-R.qmd")
+
+```
+
+```{r, eval = FALSE, include = FALSE}
+# knitr::purl("Anwendungs_Workshop/dynamische-netzwerke-in-R.qmd")
+
+```
+
+## Refresher: Netzwerke
+
+Netzwerktheorie:
+
+-   kausale Interaktion von Symptomen anstatt Syndrome
+-   keine monokausale Erklärung
+-   verschiedene Zustände des komplexen Systems (gesund vs. krank)
+-   stark verbundene Symptome verstärken sich gegenseitig
+
+## Refresher: Netzwerke
+
+::: columns
+::: column
+-   Netzwerke bestehen aus **Knoten** (nodes) und **Kanten** (edges)
+-   Knoten:
+    -   Personen, Städte, Maschinenteile, Symptome
+-   Kanten:
+    -   gewichtet/ungewichtet
+    -   direktional/undirektional
+:::
+
+::: column
+```{r, out.width = '900px', out.height= "600px", echo = FALSE}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/example_temporal.svg'))
+```
+:::
+:::
+
+## Refresher: Längsschnittliche Netzwerke
+
+```{r, out.width = '900px', out.height= "500px", echo = FALSE}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/data-cube.jpg'))
+```
+
+::: aside
+Beltz et al. (2016)
+:::
+
+## Refresher: Längsschnittliche Netzwerke
+
+-   Ziel: Dynamische Zusammenhänge von Variablen auf individueller Ebene betrachten
+-   Oftmals Analyse von zwei Ebenen:
+    -   temporal: Über Zeitpunkte hinweg
+    -   contemporaneous: Während eines Zeitpunktes
+
+## Relevante Packages {.smaller}
+
+-   `graphicalVAR`: idiographische Netzwerke
+-   `mlVAR`: Multilevel, ermöglicht Visualisierung von Heterogenität
+-   `GIMME`: idionomisch
+-   `mgm`: Mixed models & zeitlich variierend
+-   `DSEM` (MPlus): komplexe Messmodelle, sehr flexibel
+-   `BGGM`. Bayesianische Methoden
+-   `psychonetrics`: übergreifende Architektur
+-   `dynr`: Dynamische Systeme
+-   ...
+
+## Vorbereitung {.smaller}
+
+-   generell: gerade bei der Datenvorbereitung gibt es teilweise etwas komplexeren Code
+-   kein Problem, wenn dieser nicht verstanden wird! Bei Nachfragen: E-Mail an mich
+-   gibt zusätzliches R-File, in dem alles enthalten ist
+-   R Notation:
+
+::: fragment
+```{r, eval = FALSE}
+data |> 
+  t.test()   
+# äquivalent zu
+t.test(data)
+```
+:::
+
+::: fragment
+```{r, eval = FALSE}
+dplyr::select()
+packagename::funktionsname()
+```
+:::
+
+## Materialien für heute
+
+-   Datensatz: Aus [Wright et al. (2019)](https://osf.io/95hyr/)
+
+::: fragment
+Hintergrund:
+:::
+
+-   100 Tage Tagebuchdaten zu Affekt, zwischenmenschlichem Verhalten, Stress, und Functioning
+-   Alle PB: Diagnose mindestens einer Persönlichkeitsstörung
+-   94 Personen
+
+::: fragment
+für Modellfitting: erste 30 IDs
+:::
+
+## Vorverarbeitung von Daten
+
+::: fragment
+::: callout-note
+## Sehr wichtiger Schritt
+
+Einfluss von Datenvorverarbeitung auf Ergebnisse wird oftmals unterschätzt!
+:::
+:::
+
+1.  Datenformat
+2.  Fehlende Daten
+3.  Zeittrends
+4.  Verteilungen & Variabilität
+
+## Datenformat
+
+Abhängig vom Package
+
+-   `graphicalVAR`: Dataframe im Long-Format (jede Beobachtung eine Zeile)
+-   `GIMME`: Listenformat oder individuelle Datenfiles in einem Ordner
+-   wichtig: Beobachtungen in die richtige zeitliche Reihenfolge bringen!
+-   unterschiedliche Zahl von Beobachtungen möglich
+
+## Fehlende Daten
+
+Abhängig vom Package:
+
+-   `graphicalVAR`: Akzeptiert keine fehlenden Daten. Imputation vorab, etwa univariat über Kalman-Filter aus (`na_kalman` aus `tsImpute`)
+
+::: fragment
+```{r, eval = FALSE}
+data$var1_imp <- imputeTS::na_kalman(data$var1)
+```
+:::
+
+-   GIMME: Geht selbst mit fehlenden Daten um (**F**ull **I**nformation **M**aximum **L**ikelihood)
+-   Nicht nur absoluten Wert an fehlenden Daten betrachten, sondern auch Länge des Intervalls, in dem Daten fehlen (fehlt etwa eine ganze Woche vs. fehlt immer mal wieder ein einzelner Wert)
+
+## Detrending
+
+-   Verletzung der Stationaritätsannahme (s. Workshop 1) führt zu verzerrten Ergebnissen
+-   Detrending bereinigt Zeittrends
+-   Trend entfernen bedeutet Information entfernen!
+-   Oftmals: entfernen eines linearen Zeittrends
+-   Funktion dafür im Code-Appendix
+
+```{r, include = FALSE}
+fn_detrend <- function(x,                    # Datensatz
+                       vars,                 # Vektor mit Variablennamen
+                       time_var = "time",    # Zeitvariable
+                       sig_only = FALSE){    # nur signifikante Trends detrenden?
+  for (v in 1:length(vars)){
+    # Regress on time
+    lm_form <- as.formula(paste0(vars[v], "~", time_var))
+    lm_res <- summary(lm(lm_form, data = x))
+    # detrend with residuals
+    # [,4] accesses p-values
+    # [2] p-value of beta of tp
+    if(sig_only){
+      if(lm_res$coefficients[,4][2] < 0.05){
+        x[!is.na(x[vars[v]]),vars[v]] <- residuals(lm_res)
+    }
+    }
+    if(isFALSE(sig_only)){
+      x[!is.na(x[vars[v]]),vars[v]] <- residuals(lm_res)
+    }
+    
+  }
+  return(x)
+}
+```
+
+::: fragment
+```{r, eval = FALSE}
+data$var1_detrend <- fn_detrend(data$var1)
+```
+:::
+
+-   heißt nicht, dass damit alle Probleme gelöst sind! (kann komplexere Trends geben)
+
+## Detrending
+
+```{r, echo = FALSE}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/detrending_grid.svg'))
+```
+
+## Zeitintervalle
+
+::: fragment
+Hoch relevant für die Interpretation!
+
+Mehrere Möglichkeiten:
+:::
+
+1.  Explizite Modellierung über continuous-time Modellierung (`ctsem`)
+
+2.  Auslassen von Effekten über die Nacht in `graphicalVAR` oder `GIMME`
+
+3.  Cubic Spline Interpolation (s. Fisher et al., 2017)
+
+4.  Ignorieren :sweat:
+
+## Verteilungsannahmen
+
+::: columns
+::: {.column width="60%"}
+::: fragment
+-   `graphicalVAR`und `GIMME`: Normalverteilte Variablen
+-   sehr oft(!) verletzt: Floor effects, Schiefe, Multimodalität
+-   Was passiert? Wir wissen es nicht genau
+-   Effekte werden verschätzt
+:::
+:::
+
+::: {.column width="40%"}
+::: fragment
+```{r, echo = FALSE}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/viz_floor.svg'))
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/viz_mode.svg'))
+```
+:::
+:::
+:::
+
+::: aside
+v.  Klipstein et al. (2023), Haqiqatkhah et al. (2023)
+:::
+
+## Allgemeine Tips
+
+-   nicht zu schnell mit der Modellierung beginnen
+-   viele deskriptive Statistiken
+    -   auf Individualebene!
+-   Plotten, plotten, plotten!
+    -   etwa: Histogramme von allen Variablen für alle Teilnehmenden
+    -   oder: alle Zeitreihen einmal plotten lassen
+-   Mehr Infos: Siepe et al. (in prep, s. Kursmaterialien)
+
+# graphicalVAR
+
+## Einführung in graphicalVAR
+
+-   `graphicalVAR` (Espkamp, 2018) ermöglicht idiographische Netzwerkanalysen
+-   Theorie: Erklärt im 1. Workshop ([Slides](https://github.com/bsiepe/dynamical-networks-workshop/blob/main/Theorie_Workshop/dynamische-netzwerke-ffm23.html))
+-   Schätzt temporales und contemporaneous Netzwerk
+-   rein idiographisch, aber: gibt Clustering-Ansatz (Park et al., 2022)
+
+## Einführung in graphicalVAR
+
+-   nimmt gleiche Zeitabstände an
+-   LASSO-Regularisierung führt zu sparsamen Netzwerken
+-   in kurzen Zeitreihen: geringe Power führt zu unsicheren Ergebnissen & geringer Konnektivität
+
+::: fragment
+::: callout-warning
+## Interpretation von Heterogenität
+
+Netzwerke sehen durch Schätzunsicherheit oft heterogener aus, als sie tatsächlich sind (Hoekstra et al., 2022; Siepe et al., in prep.)
+:::
+:::
+
+## graphicalVAR in Code
+
+```{r, eval  = FALSE}
+#| code-line-numbers: "|1|2|3|4|5|6|7|8|9" 
+fit <- graphicalVAR(
+  data = NULL,        # Datensatz
+  nLambda = 50,       # Anzahl von LASSO Parametern, die getestet wird
+  gamma = 0.5,        # EBIC Hyperparameter
+  scale = TRUE,       # z-standardisieren (wichtig für LASSO!)
+  vars = NULL,        # Vektor mit Variablennamen
+  beepvar = "beep",   # Beepvariable
+  dayvar = "day",     # Tagesvariable
+  idvar = "id"        # ID der Person
+  
+)
+```
+
+## grahpicalVAR Ergebnisse
+
+```{r, out.width = '1000px', out.height= "500px", echo = FALSE}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/example-gvar.png'))
+```
+
+::: aside
+Epskamp et al. (2018)
+:::
+
+## graphicalVAR Unsicherheit
+
+-   Wichtig: Nicht nur Punktschätzer betrachten!
+-   Bootstrapping, um Stabilität der Ergebnisse zu beachten
+-   etwa mit `boot` oder dem `bootnet`-Package
+
+## graphicalVAR-FAQ
+
+Vorab gestellte Fragen:
+
+1.  Wichtigkeit von `nLambda`?
+
+2.  Umgang mit EBIC Hyperparameter $\gamma$
+
+3.  Einfluss von Detrending
+
+4.  Lags bei graphicalVAR
+
+## graphicalVAR-FAQ
+
+1.  Wichtigkeit von `nLambda`?
+
+::: fragment
+A: Anzahl unterschiedlicher LASSO Regularisierungsparameter. Typischerweise wird default von 50 verwendet
+:::
+
+2.  EBIC Hyperparameter $\gamma$
+
+::: fragment
+A: Wird gerade bei wenigen Daten oftmals auf 0 gesetzt (s. Mansueto et al, 2022). Dann wird EBIC zum normalen BIC. Abhängig vom Ziel der Untersuchung (Spezifizität vs. Sensitivität).
+:::
+
+## graphicalVAR-FAQ
+
+3.  Was passiert ohne Detrending?
+
+::: fragment
+A: Scheinzusammenhänge zwischen Variablen, die eigentlich nicht miteinander zusammenhängen
+:::
+
+4.  Umgang mit Nachteffekten in `graphicalVAR`
+
+::: fragment
+A: Bei Spezifikation von Beep-Variable wird der Effekt vom letzten Beep eines Tages auf den nächsten nicht geschätzt
+:::
+
+# GIMME: Theorie
+
+## Einführung in GIMME
+
+-   **G**roup **I**terative **M**ultiple **M**odel **E**stimation
+-   ursprünglich für fMRT-Daten entwickelt
+-   personen-spezifische Netzwerke mit dynamischen Zusammenhängen
+-   Nutzt Informationen auf Individual-, Subgruppen- & Gruppenebene
+
+## Einführung in GIMME
+
+![[PPOL Lab](http://www.personalityprocesses.com/)](figures/gimme_example.jpeg)
+
+<!-- ::: aside -->
+
+<!-- [PPOL Lab](http://www.personalityprocesses.com/) -->
+
+<!-- ::: -->
+
+## Einführung in GIMME: Technische Infos
+
+-   alternativ auch "structural VAR"
+-   lag-1 (Beltz et al., 2016) Zusammenhänge
+-   im Prinzip sehr datengetriebene Strukturgleichungsmodellierung
+
+## Vergleich mit graphicalVAR {.smaller}
+
+::: fragment
+-   `graphicalVAR`: rein idiographisch (kann aber auf Multilevel erweitert werden)
+-   `graphicalVAR`: Schätzt erst temporal, dann contemporaneous
+-   Contemporaneous Effekte:
+    -   `GIMME`: gerichtet zwischen beobachteten Variablen
+    -   `graphicalVAR`: ungerichtet zwischen Residuen
+-   `hybrid-GIMME` (Luo et al., 2023): Verbindet beides! Braucht aber auch mehr Daten
+:::
+
+::: fragment
+::: callout-tip
+## Zusatzinformation
+
+Die zugrundeliegenden Modelle können mathematisch ineinander transformiert werden (Luo et al., 2023)
+:::
+:::
+
+::: aside
+Beispielhafter Vergleich: Park et al. (2020)
+:::
+
+## GIMME: Algorithmus {.nostretch}
+
+![Gates et al. (2017)](figures/gimme_flowchart_subgroup.png)
+
+## GIMME: Modellschätzung theoretisch {.smaller}
+
+Takeaway-Zusammenfassung:
+
+1.  Ein "leeres" Modell für temporal und contemporaneous Zusammenhänge wird auf die Daten angepasst
+
+2.  [Gruppe:]{style="color:orange;"} Iterative Suche nach Verbindungen (anhand von Modifikationsindizes), die Modellfit für bestimmten Teil (etwa 75%) des Samples signifikant (nach Korrektur $\alpha = 0.05/n$) verbessern
+
+3.  Pruning von nicht länger signifikanten Pfaden
+
+4.  [Subgruppe:]{style="color:blue;"} Ähnlichkeiten zwischen Individuen werden gesucht anhand Größe der geschätzten Effekte, daraus wird eine sog. Adjacency Matrix kreiert
+
+5.  Walktrap-Algorithmus, um "communities" zu identifizieren
+
+6.  In den entstandenen Subgruppen: Suche nach verbessernden Pfaden für bestimmten Teil (etwa 51%) der Subgruppe (nach Korrektur $\alpha = 0.05/n$)
+
+7.  Pruning von nicht länger signifikanten Pfaden
+
+8.  [Individuell:]{style="color:red;"} Suche nach verbessernden Pfaden ($\alpha = 0.01$), bis "exzellenter Fit" erreicht ist (RMSEA \< .05, SRMR \< .05, CFI \> .95, NNFI \> .95).
+
+::: notes
+-   sehr datengetrieben
+:::
+
+## GIMME: Modellschätzung formell {.smaller}
+
+$$
+\eta_{i,t} = (\color{Red}{A_i} + \color{Blue}{A^S_{i,k}} + \color{orange}{A^g_i})\eta_{i,t} + (\color{Red}{\phi_i} + \color{Blue}{\phi^s_{i,k}} + \color{orange}{\phi^g_i})\eta_{i,t-1} + \zeta_{i,t}
+$$
+
+$\eta_{i,t}$: Daten von Individuum $i$ zum Zeitpunkt $t$
+
+$A$: Contemporaneous Effekte
+
+$\phi$: Temporale Effekte (VAR-1 Modell)
+
+[Orange:]{style="color:orange;"} Gruppeneffekte
+
+[Blau:]{style="color:blue;"} Subgruppeneffekte
+
+[Rot:]{style="color:red;"} Individuelle Effekte
+
+$\zeta_{i,t}$: Residuum von Individuum $i$ zum Zeitpunkt $t$
+
+::: notes
+-   am i-Subskript sieht man, dass auch Gruppen- und Subgruppeneffekte individuell unterschiedlich stark sein können
+-   Mittelwert wird nicht modelliert
+:::
+
+## Verschnaufpause
+
+![](figures/maths-confused.gif)
+
+::: aside
+https://media2.giphy.com/media/5M5N7Rc0y2NkJWEarU/giphy.gif
+:::
+
+## GIMME: Modellfunktion in R
+
+```{r, eval=FALSE}
+#| code-line-numbers: "|2|3|4|5|6|7|8|9"
+fit <- gimmeSEM(
+  data = NULL,         # Datenfile
+  out = NULL,          # Outputordner
+  ar = TRUE,           # Autoregressive Effekt schätzen (default)
+  plot = TRUE,         # Plotten?
+  subgroup = TRUE,     # Subgruppen schätzen?
+  hybrid = FALSE,      # directed & undirected contemporaneous
+  groupcutoff = .75,   # Gruppencutoff
+  subcutoff = .51,     # Subgruppencutoff
+  ...
+)
+
+```
+
+## GIMME: Simulationsergebnisse {.smaller}
+
+-   insgesamt eher konservativ, gerade auf individueller Ebene (Lane et al., 2019)
+    -   Absenz von Pfaden vorsichtig interpretieren
+-   Anzahl Zeitpunkte & Variablen: Hängt von gewünschter Betrachtungsebene ab
+    -   gerade für individuelle Effekte: $t > 100$ empfohlen (nur ein sehr grober Richtwert)
+-   stärkere temporale Effekte machen Modellschätzung & Subgruppenfindung leichter
+    -   vorsichtig bei Vergleich mit fMRT-Studien: dort deutlich andere Datenlage
+-   gerichtete contemporaneous Effekte: sehr schwer bei $t < 100$
+-   vermutlich zwischen 5-10 Variablen am besten
+
+::: aside
+Lane et al. (2019), Nestler & Humberg (2021)
+:::
+
+::: notes
+-   Simulationsstudien betrachten meist die Präsenz/Absenz von Edges, nicht aber so sehr die Stärke
+:::
+
+## GIMME: FAQ
+
+Vorab gestellte Fragen:
+
+1.  Stationarität bei GIMME
+2.  Wie werden gerichtete Effekte im contemporaneous Netzwerk geschätzt? Wie reliabel sind diese?
+
+## GIMME FAQ: Stationarität
+
+-   Typischerweise: Detrending von linearem Zeittrend
+-   Außerdem: Einfügen von `NA` für die Nacht, damit der Nachteffekt nicht geschätzt wird
+
+::: fragment
+::: callout-tip
+## Effektive Stichprobengröße
+
+Bei Weglassen von Nachteffekten verringert sich die effektive Stichprobengröße!
+:::
+:::
+
+## GIMME FAQ: contemporaneous Effekte
+
+-   Kontrolle von Autokorrelation in Variablen ermöglicht gerichtete Effekte
+-   Wie gut werden diese geschätzt? Hängt sehr von Stärke des Effekts ab
+-   Korrekte Richtung des Effekts erst ab $t > 200$ zufriedenstellend
+-   Persönliche Meinung: Würde diese nicht zu stark interpretieren
+
+# GIMME: Praxis
+
+## GIMME: Anwendung 1
+
+Wir treffen die notwendigen Vorbereitungen und laden die relevanten Daten. Diese wurden bereits vorab in das notwendige Listenformat umgewandelt und etwas vorverarbeitet, Code dafür ist vorhanden.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Code für Listenstruktur"
+file_list <- list.files(here::here("Anwendungs_Workshop/data/individual_files"), 
+                        full.names = TRUE)
+data_list <- lapply(file_list, read.csv)
+
+# Zeitvariable hinzufügen
+data_list <- lapply(data_list, function(x){
+  x <- x |> 
+    dplyr::mutate(time = dplyr::row_number())
+})
+
+
+saveRDS(data_list, here::here("Anwendungs_Workshop/data/data_list.RDS"))
+```
+
+Jedes Individuum hat einen eigenen Eintrag in einer Liste.
+
+```{r}
+# Einladen der Datenliste
+data_list <- readRDS(here::here("Anwendungs_Workshop/data/data_list.RDS"))
+
+# Erstellen der relevanten Ordner
+dir.create(here::here("Anwendungs_Workshop/output"))
+
+```
+
+## Datenvorverarbeitung
+
+-   Listenformat der Daten macht Vorverarbeitung komplizierter
+-   gibt mehrere Lösungen, etwa mittels for-loop:
+
+::: fragment
+```{r, eval = FALSE}
+# Liste für Output erstellen
+mean_dom <- list()
+
+## Iteriere durch die Liste, gebe Mittelwert aus
+# Für Person p in 1 bis Länge der Liste 
+for(p in 1:length(data_list)){ 
+  # Berechne Mittelwert von Dominance, speichere im Element "p"
+   mean_dom[[p]] <- mean(data_list[[p]]$Dominance, na.rm = TRUE)
+}
+
+
+```
+:::
+
+<!-- ## Datenvisualisierung -->
+
+<!-- ::: fragment -->
+
+<!-- Für Personen `1`, `5` und `10` ein Histogramm von *Dominance* erstellen: -->
+
+<!-- ```{r} -->
+
+<!-- #| code-fold: true -->
+
+<!-- for(p in c(1,5,10)){ -->
+
+<!--   print(data_list[[p]] %>%  -->
+
+<!--     as.data.frame() %>%  -->
+
+<!--     ggplot() +  -->
+
+<!--     aes(x = Dominance)+ -->
+
+<!--     geom_histogram(bins = 50)+ -->
+
+<!--     theme_light()+ -->
+
+<!--     xlim(-15, 15)+ -->
+
+<!--     labs(title = paste0("ID: ", p))) -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ::: -->
+
+## Datenvisualisierung
+
+::: fragment
+Histogramm für alle Variablen einer Person:
+
+```{r}
+Hmisc::hist.data.frame(data_list[[2]])
+```
+:::
+
+::: fragment
+Mein Tipp: Ein großes PDF für alle Histogramme für alle Personen!
+
+```{r, eval  = FALSE}
+# starte PDF
+pdf("all_histograms.pdf")
+
+# Loope über alle Personen
+for(p in 1:length(data_list)){
+  Hmisc::hist.data.frame(data_list[[p]])
+}
+
+# stoppe PDF
+dev.off()
+
+```
+:::
+
+## Datendeskription
+
+Für bessere Übersicht: Deskriptive Statistiken aller Variablen:
+
+-   `skimr::skim()`
+-   `dplyr::glimpse()`
+-   `Hmisc::describe()`
+
+```{r, include = FALSE}
+skim_df <- skimr::skim(data_list[[2]])
+
+```
+
+## Datendeskription
+
+Beispiel für Individuum 2:
+
+```{r, echo = FALSE}
+skim_df |> 
+  gt()
+```
+
+## Datenvorverarbeitung: Variabilität
+
+-   betrachten der Standardabweichung
+-   Variabilität sollte nicht zu unterschiedlich sein!
+-   ggf. standardisieren/durch Konstante teilen
+    -   geht auch innerhalb von GIMME (`standardize = TRUE`)
+-   in der Praxis: Auch noch floor effects betrachten, um ggf. einzelne Personen auszuschließen
+
+## Datenvorverarbeitung: Variabilität {.smaller}
+
+Über alle Personen hinweg:
+
+::: fragment
+```{r}
+#| code-fold: true
+# relevante Variablen
+rel_vars <- c("Dominance", "Affiliation", "PosAff",
+              "NegAff", "Stress", "Functioning")
+
+# Berechnen von Mean und SD
+desc_list <- list()
+for(p in 1:length(data_list)){
+  desc_list[[p]] <- data_list[[p]] |> 
+    dplyr::summarize(across(all_of(rel_vars),
+                     list(mean = mean, sd = sd), na.rm = TRUE))
+  
+}
+df_desc <- bind_rows(desc_list, .id = "id")
+
+df_desc |> 
+  dplyr::summarize(across(everything(),
+                   ~ round(mean(.), 3))) |> 
+  select(-id) |> 
+  gt()
+  
+
+```
+:::
+
+::: fragment
+Für einzelne Individuen:
+
+```{r}
+#| code-fold: true
+# Diesmal vorher nach Individuum gruppieren
+df_desc |> 
+  dplyr::group_by(id) |> 
+  dplyr::summarize(across(everything(),
+                   ~ round(mean(.), 3))) |>
+  head(n = 6L) |> 
+  gt()
+
+
+```
+:::
+
+## Datenvorverarbeitung {.smaller}
+
+Visualisierung von fehlenden Daten: etwa mit `naniar`-Package
+
+```{r}
+visdat::vis_dat(data_list[[6]])
+
+```
+
+## Datenvorverarbeitung {.smaller}
+
+Wir detrenden einen linearen Effekt von Zeit:
+
+```{r, eval = TRUE}
+# relevante Variablen
+rel_vars <- c("Dominance", "Affiliation", "PosAff",
+              "NegAff", "Stress", "Functioning")
+
+# Loopen über alle p Participants
+for(p in 1:length(data_list)){
+    data_list[[p]] <- fn_detrend(data_list[[p]],
+               vars = rel_vars, 
+               time_var = "time", 
+               sig_only = FALSE)
+}
+
+# Zeitvariable wieder löschn
+for(p in 1:length(data_list)){
+  data_list[[p]] <- subset(data_list[[p]], select = -c(time))
+}
+```
+
+-   Alternative: Zeit als exogene Variable aufnehmen (s. Woods et al., 2020)
+
+## Datenvorverarbeitung: Alternativen
+
+-   `lapply` für die Arbeit mit Listen
+-   in Dataframe arbeiten, dann am Ende in Liste aufsplitten
+
+::: fragment
+```{r, eval = FALSE}
+# lapply statt for loop
+mean_list <- lapply(data_list, function(x){
+  # x: einzelnes Element von data_list
+  mean(x$Dominance, na.rm = TRUE)
+  
+})
+
+# oder als Datensatz verwenden
+df_data <- data_list |> 
+  # mit ID abspeichern
+  tibble::enframe(name = "ID") |>
+  # in dataframe verwandeln
+  tidyr::unnest()
+
+# zurück in Liste verwandeln
+data_list_new <- split(df_data, df_data$ID)
+
+
+```
+:::
+
+## GIMME: Modellschätzung
+
+![](figures/fun.gif)
+
+::: aside
+https://giphy.com/gifs/fun-begins-NsIwMll0rhfgpdQlzn
+:::
+
+## GIMME: Modellschätzung
+
+```{r, eval = FALSE}
+example_data <- gimme::simData
+data_list_short <- data_list[1:30]
+
+fit <- gimmeSEM(
+  data = data_list_short, 
+  out = "Anwendungs_Workshop/output",
+  ar = TRUE,           # Autoregressive Effekt schätzen (oftmals empfohlen)
+  plot = TRUE,         # Plotten?
+  subgroup = TRUE,     # Subgruppen schätzen?
+  hybrid = FALSE,      # directed & undirected contemporaneous
+  groupcutoff = .75,   # Gruppencutoff
+  subcutoff = .51,     # Subgruppencutoff,
+  paths = NULL        # vorgegebene Gruppenpfade
+)
+
+saveRDS(fit, "Anwendungs_Workshop/output/fit.RDS")
+
+```
+
+Alternativ: Fertiges Modell laden (s. Codefile)
+
+```{r, include=FALSE}
+#| code-fold: true
+fit <- readRDS(here::here("Anwendungs_Workshop/output/fit.RDS"))
+```
+
+## GIMME: Outputstruktur
+
+-   Hauptordner:
+    -   Zusammenfassung aller einzelnen Pfade, Fit-Indizes aller Modelle, Counmatrizen, Gruppenplots
+-   Subgruppenordner:
+    -   Countmatrizen, Subgruppenplots
+-   Individuelle Ordner:
+    -   individuelle Pfade, Standardfehler, Individualplots
+
+::: aside
+Detaillierte Infos auf [GIMME Homepage](https://tarheels.live/gimme/output/)
+:::
+
+## GIMME: Gruppenergebnis
+
+::: callout-warning
+## Datenstruktur anders
+
+Achtung: Datenstruktur kann anders sein als z.B. in qgraph (Reihe: Outcome, Spalte: Prädiktor)
+:::
+
+Hauptoutput: `summaryFit.csv`
+
+::: fragment
+```{r,  include = FALSE}
+plot(fit)
+```
+:::
+
+::: aside
+Detaillierte Infos auf [GIMME Homepage](https://tarheels.live/gimme/output/)
+:::
+
+## GIMME: Gruppenergebnis
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+plot(fit, verbose = FALSE)
+```
+
+::: notes
+-   schwarze: Gruppenpfade
+-   grau: Individuell
+-   gestrichelt: Lagged, solid: Contemporaneous
+-   Dicke der Pfade: Anzahl Individuen mit Pfad
+:::
+
+## GIMME: Gruppenergebnis
+
+-   numerische Zusammenfassung
+
+::: fragment
+```{r}
+summary_matrix <- read.csv(here("Anwendungs_Workshop/output/summaryPathCountsMatrix.csv"))
+summary_matrix |> 
+  gt()
+
+```
+:::
+
+## GIMME: Subgruppenergebnis
+
+![](figures/subgroups_plot.png)
+
+## GIMME: Subgruppenergebnis
+
+::: columns
+::: {.column width="33%"}
+![](figures/subgroup_1.png)
+:::
+
+::: {.column width="33%"}
+![](figures/subgroup_2.png)
+:::
+
+::: {.column width="33%"}
+![](figures/subgroup_3.png)
+:::
+:::
+
+## GIMME: Subgruppenergebnis {.smaller}
+
+-   eventuell besser bei mehr Variablen (Lane et al., 2019)
+-   relevant: Stabilität der Subgruppen
+
+::: fragment
+::: callout-tip
+## Interpretation von Subgruppen
+
+Es kann Subgruppen ohne gemeinsames Edge geben! Ähnlichkeit der Pfade allgemein.
+:::
+:::
+
+-   möglicherweise interessant: Subgruppen auf verschiedenen Maßen (Mittelwert, Variabilität, Diagnosen...) vergleichen
+-   Limitation: keine probabilistiche Zuordnung zu Subgruppen
+
+## GIMME: perturbR
+
+-   untersucht Stabilität von Subgruppenlösungen (Gates et al., 2019)
+-   Benötigt *similarity matrix* aus `GIMME` als Input
+
+::: fragment
+```{r, eval = FALSE}
+library(perturbR)
+
+perturb_gimme <- perturbR(
+  sym.matrix = fit$sim_matrix, 
+  plot = TRUE, 
+  reps = 100,
+  errbars = TRUE
+)
+
+saveRDS(perturb_gimme, "Anwendungs_Workshop/output/perturb_gimme.RDS")
+```
+:::
+
+::: fragment
+-   **ARI**: Adjusted Rand Index. Soll langsam fallen
+-   **VI**: Variation of Information. Soll langsam steigen.
+:::
+
+::: notes
+-   rot: random Matrix als "Nullvergleich"
+-   cluster solutions to be robust if the matrix had 20% or more of its edges perturbed (i.e,. α ≥ 0.20) before intersecting with the line representing 20% of the nodes being in different clusters.
+-   horizontal: nodes! not clusters\
+:::
+
+## GIMME: perturbR
+
+```{r, echo = FALSE, out.width = '900px', out.height= "600px"}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/perturbr_ari.png'))
+```
+
+## GIMME: perturbR
+
+```{r, echo = FALSE, out.width = '900px', out.height= "600px"}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/perturbr_vi.png'))
+```
+
+## GIMME: Subgruppen weiter untersuchen
+
+Mittelwerte und Standardabweichungen von Pfadkoeffizienten betrachten (vgl. Wright et al., 2022): - aber: verzerrt dadurch, dass viele Edges auf 0 gesetzt werden!
+
+```{r}
+#| code-fold: true
+ind_ests <- read.csv(here("Anwendungs_Workshop/output/indivPathEstimates.csv"))
+
+# kalkulieren Mittelwerte und Standardabweichungen pro Gruppe
+ind_ests |> 
+  dplyr::group_by(sub_membership, lhs, rhs) |> 
+  dplyr::summarize(b_mean = round(mean(beta, na.rm = TRUE),3),
+            b_sd = round(sd(beta, na.rm = TRUE),3)) |> 
+  dplyr::ungroup() |> 
+  tidyr::pivot_wider(names_from = sub_membership,
+                     values_from = c(b_mean, b_sd),
+                     names_prefix = "g") |> 
+  dplyr::select(1:5) |> 
+  head(n = 6L) |> 
+  gt()
+
+
+```
+
+## GIMME: Individuelles Ergebnis
+
+Beispiel Person 2:
+
+```{r}
+plot(fit, file = 2)
+```
+
+## GIMME: Individuelles Ergebnis analysieren
+
+-   Hauptoutput: `indivPathEstimates.csv`
+
+-   Punktschätzer & Standardfehler für alle Edges
+
+::: fragment
+```{r}
+#| code-fold: true
+indiv_path_estimates <- read.csv(here::here("Anwendungs_Workshop/output/indivPathEstimates.csv"))
+
+indiv_path_estimates |> 
+  mutate(across(c(beta, se, z, pval),
+                ~round(., digits = 3))) |> 
+  head(n = 6L) |> 
+  gt() 
+
+
+```
+:::
+
+## GIMME: Individuelles Ergebnis
+
+-   Check: Residuen auf zeitliche Korreliertheit überprüfen (Beltz & Gates, 2016)
+    -   wenn notwendig: ggf. Lag-2 etc. hinzufügen
+-   viele existierende Effekte werden potentiell nicht mit aufgenommen (Lane et al., 2019)
+-   eher konservativ
+
+# Ausblick
+
+## GIMME: Erweiterungen
+
+-   Latente Variablen
+
+-   GIMME mit exogenen Variablen (Beltz & Gates, 2017)
+
+    -   etwa: Zeit, Intervention
+
+-   CS-GIMME: Confirmatory Subgroups
+
+    -   etwa: wie unterscheiden sich Diagnosegruppen in ihren Dynamiken
+
+## GIMME: Multiple Solutions
+
+-   Algorithmus resultiert oftmals in mehreren äquivalente Lösungen
+-   Lösung: `ms-GIMME`, Auswahl mit AIC
+-   Kann gerade bei schwachen autoregressiven Effekten sinnvoller sein, als AR-Effekte per Default zu schätzen
+-   kann keine Subgruppen schätzen!
+
+::: fragment
+```{r, eval = FALSE}
+fit <- gimme(...,          # rest identisch
+      ms_allow = TRUE,     # multiple Lösungen zulassen
+      ar = FALSE,          # AR-Effekte nicht sofort schätzen
+      ms_tol = 1e-5)       # Default Toleranz für multiple Lösungen
+```
+:::
+
+::: aside
+Beltz & Molenaar (2016)
+:::
+
+## GIMME: Multiple Solutions
+
+Beispieldaten aus dem Package:
+
+::: fragment
+```{r}
+ms_fit <- gimme::ms.fit
+solution.tree(ms_fit, level =  "group", plot.tree = TRUE)
+
+```
+:::
+
+## GIMME: Limitationen {.smaller}
+
+-   gerichtete contemporaneous Effekte mit Vorsicht zu genießen
+-   schwer zu treffende/arbiträre Entscheidungen beim Modellieren
+-   Fit Indizes, Gruppencutoffs
+-   Annahme von gleichen Zeitintervallen
+-   autoregressive Effekte freisetzen vs. multiple solutions noch unklar
+-   ersteres könnte Homogenität künstlich erhöhen (Beltz & Gates, 2017)
+-   primär evaluiert für Präsenz von Edges, weniger für deren Stärke
+
+## Zentralitätsmaße
+
+-   noch nicht stark untersucht für Längsschnittnetzwerke
+-   eventuell zu trennen für temporal vs. contemporaneous
+-   Beispiel etwa Beck & Jackson (2020)
+
+## PREMISE: Klinisches Wissen integrieren {.smaller}
+
+![](figures/premise.png)
+
+Implementiert in praktischer [Online-App](https://julianburger.shinyapps.io/PREMISE/)
+
+::: aside
+Burger et al. (2022)
+:::
+
+## Interessante Anwendungen {.smaller}
+
+-   Zusammenhang von Netzwerkparametern mit transdiagnostischen Fragebögen (Woods et al., 2020)
+-   Vorhersage von Therapieverläufen mit Netzwerkparametern:
+    -   Hehlmann et al. (submitted, s. Kursmaterialien)
+    -   Lutz et al. (2018)
+-   Zentralität (Beck & Johnson, 2022)
+-   Klinische Fallstudien (z.B. Ong et al., 2022)
+-   Feedback mit EMA (z.B. v. Klipstein et al. (2023), Rimpler et al. (in prep., s. Kursmaterialien))
+
+# Übung & Literatur
+
+## Praktische Aufgaben
+
+1.  Fehlende Daten von Personen 2, 7 und 21 imputieren.
+2.  RMSSD berechnen für alle Variablen von Person 8 (TIPP: `psych::rmssd`).
+3.  Für Person 8 ein Netzwerk in `graphicalVAR` schätzen und mit dem GIMME-Ergebnis vergleichen.
+4.  Gruppencutoff für GIMME ändern und Ergebnisse neu inspizieren.
+
+## Literatur allgemein {.smaller}
+
+-   Burger, J., Epskamp, S., van der Veen, D. C., Dablander, F., Schoevers, R. A., Fried, E. I., & Riese, H. (2022). A clinical PREMISE for personalized models: Toward a formal integration of case formulations and statistical networks. Journal of psychopathology and clinical science, 131(8), 906--916. https://doi.org/10.1037/abn0000779
+-   Fisher, A. J., Reeves, J. W., Lawyer, G., Medaglia, J. D., & Rubel, J. A. (2017). Exploring the idiographic dynamics of mood and anxiety via network analysis. Journal of Abnormal Psychology, 126(8), 1044--1056. https://doi.org/10.1037/abn0000311
+-   Haqiqatkhah, M. M., Ryan, O., & Hamaker, E. L. (2022, November 26). Skewness and staging: Does the floor effect induce bias in multilevel AR (1) models?. https://doi.org/10.31234/osf.io/myuvr
+-   Lutz, W., Schwartz, B., Hofmann, S.G. et al. Using network analysis for the prediction of treatment dropout in patients with mood and anxiety disorders: A methodological proof-of-concept study. Sci Rep 8, 7819 (2018). https://doi.org/10.1038/s41598-018-25953-0
+
+## Literatur allgemein {.smaller}
+
+-   Park, J. J., Chow, S. M., Fisher, Z. F., & Molenaar, P. C. M. (2020). Affect and Personality: Ramifications of Modeling (Non-)Directionality in Dynamic Network Models. European journal of psychological assessment : official organ of the European Association of Psychological Assessment, 36(6), 1009--1023. https://doi.org/10.1027/1015-5759/a000612
+-   von Klipstein, L., Servaas, M. N., Lamers, F., Schoevers, R. A., Wardenaar, K. J., & Riese, H. (2023). Increased affective reactivity among depressed individuals can be explained by floor effects: An experience sampling study. Journal of affective disorders, 334, 370--381. https://doi.org/10.1016/j.jad.2023.04.118
+
+## Literatur graphicalVAR {.smaller}
+
+-   Hoekstra, R. H. A., Epskamp, S., & Borsboom, D. (2022). Heterogeneity in Individual Network Analysis: Reality or Illusion?. Multivariate behavioral research, 1--25. Advance online publication. https://doi.org/10.1080/00273171.2022.2128020
+-   Sacha Epskamp, Lourens J. Waldorp, René Mõttus & Denny Borsboom (2018) The Gaussian Graphical Model in Cross-Sectional and Time-Series Data, Multivariate Behavioral Research, 53:4, 453-480, DOI: 10.1080/00273171.2018.1454823
+-   Park, J. J., Chow, S., Epskamp, S., & Molenaar, P. (2022, October 15). Subgrouping with Chain Graphical VAR Models. https://doi.org/10.31234/osf.io/u3ve8
+-   Mansueto, A. C., Wiers, R. W., van Weert, J., Schouten, B. C., & Epskamp, S. (2022). Investigating the feasibility of idiographic network models. Psychological methods.
+
+## Literatur GIMME {.smaller}
+
+-   Adriene M. Beltz & Peter C. M. Molenaar (2016) Dealing with Multiple Solutions in Structural Vector Autoregressive Models, Multivariate Behavioral Research, 51:2-3, 357-373, DOI: 10.1080/00273171.2016.1151333
+-   Beltz, A. M., Wright, A. G., Sprague, B. N., & Molenaar, P. C. (2016). Bridging the nomothetic and idiographic approaches to the analysis of clinical data. Assessment, 23(4), 447-458.
+-   Kathleen M. Gates, Stephanie T. Lane, E. Varangis, K. Giovanello & K. Guiskewicz (2017) Unsupervised Classification During Time-Series Model Building, Multivariate Behavioral Research, 52:2, 129-148, DOI: 10.1080/00273171.2016.1256187
+-   Gates, K. M., Fisher, Z. F., Arizmendi, C., Henry, T. R., Duffy, K. A., & Mucha, P. J. (2019). Assessing the robustness of cluster solutions obtained from sparse count matrices. Psychological methods, 24(6), 675--689. https://doi.org/10.1037/met0000204
+
+## Literatur GIMME {.smaller}
+
+-   Lane, S. T., Gates, K. M., Pike, H. K., Beltz, A. M., & Wright, A. G. (2019). Uncovering general, shared, and unique temporal patterns in ambulatory assessment data. Psychological methods, 24(1), 54.
+-   Nestler, S., & Humberg, S. (2021). GIMME's ability to recover group-level path coefficients and individual-level path coefficients. Methodology, 17(1), 58-91.
+-   Wright, A. G. C., Gates, K. M., Arizmendi, C., Lane, S. T., Woods, W. C., & Edershile, E. A. (2019). Focusing personality assessment on the person: Modeling general, shared, and person specific processes in personality and psychopathology. Psychological Assessment, 31(4), 502--515. https://doi.org/10.1037/pas0000617
+
+## Anwendungen {.smaller}
+
+-   Beck, E. D., & Jackson, J. J. (2020). Consistency and change in idiographic personality: A longitudinal ESM network study. Journal of personality and social psychology, 118(5), 1080--1100. https://doi.org/10.1037/pspp0000249
+-   Ong, C. W., Hayes, S. C., & Hofmann, S. G. (2022). A process-based approach to cognitive behavioral therapy: A theory-based case illustration. Frontiers in Psychology, 13, 6840.
+-   von Klipstein, L., Servaas, M. N., Schoevers, R. A., van der Veen, D. C., & Riese, H. (2023). Integrating personalized experience sampling in psychotherapy: A case illustration of the Therap-i module. Heliyon, 9(3), \[E14507\]. https://doi.org/10.1016/j.heliyon.2023.e14507
+-   Woods, W. C., Arizmendi, C., Gates, K. M., Stepp, S. D., Pilkonis, P. A., & Wright, A. G. C. (2020). Personalized models of psychopathology as contextualized dynamic processes: An example from individuals with borderline personality disorder. Journal of consulting and clinical psychology, 88(3), 240--254. https://doi.org/10.1037/ccp0000472
+
+## Weitere Ressourcen
+
+-   Open Handbook of ESM (KU Leuven, 2022)
+-   Intensive Longitudinal Analysis of Human Processes (Gates & Molenaar, 2023)
+-   [GIMME Homepage](https://tarheels.live/gimme/), die teilweise dieses Tutorial inspiriert hat
+-   [GIMME Workshop](https://osf.io/yns7h), ebenfalls Inspiration für diesen Workshop
+
+## Kontakt
+
+::: columns
+::: {.column width="40%"}
+{{< fa house >}} [Feel](https://bjoernsiepe.netlify.app/)
+
+{{< fa brands twitter >}} [free](https://twitter.com/b_siepe)
+
+{{< fa brands mastodon >}} [to](https://fediscience.org/@bsiepe)
+
+{{< fa at >}} [contact](bjoern.siepe@uni-marburg.de)
+
+{{< fa brands github >}} [me](https://github.com/bsiepe)
+
+bjoern.siepe\@uni-marburg.de
+:::
+
+::: {.column width="60%"}
+```{r, out.width = '550px', out.height= "550px", echo = FALSE}
+knitr::include_graphics(here::here('Anwendungs_Workshop/figures/qr_homepage.svg'))
+```
+:::
+:::
+
+<!-- ## Quarto Infos -->
+
+<!-- https://meghan.rbind.io/blog/quarto-slides/ https://www.emilhvitfeldt.com/post/slidecraft-colors-fonts/ -->

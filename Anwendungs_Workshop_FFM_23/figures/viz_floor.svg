@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='504.00pt' height='288.00pt' viewBox='0 0 504.00 288.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: none;'/>
+<defs>
+  <clipPath id='cpMC4wMHw1MDQuMDB8MC4wMHwyODguMDA='>
+    <rect x='0.00' y='0.00' width='504.00' height='288.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHwyODguMDA=)'>
+<rect x='22.91' y='0.00' width='62.63' height='288.00' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt; stroke-linejoin: miter; fill: #0B5394;' />
+<rect x='88.83' y='220.89' width='62.63' height='67.11' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt; stroke-linejoin: miter; fill: #0B5394;' />
+<rect x='154.76' y='265.63' width='62.63' height='22.37' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt; stroke-linejoin: miter; fill: #0B5394;' />
+<rect x='220.69' y='276.82' width='62.63' height='11.18' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt; stroke-linejoin: miter; fill: #0B5394;' />
+<rect x='286.61' y='279.61' width='62.63' height='8.39' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt; stroke-linejoin: miter; fill: #0B5394;' />
+<rect x='352.54' y='274.02' width='62.63' height='13.98' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt; stroke-linejoin: miter; fill: #0B5394;' />
+<rect x='418.46' y='279.61' width='62.63' height='8.39' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt; stroke-linejoin: miter; fill: #0B5394;' />
+</g>
+</svg>
