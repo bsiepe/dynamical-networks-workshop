@@ -1,0 +1,565 @@
+---
+title: "Dynamic Network Analysis"
+subtitle: "An Introduction"
+author: 
+  - name: "Björn Siepe"
+    orcid: 0000-0002-9558-4648
+    email: bjoern.siepe@uni-marburg.de
+    affiliations: 
+      - name: "Psychological Methods Lab, University of Marburg"
+        city: "Slides at bsiepe.github.io/talks"
+email: bjoern.siepe@uni-marburg.de
+date: "10-23-2024"
+from: markdown+emoji
+format: 
+  clean-revealjs:
+    incremental: true
+    embed-resources: true
+    # footer: "Dynamische Netzwerke"
+    slide-number: true
+    auto-stretch: true
+    echo: true
+    progress: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+bibliography: bibliography.bib
+---
+
+## Materials and Goals
+
+::::: columns
+::: {.column width="50%"}
+::: fragment
+Slides at bsiepe.github.io/workshops ![](figures/qr_workshop_hp.png)
+:::
+:::
+
+::: {.column width="50%"}
+::: fragment
+1.  Understand the advantages and structure of time series data
+2.  Be able to interpret dynamic networks
+3.  Get to know core assumptions, evidence, and limitations
+4.  Learn about new developments and future research topics
+:::
+:::
+
+:::
+
+## What we don't cover
+
+1.  Cross-sectional networks
+2.  Planning of longitudinal studies
+3.  Estimation of networks in R (but see additional materials)
+4.  Clinical theory
+5.  Data and preprocessing (very important)
+
+## Hype Cycle
+
+```{r, out.width = '700px', out.height= "520px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/hype_cycle.svg'))
+```
+
+::: aside
+[Jeremykemp, Wikimedia](https://commons.wikimedia.org/wiki/File:Gartner_Hype_Cycle.svg)
+:::
+
+::: notes
+-   keine Magie, sehr ähnlich zu Regression
+-   thinking tools für andere Konzepte
+-   anschlussfähig für weitere Wissenschaften
+-   andere Innovationen, wie EGA
+:::
+
+## Why Longitudinal Data?
+
+```{r, out.width = '900px', out.height= "520px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/typingspeed.svg'))
+```
+
+::: aside
+Oriented at a figure by Ellen Hamaker
+:::
+
+::: notes
+Simpson's Paradox
+:::
+
+# Dynamic Networks {background-color="#40666e"}
+
+## General principles
+
+:::: columns
+::: {.column width="50%"}
+::: fragment
+-   dynamic associations within individuals
+-   across time points
+-   $n = 1$ (idiographic) and $n > 1$
+:::
+:::
+
+::: {.column width="50%"}
+::: fragment
+```{r, out.width = '600px', out.height= "400px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/example_temporal.svg'))
+```
+:::
+:::
+
+::::
+## Time Series Data
+
+```{r, out.width = '900px', out.height= "500px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/data-cube.jpg'))
+```
+
+::: aside
+@beltzBridgingNomotheticIdiographic2016
+:::
+
+## Experience Sampling
+
+::::: columns
+::: column
+```{r, out.width = '400px', out.height= "400px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/smartwatch-unsplash.jpg'))
+```
+:::
+
+::: column
+```{r, out.width = '400px', out.height= "400px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/smartphone-unsplash.jpg'))
+```
+:::
+:::::
+
+::: aside
+Sabina Ciesielska (Unsplash), Jonas Leupe (Unsplash)
+:::
+
+::: notes
+-   Ecological Momentary Assessment
+-   Intensive Longitudinal Data
+:::
+
+## Autoregressive
+
+![](figures/ar_model_burger.png)
+
+::: aside
+Next slides by Julian Burger ([Link](https://osf.io/djm26))
+:::
+
+::: notes
+-   AR auch Inertia
+:::
+
+## Autoregressive
+
+![](figures/ar_model_burger2.png)
+
+## Cross-Lagged
+
+![](figures/var_model_burger.png)
+
+::: notes
+-   gleicher Zeitpunkt: negativer Zusammenhang (während Sport bin ich weniger müde)
+-   über Zeitpunkte: positiv in eine Richtung
+:::
+
+## Estimation of idiographic networks
+::: fragment
+::: callout-tip
+## Model Equations
+For our example:
+$$ 
+\widehat{Tired_{t}} = \beta_{11}*Tired_{t-1} + \beta_{12}*Activity_{t-1}
+$$
+
+More generally:
+$$
+\color{red}{Y_{t}} = \color{blue}{\boldsymbol{B}} \color{red}{Y_{t-1}} + \color{orange}{\Sigma}
+$$
+:::
+:::
+
+- [Red:]{style="color:orange;"} Data at current ($t$) and previous ($t-1$) time point
+- [Blue:]{style="color:orange;"} Coefficients for autoregressive and cross-lagged effects
+  - used for temporal effects
+- [Orange:]{style="color:orange;"} Residuals/Innovations (in $\Sigma$ )
+  - used for contemporaneous effects
+
+## Maths Break {.smaller}
+
+![](figures/maths-gif.gif)
+
+::: aside
+https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif
+:::
+
+## Intermediate Summary
+
+-   Networks are everywhere
+-   Almost any multivariate model can be a network
+-   Attractive alternative to conceptualization of pyschopathology
+-   A lot of cross-sectional studies with limited informativeness
+-   Longitudinal data allows for new insights
+
+
+# Interpreting dynamic networks {background-color="#40666e"}
+
+## Temporal Network
+
+- Effect of variables on themselves and on others over time
+- Directed effects
+- mostly: lag 1 due to parsimony
+- Granger causality
+    - indicative of possible causality
+- self-loops
+
+## Contemporaneous Network
+
+-   Partial correlation of residuals (innovations)
+-   undirected effects not captured by temporal network
+-   For example: effects faster than sampling frequency
+-   Example: $$ 
+    Stress \rightarrow  Expect\ Panic \rightarrow Fear 
+    $$
+
+::: aside
+Example from @epskampPersonalizedNetworkModeling2018
+:::
+
+::: notes
+-   beziehen zeitliche Info mit ein
+-   nicht gleich zu normaler Korrelation
+-   oft sehr "voll" im Vergleich zu temporalem
+:::
+
+## Example: @epskampPersonalizedNetworkModeling2018
+
+```{r, out.width = '1000px', out.height= "500px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/example-gvar.png'))
+```
+
+::: notes
+:::
+
+## Multilevel Networks
+
+- Advantages:
+    - more power
+    - Consideration of heterogeneity
+    - fewer time points necessary
+- not entirely idiographic
+- mlVAR [@epskampPersonalizedNetworkModeling2018]
+- GIMME [@beltzBridgingNomotheticIdiographic2016]
+- DSEM [@hamakerFrontiersModelingIntensive2018]
+
+::: aside
+Simple overview in @jordanCurrentStatusTemporal2020
+:::
+
+::: notes
+-   GIMME: Gruppe, Subgruppe, Individuum
+-   DSEM: Sehr flexibel
+-   mlVAR: Heterogenität visualisierbar
+:::
+
+## Multilevel Example
+
+```{r, out.width = '1100px', out.height= "520px"}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/mlVAR-example.png'))
+```
+
+::: aside
+@epskampPersonalizedNetworkModeling2018
+:::
+
+::: notes
+-   Between-Subject: Mittelwertszusammenhänge
+-   Konkreter: Person-Means als Lvl-2 Prädiktoren
+-   GGM auf Mittelwerte
+-   kann auch indikativ für Kausalität sein (s. Tippbeispiel)
+-   möglich: Plotting von Heterogenität
+:::
+
+## Interpretation
+
+- Equal time intervals between measurements
+    - Alternative: Continuous time [@ryanTimeInterveneContinuoustime2022]
+    - Night effect [@berkhoutLetSleepingDogs2024]
+- Correct time intervals for constructs to be measured
+    - Stress vs. depression
+- Causality?
+- Variable selection?
+
+::: notes
+-   Was ist mit Nacht?
+-   Normalverteilung vs. Skew
+:::
+
+## Interpretation
+
+- Stationarity assumption [@ryanNonstationarityTimeseriesAnalysis2023]
+    - Realistic in clinical practice?
+- Stability of idiographic network estimates
+- Missing data
+- Distributional assumptions
+- Power
+    - Absence of evidence $\neq$ Evidence for absence
+
+::: notes
+-   Trend entfernen bedeutet Information entfernen
+:::
+
+
+## Implementations
+
+::: fragment
+Many packages available for dynamic network/time series analysis:
+:::
+
+::: fragment
+```{r, eval = FALSE}
+#| code-line-numbers: "|1|2|3|4|5|6|7" 
+library(graphicalVAR)  # Idiographic networks with LASSO
+library(tsnet)         # Idiograhpic Bayesian networks
+library(mlVAR)         # Multilevel networks
+library(GIMME)         # GIMME
+library(mgm)           # Mixed graphical models and time-varying models
+library(psychonetrics) # General framework for network analysis
+library(dynr)          # Dynamical systems, state-space
+library(mlts)          # DSEM-like latent time series models
+```
+:::
+
+# Evidence and Pitfalls
+
+## Topics to be covered
+
+- Estimation Requirements
+- Clinical Practice
+- Prediction
+
+
+## Problem: Estimation Instability
+
+- We clone the “true” network of a person and calculate network analyses
+- Result: Heterogeneity
+- Interpretation?
+- Estimation uncertainty difficult to understand
+
+::: aside
+@hoekstraHeterogeneityIndividualNetwork2022
+:::
+
+::: notes
+-   Auf Stichprobengröße eingehen
+-   Mindestens 20 Personen für Multilevel
+:::
+
+## Feasibility of Idiographic Networks
+
+- Number of time points?
+    - at 75 and 100: poor sensitivity
+- Number of variables?
+    - with few time points: $\leq$ 6
+- Temporal networks particularly difficult
+
+::: aside
+@mansuetoInvestigatingFeasibilityIdiographic2023, @siepeBayesianEstimationComparison2024
+:::
+
+## Solutions for Estimation Instability
+
+- Tests to compare idiographic networks [@hoekstraTestingSimilarityLongitudinal2024, @siepeBayesianEstimationComparison2024]
+
+- Go multilevel/GIMME
+  - Multilevel often outperforms $n = 1$, even if true model is idiographic [@lafitSystematicStudyFactors2021]
+  
+- Sample size planning for $n = 1$ [@revolNewSamplesizePlanning2024]
+
+## Evidence in Clinical Practice {.smaller}
+
+- @frumkinFeasibilityUtilityIdiographic2021
+    - Few case studies
+    - Patients more convinced than therapists
+- @levinsonPersonalizingEatingDisorder2023
+    - n = 79, eating disorders
+    - Module selection based on networks
+- @hallUsingPersonalizedAssessment2022a
+    - Individual case study on TheraNET
+    - Good example of detailed, network-based feedback
+    - Apparently RCT planned
+- No clear evidence
+- Many different possibilities for use [@schumacherMethodologicalStatisticalPractices2024]
+
+::: notes
+Noch mehr zu EMA-Feedback
+:::
+
+## Recent developments
+
+- Cooperation between therapist/patient and data
+- Changes over time
+- Prediction of therapy outcomes
+
+## PECAN
+
+![](figures/pecan.jpeg)
+
+::: aside
+@klintwallPerceivedCausalProblem2021
+:::
+
+
+## PREMISE
+
+![](figures/premise.png)
+
+::: aside
+@burgerClinicalPREMISEPersonalized2022, @burgerNovelApproachConstructing2024, @siepeBayesianEstimationComparison2024
+:::
+
+
+
+## Time varying networks
+
+```{r, out.width = '700px', out.height= "520px", echo = FALSE}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/tvvar.gif'))
+```
+
+::: aside
+@siepeTimeVaryingNetworkModels2024, @haslbeckTutorialEstimatingTimevarying2021, @scholtenWhatTimevaryingNetwork2023
+:::
+
+## Prediction
+
+```{r, out.width = '700px', out.height= "500px", echo = FALSE}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/lutz-et-al.png'))
+```
+
+::: aside
+@lutzUsingNetworkAnalysis2018
+:::
+
+::: notes
+-   kleine Studie
+:::
+
+## Prediction
+
+::: fragment
+- @johalRelatingNetworkinstantiatedConstructs2024:
+  - Using network-derived metrics to predict an outcome
+
+- @schumacherPredictingOutcomePsychotherapy2024
+  - Using pairwise symptom associations and centrality to predict an outcome 
+:::
+
+
+::: fragment
+::: {.callout-tip}
+Start simple instead of complicated! It is hard to beat the mean [@dejonckheereComplexAffectDynamics2019]
+:::
+:::
+
+## Which analyses?
+
+```{r, out.width = '900px', out.height= "450px", echo = FALSE}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/bastiaansen.png'))
+```
+
+::: aside
+@bastiaansenTimeGetPersonal2020
+:::
+
+::: notes
+-   meistens VAR
+:::
+
+## Analytic uncertainty: Go multiverse
+
+include my GIMME paper here
+
+
+::: aside
+@siepeMultiverseAnalysisDynamic2023
+::: 
+
+# Summary
+
+## Outlook
+
+- What is the future of networks in clinical settings?
+- “More than a pretty picture?”
+- Stability over time
+- Linking data-driven models and theories [@kaiserNeedTheorybuildingRobust2023, @haslbeckModelingPsychopathologyData20211104]
+- Feedback systems with time series data (including and excluding networks)
+
+## Main Takeaways
+
+::: fragment
+1. Networks are conceptually attractive
+2. Longitudinal data give us new information ... but also new problems
+3. High diversity in network approaches
+4. Evidence of utility is still scarce
+5. Embrace simplicity and uncertainty
+:::
+
+
+::: fragment
+::: {style="font-size: 150%;"}
+**Questions or Comments?** :bulb:
+:::
+:::
+## Get in Touch
+
+::::: columns
+::: {.column width="40%"}
+{{< fa house >}} [Feel](https://bjoernsiepe.netlify.app/)
+
+{{< fa brands twitter >}} [free](https://twitter.com/b_siepe)
+
+{{< fa brands mastodon >}} [to](https://fediscience.org/@bsiepe)
+
+{{< fa at >}} [contact](bjoern.siepe@uni-marburg.de)
+
+{{< fa brands github >}} [me](https://github.com/bsiepe)
+
+bjoern.siepe\@uni-marburg.de
+:::
+
+::: {.column width="60%"}
+
+![](figures/qr_workshop_hp.png)
+
+:::
+:::::
+
+# Resources
+
+## Materials
+
+[PNAWS 2020](https://osf.io/hcd8u/) - freely accessible. Partly served as inspiration for this workshop, especially the slides by Julian Burger.
+
+[Psych Networks Blog](https://psych-networks.com/) - no longer active, but interesting backlog
+
+[Workshops by Noémi Schuurman](https://www.nkschuurman.com/workshops.html) - multiple materials for multilevel models in R and MPlus
+
+[Applied Workshop by Me](https://github.com/bsiepe/dynamical-networks-workshop/tree/main/Anwendungs_Workshop_FFM_23) - slides including more code examples etc.
+
+
+## Figures {.smaller}
+
+Jeremykemp at English Wikipedia (https://commons.wikimedia.org/wiki/File:Gartner_Hype_Cycle.svg), „Gartner Hype Cycle", https://creativecommons.org/licenses/by-sa/3.0/legalcode
+
+Foto von <a href="https://unsplash.com/@sabina_ciesielska?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Sabina</a> auf <a href="https://unsplash.com/de/fotos/0zAHoJ1gnGg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+Foto von <a href="https://unsplash.com/@jonasleupe?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jonas Leupe</a> auf <a href="https://unsplash.com/de/fotos/wK-elt11pF0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+
+## References {.smaller .scrollable}
+
+::: {#refs}
+:::
