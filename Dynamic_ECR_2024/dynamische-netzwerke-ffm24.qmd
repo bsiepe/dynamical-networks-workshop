@@ -21,6 +21,7 @@ format:
     progress: true
     code-block-bg: true
     code-block-border-left: "#31BAE9"
+    self-contained-matrh: true
 bibliography: bibliography.bib
 ---
 
@@ -51,13 +52,14 @@ Slides at bsiepe.github.io/workshops ![](figures/qr_workshop_hp.png)
 3.  Issues and potential solutions
 :::
 
-## What we don't cover
+## What we don't cover (in detail)
 
 1.  Cross-sectional networks
 2.  Planning of longitudinal studies
 3.  Estimation of networks in R (but see additional materials)
 4.  Clinical theory
 5.  Data and preprocessing (very important)
+6.  Panel Data
 
 ## Hype Cycle
 
@@ -99,10 +101,11 @@ Simpson's Paradox
 ::::::: columns
 :::: {.column width="50%"}
 ::: fragment
--   dynamic associations within individuals
--   across time points and at the same time frames
+-   Dynamic associations within individuals
+-   Across time points and at the same time frames
 -   $n = 1$ (idiographic) and $n > 1$
--   commonly some form of vector autoregressive (VAR) model
+-   Commonly some form of vector autoregressive (VAR) model
+-   Often some sparsity
 :::
 ::::
 
@@ -156,7 +159,9 @@ Sabina Ciesielska (Unsplash), Jonas Leupe (Unsplash)
 
 ## Autoregressive
 
+::: fragment
 ![](figures/sadness_ar.png)
+:::
 
 ::: aside
 Next slides inspired by Julian Burger ([Link](https://osf.io/djm26))
@@ -175,7 +180,10 @@ Next slides inspired by Julian Burger ([Link](https://osf.io/djm26))
 
 ## Cross-Lagged
 
-![](figures/cross_lagged_viz.png)
+::: fragment
+![](figures/cross_lagged_viz.png){width=700 height=500 fig-align=center}
+
+:::
 
 ::: notes
 -   gleicher Zeitpunkt: negativer Zusammenhang (während Sport bin ich weniger müde)
@@ -185,22 +193,28 @@ Next slides inspired by Julian Burger ([Link](https://osf.io/djm26))
 ## Estimation of idiographic networks
 
 :::: fragment
-::: callout-tip
+::: callout-note
 ## Model Equations
 
-For our example: $$ 
-\widehat{Sad_{t}} = \beta_{11}*Sad_{t-1} + \beta_{12}*Rumination_{t-1}
-$$ and: $$ 
-\widehat{Rumination_{t}} = \beta_{21}*Rumination_{t-1} + \beta_{22}*Sad_{t-1}
-$$
+
+
+
+
+For our example: 
+
+\begin{aligned}
+\color{darkred}{Sad_{t}} = \color{blue}{\beta_{11}}*\color{darkred}{Sad_{t-1}} + \color{blue}{\beta_{12}}*\color{darkred}{Rumination_{t-1}} + \color{orange}{\epsilon_{t,1}} \\
+\color{darkred}{Rumination_{t}} = \color{blue}{\beta_{21}}*\color{darkred}{Rumination_{t-1}} + \color{blue}{\beta_{22}}*\color{darkred}{Sad_{t-1}} + \color{orange}{\epsilon_{t,2}}
+\end{aligned}
+
 
 More generally: $$
-\color{red}{Y_{t}} = \color{blue}{\boldsymbol{B}} \color{red}{Y_{t-1}} + \color{orange}{\Sigma}
+\color{darkred}{Y_{t}} = \color{blue}{\boldsymbol{B}} \color{darkred}{Y_{t-1}} + \color{orange}{\Sigma}
 $$
 :::
 ::::
 
--   [Red:]{style="color:red;"} Data at current ($t$) and previous ($t-1$) time point
+-   [Red:]{style="color:darkred;"} Data at current ($t$) and previous ($t-1$) time point
 -   [Blue:]{style="color:blue;"} Coefficients for autoregressive and cross-lagged effects
     -   used for temporal effects
 -   [Orange:]{style="color:orange;"} Residuals/Innovations (in $\Sigma$ )
@@ -224,36 +238,55 @@ https://media.giphy.com/media/lHfxDepSGlzom6f65K/giphy.gif
 
 ## Intermediate Summary
 
--   Attractive alternative to conceptualization of psychopathology
 -   Networks are everywhere
 -   Almost any multivariate model can be a network
 -   A lot of cross-sectional studies with limited informativeness
 -   Longitudinal data allows for new insights
+-   Effects across time points and variables
 
 # Interpreting dynamic networks {background-color="#40666e"}
 
 ## Temporal Network
 
+::::: columns
+::: column
 -   Effect of variables on themselves and on others over time
 -   Directed effects
--   mostly: lag 1 due to parsimony
--   Granger causality
+-   Mostly: lag 1 
+-   "Granger causality"
+:::
 
-    -   indicative of possible causality
--   self-loops
+::: column
+::: fragment
+![](figures/temporal_net.png){fig-align="center" height=550}
+:::
+:::
+::::
 
--   TODO insert part of the image of earlier
+
 
 ## "Contemporaneous" Network
 
+:::: columns
+::: column
 -   Partial correlation of residuals (innovations)
 -   undirected effects not captured by temporal network
 -   For example: effects faster than sampling frequency
 -   Example: $$ 
     Stress \rightarrow  Expect\ Panic \rightarrow Fear 
     $$
+:::
 
-TODO insert part of the image from earlier
+::: column
+::: fragment
+![](figures/contemp_viz.png){fig-align="center" height=550}
+:::
+:::
+
+::::
+
+
+
 
 ::: aside
 Example from @epskampPersonalizedNetworkModeling2018
@@ -265,19 +298,29 @@ Example from @epskampPersonalizedNetworkModeling2018
 -   oft sehr "voll" im Vergleich zu temporalem
 :::
 
+## Putting Things Together
+
+![](figures/full_net_viz.png){fig-align="center" height=600 width=900}
+
+::: notes
+do you now understand why you want sparsity?
+:::
+
+
 ## Example: @epskampPersonalizedNetworkModeling2018
 
+::: fragment
 ```{r, out.width = '1000px', out.height= "500px", echo = FALSE}
 knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/example-gvar.png'))
 ```
-
-::: notes
 :::
+
+
 
 ## $n >1$ Networks
 
--   multilevel: Share parameters
--   GIMME: Share connections
+-   Often used: multilevel modeling
+-   Popular alternative: GIMME
 -   Advantages:
     -   pool information from individuals
     -   more power
@@ -297,6 +340,33 @@ Simple overview in @jordanCurrentStatusTemporal2020
 -   mlVAR: Heterogenität visualisierbar
 :::
 
+## mlVAR and GIMME
+
+:::: columns
+
+::: column
+**mlVAR**
+
+-   Borrow [quantitative]{.alert} information
+-   Individual network parameters come from a shared probability distribution
+-   Parameters are "pulled together"
+-   "Between-person" network
+
+:::
+
+::: column
+**GIMME**
+
+-   Borrow [qualitative]{.alert} information
+-   Individual networks, but partially common structure
+-   Group, subgroup, individual networks
+-   Heuristic algorithm
+
+:::
+
+::::
+
+
 ## Multilevel Example
 
 ```{r, out.width = '1100px', out.height= "520px", echo = FALSE}
@@ -315,55 +385,92 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/mlVAR-example.png')
 -   möglich: Plotting von Heterogenität
 :::
 
-## Interpretation
+## GIMME Example
+
+TODO STILL THINK ABOUT THIS
+
+## Interpretation: Time Intervals
 
 -   Equal time intervals between measurements
-    -   Alternative: Continuous time [@ryanTimeInterveneContinuoustime2022]
     -   Night effect [@berkhoutLetSleepingDogs2024]
+    -   Alternative: Continuous time [@ryanTimeInterveneContinuoustime2022]
 -   Correct time intervals for constructs to be measured
     -   Stress vs. depression
--   Causality?
--   Variable selection?
+
 
 ::: notes
 -   Was ist mit Nacht?
 -   Normalverteilung vs. Skew
 :::
 
-## Interpretation
+## Interpretation: Change over Time
 
--   TODO show image of nonstationary time series here
--   Stationarity assumption [@ryanNonstationarityTimeseriesAnalysis2023]
-    -   Realistic in clinical practice?
--   Stability of idiographic network estimates
--   Missing data
--   Distributional assumptions
--   Power
-    -   Absence of evidence $\neq$ Evidence for absence
+:::: columns
+::: column
+![](figures/non_stationarity.png){fig-align="center" height=550 width=550}
+:::
+
+::: column
+-   Stationarity assumption: Means, variances, covariances are constant over time
+-   Realistic?
+:::
+
+::::
+
+
+::: aside
+@ryanNonstationarityTimeseriesAnalysis2023
+:::
+
 
 ::: notes
 -   Trend entfernen bedeutet Information entfernen
 :::
 
-## Implementations
 
-::: fragment
-Many packages available for dynamic network/time series analysis:
+## Interpretation: Other Stuff
+-   Causality?
+-   Variable selection?
+-   Stability of idiographic network estimates
+-   Missing data
+-   Distributional assumptions -> TODO floor effect
+-   Power
+    -   Absence of evidence $\neq$ Evidence for absence
+
+<!-- ## Implementations -->
+
+<!-- ::: fragment -->
+<!-- Many packages available for dynamic network/time series analysis: -->
+<!-- ::: -->
+
+<!-- ::: fragment -->
+<!-- ```{r, eval = FALSE} -->
+<!-- #| code-line-numbers: "|1|2|3|4|5|6|7"  -->
+<!-- library(graphicalVAR)  # Idiographic networks with LASSO -->
+<!-- library(tsnet)         # Idiograhpic Bayesian networks -->
+<!-- library(mlVAR)         # Multilevel networks -->
+<!-- library(GIMME)         # GIMME -->
+<!-- library(mgm)           # Mixed graphical models and time-varying models -->
+<!-- library(psychonetrics) # General framework for network analysis -->
+<!-- library(dynr)          # Dynamical systems, state-space -->
+<!-- library(mlts)          # DSEM-like latent time series models -->
+<!-- ``` -->
+<!-- ::: -->
+
+
+## Optional: Practical Exercise
+
+:::: columns
+::: column
+If time permits: 
+- Open file `dynamic_network_exercise.R`
+- Work alone or in groups of 2-3
 :::
 
-::: fragment
-```{r, eval = FALSE}
-#| code-line-numbers: "|1|2|3|4|5|6|7" 
-library(graphicalVAR)  # Idiographic networks with LASSO
-library(tsnet)         # Idiograhpic Bayesian networks
-library(mlVAR)         # Multilevel networks
-library(GIMME)         # GIMME
-library(mgm)           # Mixed graphical models and time-varying models
-library(psychonetrics) # General framework for network analysis
-library(dynr)          # Dynamical systems, state-space
-library(mlts)          # DSEM-like latent time series models
-```
+::: column
+TODO insert QR code for google colab
 :::
+::::
 
 # Evidence and Pitfalls
 
@@ -378,9 +485,9 @@ library(mlts)          # DSEM-like latent time series models
 -   Ultimately: What do we do with these networks?
 :::
 
-## Problem: Estimation Instability
+## Understanding Heterogeneity
 
-![](figures/false_heterogeneity.gif)
+![](figures/false_heterogeneity.gif){width=550 height=550 fig-align="center"}
 
 ::: aside
 @hoekstraHeterogeneityIndividualNetwork2022
@@ -390,6 +497,38 @@ library(mlts)          # DSEM-like latent time series models
 -   Auf Stichprobengröße eingehen
 -   Mindestens 20 Personen für Multilevel
 :::
+
+## Problem: Estimation Instability
+
+::::: columns
+::: column
+::: fragment
+```{r, eval = FALSE} 
+#| code-line-numbers: "|1-6|7-9|" 
+# Simulate 20 identical twins
+for(i in 1:20){
+  l_data[[i]] <- graphicalVAR::graphicalVARsim(
+    nTime = 70,
+    beta = person_1$beta,
+    kappa = person_1$kappa)
+# Fit network models
+  l_fits[[i]] <- graphicalVAR(l_data[[i]])
+}
+```
+:::
+
+
+:::
+
+::: column
+
+::: fragment
+![](figures/giphy_hehe.gif)
+:::
+
+:::
+:::::
+
 
 ## Feasibility of Idiographic Networks
 
@@ -417,7 +556,7 @@ library(mlts)          # DSEM-like latent time series models
 
 ## Solutions for Estimation Instability
 
-![](figures/shiny_app_revol.png)
+![](figures/shiny_app_revol.png){width=650 height=550 fig-align="center"}
 
 <!-- ::: aside -->
 <!-- https://gitlab.kuleuven.be/ppw-okpiv/researchers/u0148925/shinyapp-paa_var_n1 -->
@@ -450,7 +589,7 @@ Noch mehr zu EMA-Feedback
 
 ## PECAN
 
-![](figures/pecan.jpeg)
+![](figures/pecan.jpeg){width=650 height=550 fig-align="center"}
 
 ::: aside
 @klintwallPerceivedCausalProblem2021
@@ -476,7 +615,7 @@ Siepe et al. [-@siepeTimeVaryingNetworkModels2024], @haslbeckTutorialEstimatingT
 
 ## Centrality/Density
 
-![](figures/connectivity_networks.png)
+![](figures/connectivity_networks.png){width=550 height=550 fig-align="center"}
 
 
 ::: aside
@@ -509,21 +648,26 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/lutz-et-al.png'))
 ::: fragment
 -   @johalRelatingNetworkinstantiatedConstructs2024:
     -   Using network-derived metrics to predict an outcome
+    -   Network features did not work very well
 -   @schumacherPredictingOutcomePsychotherapy2024
     -   Using pairwise symptom associations and centrality to predict an outcome
 :::
 
 :::: fragment
 ::: callout-tip
-Start simple instead of complicated [@bringmannFutureDynamicNetworks2024]! It is hard to beat the mean [@dejonckheereComplexAffectDynamics2019]
+Start simple instead of complicated [@bringmannFutureDynamicNetworks2024]
+
+It is hard to beat the mean [@dejonckheereComplexAffectDynamics2019]
 :::
 ::::
 
 ## Which analyses?
 
+::: fragment
 ```{r, out.width = '900px', out.height= "450px", echo = FALSE}
 knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/bastiaansen.png'))
 ```
+:::
 
 ::: aside
 @bastiaansenTimeGetPersonal2020
@@ -535,7 +679,12 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/bastiaansen.png'))
 
 ## Analytic uncertainty: Go multiverse
 
-include my GIMME paper here
+::: fragment
+```{r, out.width = '700px', out.height= "520px", echo = FALSE}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/multiverse_plot.pdf'))
+```
+:::
+
 
 ::: aside
 @siepeMultiverseAnalysisDynamic2023
@@ -615,6 +764,8 @@ Foto von <a href="https://unsplash.com/@jonasleupe?utm_source=unsplash&utm_mediu
 <a href="https://www.flaticon.com/free-icons/rumination" title="rumination icons">Rumination icons created by Freepik - Flaticon</a>
 
 Shiny App Screenshot from https://gitlab.kuleuven.be/ppw-okpiv/researchers/u0148925/shinyapp-paa_var_n1 
+
+"Hehe GIF" from [giphy](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDN4d3BxN3F2ZnVrYjFzNnV3b2Q4bnEwc2JzdmlzcG8zYjF0NHJ2eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/B0vFTrb0ZGDf2/giphy.gif)
 
 ## References {.smaller .scrollable}
 

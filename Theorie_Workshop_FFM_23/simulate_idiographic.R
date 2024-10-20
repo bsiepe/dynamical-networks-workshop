@@ -41,6 +41,7 @@ synth$kappa <- synth$kappa[1:6, 1:6]
 l_fits <- list()
 l_data <- list()
 
+# Simulate data from the same individual 20 times
 for(i in 1:20){
   
   l_data[[i]] <- graphicalVAR::graphicalVARsim(nTime = 70,
@@ -60,10 +61,10 @@ animation::saveGIF({
          layout = "circle",
          titles = FALSE,
          title = paste0("Individual ", i),
-         title.cex = 2.9,
+         title.cex = 2.2,
          negDashed = TRUE,
          theme = "colorblind")
   }
 }, movie.name = ("false_heterogeneity.gif"), 
-ani.height = 500, ani.width = 500, interval = 1)
+ani.height = 550, ani.width = 550, interval = 1, width = 550, height = 550, res = 300)
 

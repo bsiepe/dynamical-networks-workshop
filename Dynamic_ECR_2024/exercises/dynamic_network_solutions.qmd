@@ -1,0 +1,28 @@
+---
+title: "Introduction to Dynamic Networks"
+subtitle: "Exercise Solutions"
+author: 
+ - name: Björn S. Siepe
+   orcid: 0000-0002-9558-4648
+   affiliations: University of Marburg
+   email: bjoern.siepe@uni-marburg.de
+   url: https://bsiepe.github.io
+date: "23-10-2024"
+format:
+  html:
+    toc: true
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+    code-tools: true
+    code-summary: "Show the code"
+    fig-width: 7
+    fig-height: 4.5
+    fig-align: "center"
+    embded-resouces: true
+execute:
+  message: false
+  warning: false
+  eval: true # only show code
+---
+
