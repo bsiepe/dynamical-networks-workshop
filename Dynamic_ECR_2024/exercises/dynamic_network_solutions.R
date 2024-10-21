@@ -1,7 +1,7 @@
 # Dynamic Networks Workshop -----------------------------------------------
-# This file contains exercises for the workshop on dynamic networks
+# This file contains solutions for the workshop on dynamic networks
 # held at the Goethe University Frankfurt, Germany, on 2024-10-23.
-# Solutions can be found in "dynamic_network_solutions.qmd" or in the PDF
+# Solutions can also be found in the PDF
 # version of the same file. 
 
 
@@ -14,8 +14,7 @@ library(qgraph)
 set.seed(35037)
 
 # Simulation Code ---------------------------------------------------------
-# This code shows how data were generated. You can skip this part, unless
-# you want to generate the data yourself or you are working in Google colab.
+# This code shows how data were generated. You can skip this part.
 n_id <- 75
 n_tp <- 80
 n_beep <- 4
@@ -41,7 +40,7 @@ df_data$day <- rep(rep(1:n_days, each = n_beep), n_id)
 # rename ID to id
 df_data$id <- df_data$ID
 
-
+saveRDS(df_data, file = "Dynamic_ECR_2024/exercises/df_data.RDS")
 
 # Exercise 1: Estimate multilevel network ---------------------------------
 # Estimate a multilevel network model using the mlVAR package.
@@ -49,6 +48,15 @@ df_data$id <- df_data$ID
 # Task:
 # Use the function mlVAR() to estimate a multilevel VAR model.
 # Find out what the "beep" and "day" variables do and set them correctly. 
+mlvar_fit <- mlVAR::mlVAR(
+  data = df_data,
+  vars = c("V1", "V2", "V3", "V4", "V5", "V6"),
+  idvar = "id",
+  lags = 1,
+  dayvar = "day",
+  beepvar = "beep",
+  estimator = "lmer"
+)
 
 
 
@@ -58,7 +66,19 @@ df_data$id <- df_data$ID
 # V5 and V6 in the temporal and between V2 and V3 in the contemporaneous
 # network.
 
+plot(mlvar_fit,
+     type = "temporal",
+     theme = "colorblind",
+     layout = "circle",
+     nonsig = "hide",
+     edge.labels = TRUE)
 
+plot(mlvar_fit,
+     type = "contemporaneous",
+     theme = "colorblind",
+     layout = "circle",
+     nonsig = "hide",
+     edge.labels = TRUE)
 
 
 # Exercise 3: Obtain and interpret individual networks --------------------
@@ -68,14 +88,27 @@ df_data$id <- df_data$ID
 # Tip 2: Use the qgraph() function to plot the networks.
 
 # Get the individual networks
+net1 <- mlVAR::getNet(mlvar_fit, 
+                      subject = 1,
+                      type = "temporal")
+
+net2 <- mlVAR::getNet(mlvar_fit,
+                      subject = 2,
+                      type = "temporal")
 
 
 # Plot net1 and net2 in one plot
 par(mfrow = c(1, 2))
-
-# ... plot first network ...
-
-# ... plot second network ...
+qgraph(net1,
+     theme = "colorblind",
+     layout = "circle",
+     edge.labels = TRUE,
+     title = "Individual 1")
+qgraph(net2,
+     theme = "colorblind",
+     layout = "circle",
+     edge.labels = TRUE, 
+     title = "Individual 2")
 
 # Reset the plot layout
 par(mfrow = c(1, 1))
@@ -85,10 +118,19 @@ par(mfrow = c(1, 1))
 
 # Optional: Estimate a GIMME model on the data ----------------------------
 # Task: Estimate a GIMME model on the data using the gimme package.
-# Then plot the overall results.
 # Tip 1: First get the data into a list for gimme, which requires each 
 # individual to be in a separate list element
 if(!require("gimme")) install.packages("gimme")
 library(gimme)
 
+# Get the data into a list
+data_list <- split(df_data, df_data$id)
 
+# Only select relevant columns
+data_list <- lapply(data_list, function(x) x[, c("V1", "V2", "V3", "V4", "V5", "V6")])
+
+# Estimate the GIMME model with default settings
+gimme_fit <- gimme::gimmeSEM(data_list)
+
+# Plot the resulting model fit
+plot(gimme_fit)
