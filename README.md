@@ -1,21 +1,21 @@
 # Workshop Dynamische Netzwerke
 
-Dieses repository enthält die Materialien für verschiedene Workshops über dynamische Netzwerkanalysen mit psychologischen Zeitreihendaten.
-Bei Fragen zu den Materialien gerne eine E-Mail an bjoernsiepe [at] gmail [dot] com senden.
+This repository contains materials for three different workshops on dynamic networks. Below, you will find explanations and locations of various files included in this repository.
 
-## Inhalt
+## Contents
 
+### Frankfurt 2023 Workshops
 
+All materials can be found in the folders `Anwendungs_Workshop_FFM_23` and `Theorie_Workshop_FFM_23`.
+These materials are in German. 
 
+### DYNAMIC ECR 2024 Workshop
 
+All materials can be found in the folder `Dynamic_ECR_2024/`.
 
-
-
-
-
-Die Folien finden sich unter "dynamische-netzwerke-ffm23.html" in ihrer HTML-Version. Eine PDF-Version (visuell etwas abgespeckt) findet sich unter "dynamische-netzwerke.pdf".
-
-Alle anderen Dateien können ignoriert werden und dienen lediglich dazu, die Folien in Quarto zu erstellen.
-
+The slides are available as html in `dynamic-networks-ffm24.html`, and its source code
+in `dynamic-networks-ffm24.qmd`. The slides are created using revealjs via Quarto.
 
 
+Many other files in the repository are auxiliary and are used to create the slides using Quarto. They can be ignored for workshop purposes.
+For any questions regarding the materials, please send an email to bjoernsiepe [at] gmail [dot] com.
