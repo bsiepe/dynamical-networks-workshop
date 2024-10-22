@@ -41,7 +41,7 @@ df_data$day <- rep(rep(1:n_days, each = n_beep), n_id)
 df_data$id <- df_data$ID
 
 saveRDS(df_data, file = "Dynamic_ECR_2024/exercises/df_data.RDS")
-
+df_data <- readRDS("Dynamic_ECR_2024/exercises/df_data.RDS")
 # Exercise 1: Estimate multilevel network ---------------------------------
 # Estimate a multilevel network model using the mlVAR package.
 

@@ -21,7 +21,6 @@ format:
     progress: true
     code-block-bg: true
     code-block-border-left: "#31BAE9"
-    self-contained-matrh: true
 bibliography: bibliography.bib
 ---
 
@@ -295,6 +294,30 @@ Example from @epskampPersonalizedNetworkModeling2018
 do you now understand why you want sparsity?
 :::
 
+## Estimation
+
+:::: columns
+::: column
+- large variety of estimation approaches:
+
+    - Maximum Likelihood (`psychonetrics`)
+    - State-Space Frameworks (`dynr`)
+    - Continuous Time Models (`ctsem`)
+    - Bayesian Estimation (`tsnet`)
+- often induce sparsity via regularization or heuristics
+:::
+
+::: column
+::: fragment
+![](figures/regression_meme.jpg){fig-align="right" height="500" width="600"}
+::: 
+:::
+::::
+
+::: notes
+- not extremely important for everyone, but still good to know
+:::
+
 ## Example: @epskampPersonalizedNetworkModeling2018
 
 ::: fragment
@@ -324,6 +347,7 @@ Simple overview in @jordanCurrentStatusTemporal2020
 -   GIMME: Gruppe, Subgruppe, Individuum
 -   DSEM: Sehr flexibel
 -   mlVAR: Heterogenität visualisierbar
+-   Also many other forms, mixture modeling, etc.
 :::
 
 ## mlVAR and GIMME
@@ -368,15 +392,21 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/mlVAR-example.png')
 
 ## GIMME Example
 
-TODO STILL THINK ABOUT THIS
+![](figures/gimme_viz.png){fig-align="center" height="600" width="700"}
+
+::: aside
+Taken from [GIMME homepage](https://tarheels.live/gimme/subgrouping-gimme/)
+:::
+
 
 ## Interpretation: Time Intervals
 
 -   Equal time intervals between measurements. Problem?
-    -   Night effect [@berkhoutLetSleepingDogs2024] ![](figures/night_effect_viz.png){fig-align="center" height="500" width="\"550"}
+    -   Night effect [@berkhoutLetSleepingDogs2024] ![](figures/night_effect_viz.png){fig-align="center" height="500" width="550"}
 
 ::: notes
--   Was ist mit Nacht?
+-   What about night effect?
+-   Removing night effect also decreases sample size!
 :::
 
 ## Interpretation: Time Intervals
@@ -409,6 +439,16 @@ TODO STILL THINK ABOUT THIS
 -   Often only remove part of nonstationarity
 :::
 
+## Interpretation: Change over Time
+-  Common solution: Some form of detrending, or modeling change over time (see later slides)
+-  Detrending: Remove change over time 
+
+::: fragment
+```{r, echo=FALSE, out.height=400}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/detrending_viz.svg'))
+```
+:::
+
 ## Interpretation: Other Stuff
 
 
@@ -417,8 +457,9 @@ TODO STILL THINK ABOUT THIS
 ::::::: columns
 :::: {.column width="60%"}
 ::: fragment
--   Causality?
--   Variable selection?
+-   Causality
+-   Measurement [@bringmannPsychopathologicalNetworksTheory2022]
+-   Variable selection
 -   Sparsity
 -   Missing data
 -   Distributional assumptions 
@@ -428,11 +469,12 @@ TODO STILL THINK ABOUT THIS
 
 :::: {.column width="40%"}
 ::: fragment
-```{r, echo = FALSE, out.height = 250}
+```{r, echo = FALSE, out.height = 250, out.width=300}
 knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/viz_floor.svg'))
 ```
-
-```{r, echo = FALSE, out.height = 250}
+:::
+::: fragment
+```{r, echo = FALSE, out.height=250, out.width=300}
 knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/viz_mode.svg'))
 ```
 :::
@@ -529,7 +571,10 @@ for(i in 1:20){
     -   at 75 and 100: poor sensitivity
 -   Number of variables?
     -   always think about number of paths to estimate!
-
+    -   idiographic gVAR:
+        - 3 variables:  $9 + 3 = 12$ parameters
+        - 4 variables: $16 + 6 = 22$ parameters
+        - 5 variables: $25 + 10 = 35$ parameters 
 ::: aside
 @mansuetoInvestigatingFeasibilityIdiographic2023, Siepe et al. [-@siepeBayesianEstimationComparison2024]
 :::
@@ -628,12 +673,22 @@ Siepe et al. [-@siepeTimeVaryingNetworkModels2024], @haslbeckTutorialEstimatingT
 @hoekstraMappingDynamicsIdiographic2024
 :::
 
-## Prediction
+<!-- ## Prediction -->
 
--   what the economists do
--   Revol et al. things
--   work by Yong
--   Lafit shows that networks often do not predict well
+<!-- -   what the economists do -->
+<!-- -   Revol et al. things -->
+<!-- -   work by Yong -->
+<!-- -   Lafit shows that networks often do not predict well -->
+
+## Centrality/Density: Consider Uncertainty
+
+```{r, out.width = '1000px', out.height= "650px", echo = FALSE}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/postcent.svg'))
+```
+
+::: aside
+{{< fa brands r-project >}} `tsnet`: Siepe et al. [-@siepeBayesianEstimationComparison2024]
+:::
 
 ## Prediction
 
@@ -680,7 +735,8 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/bastiaansen.png'))
 :::
 
 ::: notes
--   meistens VAR
+-   expert teams, given experience sampling data, find treatment target
+-   mostly VAR
 :::
 
 ## Analytic uncertainty: Go multiverse
@@ -698,7 +754,7 @@ Siepe & Heck [-@siepeMultiverseAnalysisDynamic2023]
 ::::::: columns
 :::: {.column width="70%"}
 ::: fragment
-> What is the VAR-based network representing, and what hypotheses are we testing with it? \[...\] can be more explicit about which connections in the network are to be expected and which are contrary to previous knowledge [@bringmannPersonspecificNetworksPsychopathology2021]
+> What is the VAR-based network representing, and what hypotheses are we testing with it? [...] can be more explicit about which connections in the network are to be expected and which are contrary to previous knowledge [@bringmannPersonspecificNetworksPsychopathology2021]
 :::
 ::::
 
@@ -715,6 +771,12 @@ Come up with strong tests:
 -   compare network models with simpler models
 -   compare network feedback with placebo/simpler feedback
 -   compare network centrality with simpler features
+:::
+
+
+::: notes
+-  it would be a shame if we do 10 more years of low-powered exploratory VAR modeling
+
 :::
 
 # Summary
@@ -734,6 +796,12 @@ Come up with strong tests:
 <!-- -   Theory -->
 
 <!-- -   Linking data-driven models and theories [@kaiserNeedTheorybuildingRobust2023, @haslbeckModelingPsychopathologyData20211104] -->
+
+::: notes
+- asked by Laura Bringmann 2016 
+- still no good answers
+- made difficult by the ambiguity of what "dynamic network" means
+:::
 
 ## Main Takeaways
 
@@ -802,6 +870,8 @@ Shiny App Screenshot from https://gitlab.kuleuven.be/ppw-okpiv/researchers/u0148
 Hehe GIF from [giphy](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDN4d3BxN3F2ZnVrYjFzNnV3b2Q4bnEwc2JzdmlzcG8zYjF0NHJ2eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/B0vFTrb0ZGDf2/giphy.gif)
 
 Treadmill GIF from [tenor](https://tenor.com/de/view/fitness-workout-silly-treadmill-gif-8663454)
+
+Regression Meme created with [ImgFlip](https://imgflip.com/memegenerator/)
 
 ## References {.smaller .scrollable}
 

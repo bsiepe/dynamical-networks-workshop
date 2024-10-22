@@ -43,6 +43,9 @@ df_data$id <- df_data$ID
 
 
 
+# Load data
+df_data <- readRDS("Dynamic_ECR_2024/exercises/df_data.RDS")
+
 # Exercise 1: Estimate multilevel network ---------------------------------
 # Estimate a multilevel network model using the mlVAR package.
 
