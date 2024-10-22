@@ -54,12 +54,12 @@ Slides at bsiepe.github.io/workshops ![](figures/qr_workshop_hp.png)
 
 ## What we don't cover (in detail)
 
-1.  Cross-sectional networks
-2.  Planning of longitudinal studies
-3.  Estimation of networks in R (but see additional materials)
+1.  Planning of longitudinal studies
+2.  Panel Data
+3.  Data and preprocessing (very important)
 4.  Clinical theory
-5.  Data and preprocessing (very important)
-6.  Panel Data
+
+
 
 ## Hype Cycle
 
@@ -74,10 +74,8 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/hype_cycle.svg'))
 :::
 
 ::: notes
--   keine Magie, sehr ähnlich zu Regression
--   thinking tools für andere Konzepte
--   anschlussfähig für weitere Wissenschaften
--   andere Innovationen, wie EGA
+-   useful to think of the hype cycle 
+-   networks in general: already passed disilusionment
 :::
 
 <!-- ## Why Longitudinal Data? -->
@@ -94,9 +92,6 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/hype_cycle.svg'))
 
 <!-- ::: -->
 
-::: notes
-Simpson's Paradox
-:::
 
 # Dynamic Networks {background-color="#40666e"}
 
@@ -222,6 +217,11 @@ We define: $$G = (V,E)$$ as an undirected graph consisting of nodes $V = \{1, \l
 We associate a random variable $X_v$ to each node $v \in V$. $X_v$ takes values in space $\mathscr{X}_v$.
 
 Theorem 1:
+
+::: notes
+- V is set of nodes (vertices)
+- E is a set of edges
+:::
 
 ## Maths Break {.smaller}
 
@@ -373,22 +373,19 @@ TODO STILL THINK ABOUT THIS
 ## Interpretation: Time Intervals
 
 -   Equal time intervals between measurements. Problem?
-    -   Night effect [@berkhoutLetSleepingDogs2024]
-![](figures/night_effect_viz.png){fig-align="center" height="500" width="550}
-
-
+    -   Night effect [@berkhoutLetSleepingDogs2024] ![](figures/night_effect_viz.png){fig-align="center" height="500" width="\"550"}
 
 ::: notes
 -   Was ist mit Nacht?
-
 :::
 
 ## Interpretation: Time Intervals
+
 -   Alternative: Continuous time [@ryanTimeInterveneContinuoustime2022]
--  Correct time intervals for constructs to be measured
+
+-   Correct time intervals for constructs to be measured
 
     -   Stress vs. depression
-
 
 ## Interpretation: Change over Time
 
@@ -414,33 +411,61 @@ TODO STILL THINK ABOUT THIS
 
 ## Interpretation: Other Stuff
 
+
+
+
+::::::: columns
+:::: {.column width="60%"}
+::: fragment
 -   Causality?
 -   Variable selection?
 -   Sparsity
 -   Missing data
--   Distributional assumptions -\> TODO floor effect
--   Power
-    -   Absence of evidence $\neq$ Evidence for absence
--   Assumptions are not just nuisance!
+-   Distributional assumptions 
 
+:::
+::::
+
+:::: {.column width="40%"}
+::: fragment
+```{r, echo = FALSE, out.height = 250}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/viz_floor.svg'))
+```
+
+```{r, echo = FALSE, out.height = 250}
+knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/viz_mode.svg'))
+```
+:::
+::::
+:::::::
+
+::: notes
+assumptions are not just nuisance
+:::
 
 ## Optional: Practical Exercise
 
 ::::: columns
 ::: column
-If time permits: 
+If time permits:
 
-- Open file `dynamic_network_exercise.R` 
-- Work alone or in groups of 2-3
+-   Open file `dynamic_network_exercise.R`
+-   Work alone or in groups of 2-3
 :::
 
 ::: column
-Google colab link (`.ipynb`)
+Google colab link (`.ipynb`) 
 ![](figures/qr_workshop_colab.png)
 :::
 :::::
 
-# Evidence and Pitfalls{background-color="#40666e"}
+## Optional: Practical Exercise Discussion
+
+::: fragment
+![](figures/plot_ranef.png)
+:::
+
+# Evidence and Pitfalls {background-color="#40666e"}
 
 ## Topics to be covered
 
@@ -511,7 +536,7 @@ for(i in 1:20){
 
 ## Solutions for Estimation Instability
 
--   Tests to compare idiographic networks 
+-   Tests to compare idiographic networks
 
     -   @hoekstraTestingSimilarityLongitudinal2024: R package `INIT` based on SEM
     -   Siepe, Kloft & Heck [-@siepeBayesianEstimationComparison2024]: R package `tsnet` based on Bayesian estimation
@@ -585,25 +610,19 @@ Siepe et al. [-@siepeTimeVaryingNetworkModels2024], @haslbeckTutorialEstimatingT
 
 ## Centrality/Density
 
-:::: columns
-::: column
+::::::: columns
+:::: column
 ::: fragment
 ![](figures/connectivity_networks.png){width="550" height="550" fig-align="left"}
 :::
-:::
-
-::: column
-::: fragment
-- When does it make sense to assume that a higher density is "bad"?
-
-:::
-:::
-
 ::::
 
-
-
-
+:::: column
+::: fragment
+-   When does it make sense to assume that a higher density is "bad"?
+:::
+::::
+:::::::
 
 ::: aside
 @hoekstraMappingDynamicsIdiographic2024
@@ -676,33 +695,27 @@ Siepe & Heck [-@siepeMultiverseAnalysisDynamic2023]
 
 ## Which analyses? Consider Theory
 
-:::: columns
-::: {.column width="70%"}
+::::::: columns
+:::: {.column width="70%"}
 ::: fragment
->  What is the VAR-based network representing, and what hypotheses are we testing with it? [...] can be more explicit about which connections in the network are to be expected and which are contrary to previous knowledge [@bringmannPersonspecificNetworksPsychopathology2021]
-
-
+> What is the VAR-based network representing, and what hypotheses are we testing with it? \[...\] can be more explicit about which connections in the network are to be expected and which are contrary to previous knowledge [@bringmannPersonspecificNetworksPsychopathology2021]
 :::
-:::
+::::
 
-::: {.column width="30%"}
-::: {.fragment}
+:::: {.column width="30%"}
+::: fragment
 ![](figures/treadmill-gif.gif){width="280" height="280" fig-align="right"}
 :::
-
-:::
-
 ::::
+:::::::
 
 ::: fragment
 Come up with strong tests:
 
-- compare network models with simpler models
-- compare network feedback with placebo/simpler feedback
-- compare network centrality with simpler features
-
+-   compare network models with simpler models
+-   compare network feedback with placebo/simpler feedback
+-   compare network centrality with simpler features
 :::
-
 
 # Summary
 
@@ -711,7 +724,6 @@ Come up with strong tests:
 ::: fragment
 ![](figures/bringmann_thesis.png)
 :::
-
 
 <!-- -   What is the future of networks in clinical settings? -->
 
