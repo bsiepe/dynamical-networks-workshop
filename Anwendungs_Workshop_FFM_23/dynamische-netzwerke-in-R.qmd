@@ -87,7 +87,7 @@ Netzwerktheorie:
 
 ## Refresher: Netzwerke
 
-::: columns
+::::: columns
 ::: column
 -   Netzwerke bestehen aus **Knoten** (nodes) und **Kanten** (edges)
 -   Knoten:
@@ -102,7 +102,7 @@ Netzwerktheorie:
 knitr::include_graphics(here::here('Anwendungs_Workshop/figures/example_temporal.svg'))
 ```
 :::
-:::
+:::::
 
 ## Refresher: Längsschnittliche Netzwerke
 
@@ -174,13 +174,13 @@ für Modellfitting: erste 30 IDs
 
 ## Vorverarbeitung von Daten
 
-::: fragment
+:::: fragment
 ::: callout-note
 ## Sehr wichtiger Schritt
 
 Einfluss von Datenvorverarbeitung auf Ergebnisse wird oftmals unterschätzt!
 :::
-:::
+::::
 
 1.  Datenformat
 2.  Fehlende Daten
@@ -277,17 +277,17 @@ Mehrere Möglichkeiten:
 
 ## Verteilungsannahmen
 
-::: columns
-::: {.column width="60%"}
+::::::: columns
+:::: {.column width="60%"}
 ::: fragment
 -   `graphicalVAR`und `GIMME`: Normalverteilte Variablen
 -   sehr oft(!) verletzt: Floor effects, Schiefe, Multimodalität
 -   Was passiert? Wir wissen es nicht genau
 -   Effekte werden verschätzt
 :::
-:::
+::::
 
-::: {.column width="40%"}
+:::: {.column width="40%"}
 ::: fragment
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here('Anwendungs_Workshop/figures/viz_floor.svg'))
@@ -297,8 +297,8 @@ knitr::include_graphics(here::here('Anwendungs_Workshop/figures/viz_floor.svg'))
 knitr::include_graphics(here::here('Anwendungs_Workshop/figures/viz_mode.svg'))
 ```
 :::
-:::
-:::
+::::
+:::::::
 
 ::: aside
 v.  Klipstein et al. (2023), Haqiqatkhah et al. (2023)
@@ -329,13 +329,13 @@ v.  Klipstein et al. (2023), Haqiqatkhah et al. (2023)
 -   LASSO-Regularisierung führt zu sparsamen Netzwerken
 -   in kurzen Zeitreihen: geringe Power führt zu unsicheren Ergebnissen & geringer Konnektivität
 
-::: fragment
+:::: fragment
 ::: callout-warning
 ## Interpretation von Heterogenität
 
 Netzwerke sehen durch Schätzunsicherheit oft heterogener aus, als sie tatsächlich sind (Hoekstra et al., 2022; Siepe et al., in prep.)
 :::
-:::
+::::
 
 ## graphicalVAR in Code
 
@@ -446,13 +446,13 @@ A: Bei Spezifikation von Beep-Variable wird der Effekt vom letzten Beep eines Ta
 -   `hybrid-GIMME` (Luo et al., 2023): Verbindet beides! Braucht aber auch mehr Daten
 :::
 
-::: fragment
+:::: fragment
 ::: callout-tip
 ## Zusatzinformation
 
 Die zugrundeliegenden Modelle können mathematisch ineinander transformiert werden (Luo et al., 2023)
 :::
-:::
+::::
 
 ::: aside
 Beispielhafter Vergleich: Park et al. (2020)
@@ -568,13 +568,13 @@ Vorab gestellte Fragen:
 -   Typischerweise: Detrending von linearem Zeittrend
 -   Außerdem: Einfügen von `NA` für die Nacht, damit der Nachteffekt nicht geschätzt wird
 
-::: fragment
+:::: fragment
 ::: callout-tip
 ## Effektive Stichprobengröße
 
 Bei Weglassen von Nachteffekten verringert sich die effektive Stichprobengröße!
 :::
-:::
+::::
 
 ## GIMME FAQ: contemporaneous Effekte
 
@@ -942,7 +942,7 @@ summary_matrix |>
 
 ## GIMME: Subgruppenergebnis
 
-::: columns
+:::::: columns
 ::: {.column width="33%"}
 ![](figures/subgroup_1.png)
 :::
@@ -954,20 +954,20 @@ summary_matrix |>
 ::: {.column width="33%"}
 ![](figures/subgroup_3.png)
 :::
-:::
+::::::
 
 ## GIMME: Subgruppenergebnis {.smaller}
 
 -   eventuell besser bei mehr Variablen (Lane et al., 2019)
 -   relevant: Stabilität der Subgruppen
 
-::: fragment
+:::: fragment
 ::: callout-tip
 ## Interpretation von Subgruppen
 
 Es kann Subgruppen ohne gemeinsames Edge geben! Ähnlichkeit der Pfade allgemein.
 :::
-:::
+::::
 
 -   möglicherweise interessant: Subgruppen auf verschiedenen Maßen (Mittelwert, Variabilität, Diagnosen...) vergleichen
 -   Limitation: keine probabilistiche Zuordnung zu Subgruppen
@@ -1214,7 +1214,7 @@ Burger et al. (2022)
 
 ## Kontakt
 
-::: columns
+::::: columns
 ::: {.column width="40%"}
 {{< fa house >}} [Feel](https://bjoernsiepe.netlify.app/)
 
@@ -1234,7 +1234,7 @@ bjoern.siepe\@uni-marburg.de
 knitr::include_graphics(here::here('Anwendungs_Workshop/figures/qr_homepage.svg'))
 ```
 :::
-:::
+:::::
 
 <!-- ## Quarto Infos -->
 

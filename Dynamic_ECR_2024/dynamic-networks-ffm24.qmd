@@ -58,8 +58,6 @@ Slides at bsiepe.github.io/workshops ![](figures/qr_workshop_hp.png)
 3.  Data and preprocessing (very important)
 4.  Clinical theory
 
-
-
 ## Hype Cycle
 
 ::: fragment
@@ -73,7 +71,7 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/hype_cycle.svg'))
 :::
 
 ::: notes
--   useful to think of the hype cycle 
+-   useful to think of the hype cycle
 -   networks in general: already passed disilusionment
 :::
 
@@ -90,7 +88,6 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/hype_cycle.svg'))
 <!-- Oriented at a figure by Ellen Hamaker -->
 
 <!-- ::: -->
-
 
 # Dynamic Networks {background-color="#40666e"}
 
@@ -209,18 +206,18 @@ $$
 -   [Orange:]{style="color:orange;"} Residuals/Innovations (in $\Sigma$ )
     -   used for contemporaneous effects
 
-## Formalization
+<!-- ## Formalization -->
 
-We define: $$G = (V,E)$$ as an undirected graph consisting of nodes $V = \{1, \ldots, p\}$ and edges $E \subseteq V \times V$.
+<!-- We define: $$G = (V,E)$$ as an undirected graph consisting of nodes $V = \{1, \ldots, p\}$ and edges $E \subseteq V \times V$. -->
 
-We associate a random variable $X_v$ to each node $v \in V$. $X_v$ takes values in space $\mathscr{X}_v$.
+<!-- We associate a random variable $X_v$ to each node $v \in V$. $X_v$ takes values in space $\mathscr{X}_v$. -->
 
-Theorem 1:
+<!-- Theorem 1: -->
 
-::: notes
-- V is set of nodes (vertices)
-- E is a set of edges
-:::
+<!-- ::: notes -->
+<!-- -   V is set of nodes (vertices) -->
+<!-- -   E is a set of edges -->
+<!-- ::: -->
 
 ## Maths Break {.smaller}
 
@@ -296,26 +293,27 @@ do you now understand why you want sparsity?
 
 ## Estimation
 
-:::: columns
+:::::: columns
 ::: column
-- large variety of estimation approaches:
+-   large variety of estimation approaches:
 
-    - Maximum Likelihood (`psychonetrics`)
-    - State-Space Frameworks (`dynr`)
-    - Continuous Time Models (`ctsem`)
-    - Bayesian Estimation (`tsnet`)
-- often induce sparsity via regularization or heuristics
+    -   Maximum Likelihood (`psychonetrics`)
+    -   State-Space Frameworks (`dynr`)
+    -   Continuous Time Models (`ctsem`)
+    -   Bayesian Estimation (`tsnet`)
+
+-   often induce sparsity via regularization or heuristics
 :::
 
-::: column
+:::: column
 ::: fragment
 ![](figures/regression_meme.jpg){fig-align="right" height="500" width="600"}
-::: 
 :::
 ::::
+::::::
 
 ::: notes
-- not extremely important for everyone, but still good to know
+-   not extremely important for everyone, but still good to know
 :::
 
 ## Example: @epskampPersonalizedNetworkModeling2018
@@ -398,7 +396,6 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/mlVAR-example.png')
 Taken from [GIMME homepage](https://tarheels.live/gimme/subgrouping-gimme/)
 :::
 
-
 ## Interpretation: Time Intervals
 
 -   Equal time intervals between measurements. Problem?
@@ -440,8 +437,9 @@ Taken from [GIMME homepage](https://tarheels.live/gimme/subgrouping-gimme/)
 :::
 
 ## Interpretation: Change over Time
--  Common solution: Some form of detrending, or modeling change over time (see later slides)
--  Detrending: Remove change over time 
+
+-   Common solution: Some form of detrending, or modeling change over time (see later slides)
+-   Detrending: Remove change over time
 
 ::: fragment
 ```{r, echo=FALSE, out.height=400}
@@ -451,10 +449,7 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/detrending_viz.svg'
 
 ## Interpretation: Other Stuff
 
-
-
-
-::::::: columns
+:::::::: columns
 :::: {.column width="60%"}
 ::: fragment
 -   Causality
@@ -462,24 +457,24 @@ knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/detrending_viz.svg'
 -   Variable selection
 -   Sparsity
 -   Missing data
--   Distributional assumptions 
-
+-   Distributional assumptions
 :::
 ::::
 
-:::: {.column width="40%"}
+::::: {.column width="40%"}
 ::: fragment
 ```{r, echo = FALSE, out.height = 250, out.width=300}
 knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/viz_floor.svg'))
 ```
 :::
+
 ::: fragment
 ```{r, echo = FALSE, out.height=250, out.width=300}
 knitr::include_graphics(here::here('Dynamic_ECR_2024/figures/viz_mode.svg'))
 ```
 :::
-::::
-:::::::
+:::::
+::::::::
 
 ::: notes
 assumptions are not just nuisance
@@ -496,8 +491,7 @@ If time permits:
 :::
 
 ::: column
-Google colab link (`.ipynb`) 
-![](figures/qr_workshop_colab.png)
+Google colab link (`.ipynb`) ![](figures/qr_workshop_colab.png)
 :::
 :::::
 
@@ -568,15 +562,14 @@ for(i in 1:20){
 
 -   often only have vague rules of thumb
 -   Number of time points?
-    -   at 75 and 100: poor sensitivity
 -   Number of variables?
     -   always think about number of paths to estimate!
     -   idiographic gVAR:
-        - 3 variables:  $9 + 3 = 12$ parameters
-        - 4 variables: $16 + 6 = 22$ parameters
-        - 5 variables: $25 + 10 = 35$ parameters 
-::: aside
-@mansuetoInvestigatingFeasibilityIdiographic2023, Siepe et al. [-@siepeBayesianEstimationComparison2024]
+        -   3 variables: $9 + 3 = 12$ parameters
+        -   5 variables: $25 + 10 = 35$ parameters 
+        
+::: aside 
+@mansuetoInvestigatingFeasibilityIdiographic2023, Siepe et al. [-@siepeBayesianEstimationComparison2024] 
 :::
 
 ## Solutions for Estimation Instability
@@ -676,8 +669,11 @@ Siepe et al. [-@siepeTimeVaryingNetworkModels2024], @haslbeckTutorialEstimatingT
 <!-- ## Prediction -->
 
 <!-- -   what the economists do -->
+
 <!-- -   Revol et al. things -->
+
 <!-- -   work by Yong -->
+
 <!-- -   Lafit shows that networks often do not predict well -->
 
 ## Centrality/Density: Consider Uncertainty
@@ -754,7 +750,7 @@ Siepe & Heck [-@siepeMultiverseAnalysisDynamic2023]
 ::::::: columns
 :::: {.column width="70%"}
 ::: fragment
-> What is the VAR-based network representing, and what hypotheses are we testing with it? [...] can be more explicit about which connections in the network are to be expected and which are contrary to previous knowledge [@bringmannPersonspecificNetworksPsychopathology2021]
+> What is the VAR-based network representing, and what hypotheses are we testing with it? \[...\] can be more explicit about which connections in the network are to be expected and which are contrary to previous knowledge [@bringmannPersonspecificNetworksPsychopathology2021]
 :::
 ::::
 
@@ -773,10 +769,8 @@ Come up with strong tests:
 -   compare network centrality with simpler features
 :::
 
-
 ::: notes
--  it would be a shame if we do 10 more years of low-powered exploratory VAR modeling
-
+-   it would be a shame if we do 10 more years of low-powered exploratory VAR modeling
 :::
 
 # Summary
@@ -798,9 +792,9 @@ Come up with strong tests:
 <!-- -   Linking data-driven models and theories [@kaiserNeedTheorybuildingRobust2023, @haslbeckModelingPsychopathologyData20211104] -->
 
 ::: notes
-- asked by Laura Bringmann 2016 
-- still no good answers
-- made difficult by the ambiguity of what "dynamic network" means
+-   asked by Laura Bringmann 2016
+-   still no good answers
+-   made difficult by the ambiguity of what "dynamic network" means
 :::
 
 ## Main Takeaways
